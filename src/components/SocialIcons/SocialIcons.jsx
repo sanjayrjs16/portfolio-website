@@ -80,7 +80,7 @@ const SocialIcons = () => {
   ];
 
   return (
-    <div className="social-icons">
+    <div className="social-icons-container">
       {socialLinks.map((social, index) => (
         <a
           key={social.name}
@@ -90,14 +90,15 @@ const SocialIcons = () => {
           className={`social-icon ${social.isEmail ? 'email-icon' : ''}`}
           aria-label={social.name}
           style={{ '--delay': `${index * 0.1}s` }}
-          onClick={social.isEmail ? handleEmailClick : undefined}
+          onClick={(e) => social.isEmail && handleEmailClick(e)}
           onMouseEnter={() => social.isEmail && setShowTooltip(true)}
           onMouseLeave={() => social.isEmail && setShowTooltip(false)}
         >
-          {social.icon}
+         
           {social.isEmail && showTooltip && (
             <span className="tooltip">{email}</span>
           )}
+           {social.icon}
         </a>
       ))}
       
@@ -108,17 +109,19 @@ const SocialIcons = () => {
       )}
 
       <style jsx>{`
-        .social-icons {
+        .social-icons-container {
           display: flex;
-          gap: 0.25rem;
+          flex-wrap: wrap;
+          gap: 0.35rem;
+          max-width: 500px;
+          justify-content: center;
           align-items: center;
-          position: relative;
         }
 
         .social-icon {
           color: rgba(255, 255, 255, 0.8);
           transition: all 0.3s ease;
-          padding: 0.5rem;
+          padding: 0.1rem;
           border-radius: 50%;
           background: rgba(255, 255, 255, 0.1);
           backdrop-filter: blur(5px);
@@ -185,7 +188,7 @@ const SocialIcons = () => {
         }
 
         @media (max-width: 768px) {
-          .social-icons {
+          .social-icons-container {
             gap: 0.75rem;
           }
 
