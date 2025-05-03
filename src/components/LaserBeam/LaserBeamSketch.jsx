@@ -227,16 +227,40 @@ const LaserBeamSketch = () => {
               });
             }
           }
+          
+          // Create cached graphics
+          this.cachedGraphics = p.createGraphics(this.size * 2, this.size * 2);
+          this.renderToCache();
+        }
+
+        renderToCache() {
+          const g = this.cachedGraphics;
+          g.clear();
+          g.translate(this.size, this.size);
+          
+          if (!shouldReduceEffects) {
+            g.blendMode(g.ADD);
+          }
+          
+          this.particles.forEach(particle => {
+            g.fill(particle.color, particle.alpha);
+            g.noStroke();
+            g.circle(particle.x, particle.y, particle.size);
+          });
+          
+          if (!shouldReduceEffects) {
+            g.blendMode(g.BLEND);
+          }
         }
 
         display() {
           p.push();
-          p.translate(this.x, this.y);
-          this.particles.forEach(particle => {
-            p.fill(particle.color, particle.alpha);
-            p.noStroke();
-            p.circle(particle.x, particle.y, particle.size);
-          });
+          p.imageMode(p.CENTER);
+          p.image(
+            this.cachedGraphics, 
+            this.x, 
+            this.y
+          );
           p.pop();
         }
       }
@@ -592,7 +616,7 @@ const LaserBeamSketch = () => {
         }
 
         // Modify rectangle creation
-        if (p.frameCount % (isMobile ? 4 : 3) === 0 && rectangles.length < (isMobile ? 24 : 30)) { // Reduced from 30
+        if (p.frameCount % (isMobile ? 4 : 3) === 0 && rectangles.length < (isMobile ? 7 : 30)) { // Reduced from 30
           const rectWidth = p.random(50, 100);
           const rectHeight = p.random(25, 65);
           const opacity = p.random(40, 205); // Random opacity
