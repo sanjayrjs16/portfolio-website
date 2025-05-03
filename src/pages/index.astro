@@ -1,11 +1,635 @@
 ---
-import Welcome from '../components/Welcome.astro';
+import LaserBeamSketch from '../components/LaserBeam/LaserBeamSketch';
+import SpaceBackground from '../components/SpaceBackground/SpaceBackground';
+import FolderStructure from '../components/FolderStructure/FolderStructure';
 import Layout from '../layouts/Layout.astro';
+import PortalBlob from '../components/PortalBlob.astro';
+import Welcome from '../components/Welcome.astro';
+import PerlinEyeSketch from '../components/Eye/PerlinEyeSketch';
+import GenerativeEyeSketch from '../components/Eye/GenerativeEyeSketch';
+import OrganicGrowth from '../components/OrganicGrowth.astro';
+import RealisticTrees from '../components/RealisticTrees.astro';
+import Navigation from '../components/Navigation/Navigation.astro';
+import SocialIcons from '../components/SocialIcons/SocialIcons';
 
 // Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
 // Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+
+// Get current path
+const currentPath = Astro.url.pathname;
+
+// SEO metadata
+const title = "Sanjay Rajesh - Frontend Engineer";
+const description = "Frontend engineer crafting immersive digital experiences through code & creativity. Specializing in web development and interactive experiences.";
 ---
 
-<Layout>
-	<Welcome />
+<Layout title={title} description={description}>
+	<main>
+		<!-- SEO-friendly fallback content -->
+		<noscript>
+			<div class="fallback-hero">
+				<img 
+					src="/images/hero-fallback.jpg" 
+					alt="Space-themed background with Sanjay Rajesh's portfolio" 
+					class="fallback-bg"
+				/>
+				<div class="fallback-content">
+					<h1>SANJAY RAJESH</h1>
+					<p>Frontend Engineer crafting digital experiences</p>
+				</div>
+			</div>
+		</noscript>
+
+		<!-- Main content -->
+		<section class="hero-section">
+			<LaserBeamSketch client:only="react" />
+			<div class="hero-content">
+				<div class="hero-content-right">
+					<div class="bio-container">
+						<p class="fun-text">Hey, I build stuff on the web for a living :)</p>
+						<p class="fun-text">Currently, my work focuses on creating immersive user experiences caring about 
+						performance and creative interactions like for example, <span class="highlight-text"> 🔄 Refresh this page & see"</span></p>
+						<div class="youtube-text">
+							<span class="youtube-icon"> 
+								<a href="https://www.youtube.com/@letthedevscook" target="_blank" rel="noopener noreferrer" class="youtube-link">
+									<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+								<path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" fill="currentColor"/>
+							  </svg></a></span> 
+							  <a href="https://www.youtube.com/@letthedevscook" target="_blank" rel="noopener noreferrer" class="youtube-link">
+								Let the devs cook
+							</a>
+							<span class="youtube-icon">👈</span>
+							<p>
+							web dev. content 
+							</p>
+							</span>
+							
+							
+						</div>
+
+						<div class="quote-accordion">
+							<span class="quote-label-text hide-desktop">Tap here 👉</span>
+							<input type="checkbox" id="quote-toggle" class="accordion-checkbox">
+							<label for="quote-toggle" class="accordion-trigger">
+								<span class="arrow">▼</span>
+							</label>
+							<div class="quote-content">
+								<p class="quote-text">"The Art challenges the technology,</p>
+								<p class="highlight-text">& technology inspires art"</p>
+								<p class="attribution-text">- John Lasseter</p>
+							</div>
+						</div>
+
+						<div class="seo-content" aria-hidden="true">
+							<h2>Frontend Engineer & Creative Developer</h2>
+							<p>
+								Hi, I'm Sanjay Rajesh, a frontend engineer specializing in creating immersive digital experiences. 
+								With expertise in React, Three.js, and creative coding, I blend technology with artistry to craft 
+								engaging web applications and interactive experiences.
+							</p>
+							<p>
+								My work focuses on performance-optimized, accessible web development with a strong emphasis on 
+								user experience and creative interactions. Experienced in modern frontend frameworks, WebGL, 
+								and generative art.
+							</p>
+						</div>
+					</div>
+				</div>
+				<div class="hero-content-left">
+					<h1 class="hero-title">
+						<span class="title-line" data-text="SANJAY">SANJAY</span>
+						<span class="title-line" data-text="RAJESH">RAJESH</span>
+					</h1>
+					<div class="social-icons">
+						<SocialIcons client:load />
+					</div>
+				</div>
+			</div>
+			<Navigation />
+		</section>
+
+		<!-- Content Sections -->
+		<!-- <section class="content-section">
+			<SpaceBackground client:only="react">
+				<div class="portfolio-section">
+					<FolderStructure client:only="react" onSelect={() => console.log('path')} />
+				</div>
+			</SpaceBackground>
+		</section> -->
+	</main>
+	<!-- <GenerativeEyeSketch client:only="react"/>
+	<PerlinEyeSketch client:only="react"/>
+	<OrganicGrowth />
+	<RealisticTrees /> -->
+	<!-- <script  src="../scripts/main.js"></script> -->
 </Layout>
+
+<style>
+	@import url('https://fonts.googleapis.com/css2?family=Audiowide&display=swap');
+	@import url('https://fonts.googleapis.com/css2?family=Syncopate:wght@700&display=swap');
+	@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500&display=swap');
+
+	main {
+		width: 100%;
+	}
+
+.sm{
+	font-size: clamp(0.5rem, 4vw, 1.5rem) !important;
+}
+	.hero-section {
+		height: 100vh;
+		width: 100%;
+		position: relative;
+		overflow: hidden;
+	}
+
+	.hero-content {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		pointer-events: none; /* This allows clicks to pass through to the canvas */
+	}
+
+	.hero-content-left {
+		position: absolute;
+		bottom: 25%;
+		right: 15%;
+		text-align: center;
+		z-index: 10;
+		pointer-events: auto; /* Enable pointer events for social icons */
+	}
+
+	.hero-content-right {
+		position: absolute;
+		top: 2%;
+		left: 2%;
+		z-index: 10;
+		max-width: 500px;
+		text-align: left;
+	}
+
+	.hero-title {
+		margin: 0;
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
+		/* background: linear-gradient(45deg, #070707c5 30%, #0a0013); */
+	}
+
+	.title-line {
+		position: relative;
+		font-family: 'Syncopate', sans-serif;
+		font-size: clamp(3rem, 8vw, 6.2rem);
+		font-weight: 700;
+		line-height: 1;
+		letter-spacing: -0.02em;
+		transform: skew(-5deg);
+		display: block;
+		color: #892be23b;
+	}
+
+	/* Base layer - solid color */
+	.title-line::before {
+		content: attr(data-text);
+		position: absolute;
+		left: 0;
+		top: 0;
+		background: linear-gradient(45deg, #ffffff 30%, #fff9fe);
+		-webkit-background-clip: text;
+		background-clip: text;
+		color: transparent;
+		text-shadow: 
+			0 0 20px rgba(227, 219, 227, 0.124),
+			0 0 40px rgba(226, 91, 241, 0.483);
+	}
+
+	/* Shine layer - masked by text */
+	.title-line::after {
+		content: attr(data-text);
+		position: absolute;
+		left: 0;
+		top: 0;
+		background: linear-gradient(
+			90deg,
+			transparent,
+			#f8eafb,
+			transparent
+		);
+		-webkit-background-clip: text;
+		background-clip: text;
+		color: transparent;
+		animation: shine 3s infinite;
+	}
+
+	@keyframes shine {
+		0% {
+		
+			transform: translateX(0%);
+		}
+		25% {
+		
+			transform: translateX(0.5%);
+		}
+		50% {
+			transform: translateX(0%);
+		}
+		75% {
+			transform: translateX(-0.5%);
+			
+		}
+		100% {
+			transform: translateX(0%);
+		}
+	}
+
+	.hero-subtitle {
+		font-family: 'Space Grotesk', sans-serif;
+		font-size: clamp(1.2rem, 2vw, 1.8rem);
+		color: rgba(255, 255, 255, 0.9);
+		line-height: 1.4;
+		font-weight: 300;
+		margin: 0;
+		animation: float 3s ease-in-out infinite;
+	}
+
+	.highlight {
+		display: block;
+		font-weight: 500;
+		color: #8a2be2;
+		font-size: 1.1em;
+		text-shadow: 0 0 10px rgba(138, 43, 226, 0.5);
+	}
+
+	.content-section {
+		width: 100%;
+		min-height: 100vh;
+	}
+
+	.portfolio-section {
+		min-height: 100vh;
+		padding: 2rem;
+		background: rgba(0, 0, 0, 0.85);
+		backdrop-filter: blur(10px);
+	}
+
+	/* Folder structure styles */
+	:global(.folder-structure) {
+		color: white;
+		font-family: 'Inter', monospace;
+		padding: 1rem;
+		max-width: 800px;
+		margin: 0 auto;
+	}
+
+	:global(.folder-item) {
+		margin: 0.5rem 0;
+	}
+
+	:global(.folder-header) {
+		cursor: pointer;
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		padding: 0.5rem;
+		border-radius: 4px;
+		transition: all 0.2s ease;
+	}
+
+	:global(.folder-header:hover) {
+		background: rgba(255, 255, 255, 0.1);
+	}
+
+	:global(.folder-children) {
+		margin-left: 1.5rem;
+		border-left: 1px solid rgba(255, 255, 255, 0.2);
+		padding-left: 0.5rem;
+	}
+
+	:global(.folder-name) {
+		font-size: 1.1rem;
+		font-weight: 500;
+	}
+
+	:global(.folder-icon), :global(.file-icon) {
+		font-size: 1.2rem;
+	}
+
+	@media (max-width: 768px) {
+		.hero-content-left {
+			left: 2rem;
+			transform: translate(10%, 10%);
+			bottom: 19%;
+		}
+
+		.hero-content-right {
+			right: 2rem;
+			bottom: 18.5%;
+			max-width: 95vw;
+		}
+	}
+
+	:global(.social-icons) {
+		position: absolute;
+		left: 25%;
+		transform: translateX(-25%);
+		display: flex;
+		gap: 1.5rem;
+		z-index: 10;
+		animation: float 3s ease-in-out infinite;
+	}
+
+	:global(.social-icon) {
+		width: 3.5rem;
+		height: 3.5rem;
+		border-radius: 50%;
+		background: rgba(255, 255, 255, 0.1);
+		backdrop-filter: blur(5px);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		color: white;
+		transition: all 0.3s ease;
+		animation: iconFloat 4s ease-in-out infinite;
+		animation-delay: var(--delay, 0s);
+	}
+
+	:global(.social-icon:hover) {
+		background: rgba(255, 255, 255, 0.2);
+		transform: translateY(-5px);
+	}
+
+	:global(.social-icon svg) {
+		width: 1.7rem;
+		height: 1.7rem;
+	}
+
+	@keyframes float {
+		0%, 100% {
+			transform:  translateY(0);
+		}
+		50% {
+			transform: translateY(-2px);
+		}
+	}
+
+	@keyframes iconFloat {
+		0%, 100% {
+			transform: translateY(0);
+		}
+		50% {
+			transform: translateY(-5px);
+		}
+	}
+
+	@media (max-width: 768px) {
+		:global(.social-icons) {
+			gap: 1rem;
+		}
+
+		:global(.social-icon) {
+			width: 2rem;
+			height: 2rem;
+		}
+
+		:global(.social-icon svg) {
+			width: 1rem;
+			height: 1rem;
+		}
+	}
+
+	.fallback-hero {
+		display: none;
+	}
+
+	/* Show fallback only when JS is disabled */
+	noscript .fallback-hero {
+		display: block;
+		position: relative;
+		height: 100vh;
+		width: 100%;
+	}
+
+	.fallback-bg {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+
+	.fallback-content {
+		position: relative;
+		z-index: 2;
+		padding: 2rem;
+		color: white;
+		text-align: center;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		height: 100%;
+		background: rgba(0, 0, 0, 0.5);
+	}
+
+	.bio-container {
+		pointer-events: auto; /* This enables pointer events back for the bio */
+		background: rgba(0, 0, 0, 0.2);
+		backdrop-filter: blur(10px);
+		padding: 1rem;
+		border-radius: 8px;
+		border: 1px solid rgba(255, 255, 255, 0.1);
+	}
+
+	.quote-text {
+		font-family: 'Space Grotesk', sans-serif;
+		font-size: clamp(1rem, 1.2vw, 1.4rem);
+		color: rgba(255, 255, 255, 0.9);
+		margin: 0;
+		text-wrap: nowrap;
+		padding-top: 1rem;
+	}
+
+	.highlight-text {
+		font-family: 'Space Grotesk', sans-serif;
+		font-size: clamp(1rem, 1.2vw, 1.4rem);
+		color: #8a2be2;
+		margin: 0.15rem 0;
+		font-weight: 500;
+	}
+
+	.attribution-text {
+		font-family: 'Space Grotesk', sans-serif;
+		font-size: clamp(0.8rem, 1.5vw, 1.2rem);
+		color: rgba(255, 255, 255, 0.7);
+		margin: 0.5rem 0;
+		font-style: italic;
+	}
+
+	.fun-text {
+		font-family: 'Space Grotesk', sans-serif;
+		font-size: clamp(0.8rem, 1.5vw, 1rem);
+		color: rgba(255, 255, 255, 0.8);
+		margin: 1rem 0 0 0;
+	}
+
+	.youtube-text {
+		font-family: 'Space Grotesk', sans-serif;
+		font-size: clamp(0.8rem, 1.25vw, 1.4rem);
+		color: rgba(255, 255, 255, 0.8);
+		margin: 0.5rem 0 0.5rem 0;
+		display: flex;
+		align-items: center;
+		gap: 0.45rem;
+		justify-content: center;
+		justify-items: center;
+		align-content: center;
+	}
+
+	.youtube-icon {
+		font-size: 1.2em;
+		animation: pulse 2s ease-in-out infinite;
+	}
+
+	.youtube-link {
+		color: #8a2be2;
+		text-decoration: none;
+		position: relative;
+		font-weight: 500;
+		transition: all 0.3s ease;
+	}
+
+	.youtube-link:hover {
+		color: #9d4ced;
+		text-shadow: 0 0 8px rgba(138, 43, 226, 0.5);
+	}
+
+	.youtube-link::after {
+		content: '';
+		position: absolute;
+		width: 100%;
+		height: 1px;
+		bottom: -2px;
+		left: 0;
+		background: #8a2be2;
+		transform: scaleX(0);
+		transform-origin: right;
+		transition: transform 0.3s ease;
+	}
+
+	.youtube-link:hover::after {
+		transform: scaleX(1);
+		transform-origin: left;
+	}
+
+	@keyframes pulse {
+		0%, 100% {
+			transform: scale(1);
+		}
+		50% {
+			transform: scale(1.1);
+		}
+	}
+
+	.quote-accordion {
+		margin-top: 1rem;
+		position: relative;
+	}
+
+	.accordion-checkbox {
+		display: none;
+	}
+	.hide-desktop {
+		display: none;
+	}
+	.accordion-trigger {
+		position: absolute;
+		top: -15px;
+		right: 0;
+		color: rgba(255, 255, 255, 0.6);
+		cursor: pointer;
+		padding: 0.25rem;
+		display: none;
+		transform: rotate(90deg);
+	}
+
+	.arrow {
+		display: inline-block;
+		transition: transform 0.3s ease;
+	}
+
+	.accordion-checkbox:checked + .accordion-trigger .arrow {
+		transform: rotate(-90deg);
+	}
+	.quote-label-text {
+		position: absolute;
+		top: -15px;
+		right: 5%;
+		color: rgba(255, 255, 255, 0.6);
+		cursor: pointer;
+		padding: 0.25rem;
+		font-family: 'Space Grotesk', sans-serif;
+		font-size: clamp(0.8rem, 1.25vw, 1.4rem);
+	}
+
+	@media (max-width: 768px) {
+		.hide-desktop {
+		display: inline;
+	}
+		.accordion-trigger {
+			display: block;
+		}
+
+		.quote-content {
+			margin-top: 1rem;
+			max-height: 200px;
+			opacity: 1;
+			transition: all 0.3s ease;
+		}
+
+		.accordion-checkbox:not(:checked) ~ .quote-content {
+			max-height: 0;
+			opacity: 0;
+			overflow: hidden;
+		}
+	}
+
+	.seo-content {
+		position: absolute;
+		width: 1px;
+		height: 1px;
+		padding: 0;
+		margin: -1px;
+		overflow: hidden;
+		clip: rect(0, 0, 0, 0);
+		white-space: nowrap;
+		border: 0;
+	}
+</style>
+
+<svg style="position: absolute; width: 0; height: 0;">
+	<defs>
+		<filter id="wave">
+			<feTurbulence 
+				type="fractalNoise" 
+				baseFrequency="0.02 0.05" 
+				numOctaves="5" 
+				seed="2" 
+				result="noise">
+				<animate 
+					attributeName="baseFrequency" 
+					dur="60s" 
+					values="0.02 0.06;0.04 0.08;0.02 0.06" 
+					repeatCount="indefinite"/>
+			</feTurbulence>
+			<feDisplacementMap 
+				in="SourceGraphic" 
+				in2="noise" 
+				scale="30" 
+				result="displacement"/>
+			<feGaussianBlur in="displacement" stdDeviation="3"/>
+		</filter>
+	</defs>
+</svg>

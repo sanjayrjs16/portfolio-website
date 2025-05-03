@@ -1,0 +1,78 @@
+---
+import PortalBlobReact from './PortalBlob.jsx';
+---
+
+
+
+<style>
+    .box {
+        width: 100%;
+       
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-size: contain;
+    }
+    .sliderThumb {
+        margin: 'auto';
+  text-align: center;
+  align-items: center;
+  padding-top: 10rem;
+  width: 21rem;
+  height: 450px;
+  padding: 1rem;
+  margin: 1rem;
+  background-image: url('avatar-2.png');
+  /* background: black; */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  color: aliceblue;
+  font-size: 3rem;
+  border-radius: 62% 47% 82% 35% / 45% 45% 80% 66%;
+  will-change: border-radius, transform, opacity, background;
+  animation: sliderShape 5s linear infinite;
+  display: block;
+  z-index: -1;
+  -webkit-animation: sliderShape 5s linear infinite;
+}
+@keyframes sliderShape {
+  0%,
+  100% {
+    border-radius: 42% 58% 70% 30% / 45% 45% 55% 55%;
+    transform: translate3d(0, 0, 0) rotateZ(0.01deg);
+  }
+  34% {
+    border-radius: 70% 30% 46% 54% / 30% 29% 71% 70%;
+    transform: translate3d(0, 5px, 0) rotateZ(0.01deg);
+  }
+  50% {
+    transform: translate3d(0, 0, 0) rotateZ(0.01deg);
+  }
+  67% {
+    border-radius: 100% 60% 60% 100% / 100% 100% 60% 60%;
+    transform: translate3d(0, -3px, 0) rotateZ(0.01deg);
+  }
+}
+
+.sliderThumb:hover {
+  height: 450px;
+  animation-play-state: paused;
+  background-color: black;
+}
+
+.portal-blob {
+    margin: auto;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    color: aliceblue;
+    font-size: 3rem;
+    z-index: 50;
+}
+</style>
+<div class="box">
+<!-- <div class="sliderThumb"></div> -->
+<PortalBlobReact client:only="react" />
+</div>
