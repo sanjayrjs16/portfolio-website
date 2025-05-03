@@ -175,87 +175,68 @@ const LaserBeamSketch = () => {
           this.x = p.random(p.width);
           this.y = p.random(p.height);
           this.particles = [];
-          this.rotation = p.random(p.TWO_PI);
-          this.rotationSpeed = p.random(0.0001, 0.001);
           
-          // More distinct galaxy colors and types
+          // Simplified galaxy types
           const galaxyTypes = [
             { 
-              primary: [255, 250, 255], // Reddish
-              secondary: [155, 150, 150, 0.14],
+              // Spiral galaxy
+              primary: [255, 250, 255],
+              secondary: [155, 150, 150],
               size: p.random(80, 120),
-              spiral: true
+              type: 'spiral'
             },
             { 
-              primary: [255, 255, 255], // Bluish
+              // Edge-on galaxy
+              primary: [255, 255, 255],
               secondary: [240, 250, 105],
-              size: p.random(40, 80),
-              spiral: false
-            },
-           
-            { 
-              primary: [255, 255, 255], // Purple
-              secondary: [200, 170, 255],
-              size: p.random(75, 10),
-              spiral: false
-            },
-            { 
-              primary: [255, 250, 255], // Reddish
-              secondary: [15, 10, 10, 0.14],
-              size: p.random(80, 220),
-              spiral: true
-            },
-            { 
-              primary: [255, 250, 255], // Reddish
-              secondary: [15, 10, 10, 0.14],
-              size: p.random(80, 220),
-              spiral: true
-            },
+              size: p.random(60, 100),
+              type: 'edge'
+            }
           ];
           
           const type = p.random(galaxyTypes);
           this.primaryColor = p.color(...type.primary);
           this.secondaryColor = p.color(...type.secondary);
           this.size = type.size;
-          this.isSpiral = type.spiral;
+          this.type = type.type;
           
-          // Reduce particle count and simplify
           const particleCount = shouldReduceEffects ? 40 : 80;
           
+          // Create particles based on galaxy type
           for (let i = 0; i < particleCount; i++) {
-            let radius, angle;
-            if (this.isSpiral) {
-              // Simplified spiral pattern
-              angle = i * 0.5 * p.TWO_PI;
-              radius = (i / particleCount) * (this.size / 2);
+            if (this.type === 'spiral') {
+              const angle = (i / particleCount) * p.TWO_PI * 2;
+              const spiralRadius = (i / particleCount) * (this.size / 2);
+              this.particles.push({
+                x: p.cos(angle) * spiralRadius,
+                y: p.sin(angle) * spiralRadius,
+                alpha: p.map(i, 0, particleCount, 100, 30),
+                size: p.random(0.5, 2),
+                color: i < particleCount/2 ? this.primaryColor : this.secondaryColor
+              });
             } else {
-              // Simplified elliptical pattern
-              angle = p.random(p.TWO_PI);
-              radius = p.random(this.size/4, this.size/2);
+              // Edge-on galaxy
+              const x = p.random(-this.size/2, this.size/2);
+              const y = p.random(-this.size/8, this.size/8); // Flattened on y-axis
+              this.particles.push({
+                x: x,
+                y: y,
+                alpha: p.map(Math.abs(y), 0, this.size/8, 100, 30),
+                size: p.random(0.5, 2),
+                color: Math.abs(x) < this.size/4 ? this.primaryColor : this.secondaryColor
+              });
             }
-            
-            this.particles.push({
-              x: p.cos(angle) * radius,
-              y: p.sin(angle) * radius,
-              alpha: p.random(30, 100),
-              size: p.random(0.5, 2.5),
-              color: p.random() > 0.5 ? this.primaryColor : this.secondaryColor
-              // Removed any animation properties
-            });
           }
         }
 
         display() {
           p.push();
           p.translate(this.x, this.y);
-          
-          // Static display without animation
           this.particles.forEach(particle => {
             p.fill(particle.color, particle.alpha);
             p.noStroke();
             p.circle(particle.x, particle.y, particle.size);
           });
-          
           p.pop();
         }
       }
@@ -571,21 +552,20 @@ const LaserBeamSketch = () => {
         // Draw constellations before laser beam
         constellations.forEach(constellation => constellation.display());
 
-        // Laser beam properties
+        // Laser beam properties (moved outside animation)
         const laserStartX = 0;
         const laserStartY = p.height / 2;
         const laserEndX = p.width;
         const laserEndY = p.height / 3;
         const laserThickness = 55;
 
-        // Calculate beam positions
+        // Calculate beam positions (no animation)
         const angle = p.atan2(laserEndY - laserStartY, laserEndX - laserStartX);
         const beamLength = p.dist(laserStartX, laserStartY, laserEndX, laserEndY);
         const avatarPosX = laserStartX + (beamLength / 2) * p.cos(angle);
         const avatarPosY = laserStartY + (beamLength / 2) * p.sin(angle);
 
-        // Draw the complete laser beam (without splitting)
-        const pulse = p.sin(p.frameCount * 0.4);
+        // Draw static laser beam
         for (let i = 0; i < laserThickness; i++) {
           const alpha = p.map(i, 0, laserThickness, 255, 0);
           const color = p.lerpColor(
@@ -595,17 +575,19 @@ const LaserBeamSketch = () => {
           );
           p.stroke(color);
           p.strokeWeight(2);
+          
+          // Remove pulse animation
           p.line(
             laserStartX, 
-            laserStartY + i + pulse, 
+            laserStartY + i, 
             laserEndX, 
-            laserEndY + i + pulse
+            laserEndY + i
           );
           p.line(
             laserStartX, 
-            laserStartY - i - pulse, 
+            laserStartY - i, 
             laserEndX, 
-            laserEndY - i - pulse
+            laserEndY - i
           );
         }
 

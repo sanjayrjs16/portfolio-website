@@ -10,6 +10,7 @@ import GenerativeEyeSketch from '../components/Eye/GenerativeEyeSketch';
 import OrganicGrowth from '../components/OrganicGrowth.astro';
 import RealisticTrees from '../components/RealisticTrees.astro';
 import SocialIcons from '../components/SocialIcons/SocialIcons';
+import BackgroundFallback from '../components/BackgroundFallback.astro';
 
 // Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
 // Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
@@ -23,6 +24,7 @@ const description = "Frontend engineer crafting immersive digital experiences th
 ---
 
 <Layout title={title} description={description}>
+	<BackgroundFallback />
 	<main>
 		<!-- SEO-friendly fallback content -->
 		<noscript>
@@ -625,3 +627,27 @@ const description = "Frontend engineer crafting immersive digital experiences th
 		</filter>
 	</defs>
 </svg>
+
+<script>
+	// Add this to handle fallback visibility
+	function handleCanvasMount() {
+		const canvas = document.querySelector('canvas');
+		const fallback = document.querySelector('.background-fallback');
+		
+		if (canvas && fallback) {
+			fallback.classList.add('hidden');
+			// Optional: Remove fallback after transition
+			setTimeout(() => {
+				fallback.remove();
+			}, 300);
+		}
+	}
+
+	// Check periodically until canvas is mounted
+	const checkInterval = setInterval(() => {
+		if (document.querySelector('canvas')) {
+			handleCanvasMount();
+			clearInterval(checkInterval);
+		}
+	}, 100);
+</script>
