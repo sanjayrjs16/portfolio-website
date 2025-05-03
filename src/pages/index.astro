@@ -48,7 +48,7 @@ const description = "Frontend engineer crafting immersive digital experiences th
 					<div class="bio-container">
 						<p class="fun-text">Hey, I build stuff on the web for a living :)</p>
 						<p class="fun-text">Currently, my work focuses on creating immersive user experiences caring about 
-						performance and creative interactions like for example, <span class="highlight-text"> 🔄 Refresh this page & see"</span></p>
+						performance and creative interactions...btw  <span class="highlight-text"> 🔄 Refresh this page & see"</span></p>
 						<div class="youtube-text">
 							<span class="youtube-icon"> 
 								<a href="https://www.youtube.com/@letthedevscook" target="_blank" rel="noopener noreferrer" class="youtube-link">
@@ -84,7 +84,7 @@ const description = "Frontend engineer crafting immersive digital experiences th
 							<h2>Frontend Engineer & Creative Developer</h2>
 							<p>
 								Hi, I'm Sanjay Rajesh, a frontend engineer specializing in creating immersive digital experiences. 
-								With expertise in React, Three.js, and creative coding, I blend technology with artistry to craft 
+								With expertise in JavaScript, TypeScript,React, node.js, and creative coding, I blend technology with artistry to craft 
 								engaging web applications and interactive experiences.
 							</p>
 							<p>
@@ -154,8 +154,8 @@ const description = "Frontend engineer crafting immersive digital experiences th
 
 	.hero-content-left {
 		position: absolute;
-		bottom: 25%;
-		right: 15%;
+		bottom: 15%;
+		right: 12%;
 		text-align: center;
 		z-index: 10;
 		pointer-events: auto; /* Enable pointer events for social icons */
@@ -320,7 +320,7 @@ const description = "Frontend engineer crafting immersive digital experiences th
 		.hero-content-left {
 			left: 2rem;
 			transform: translate(10%, 10%);
-			bottom: 19%;
+			bottom: 15%;
 		}
 
 		.hero-content-right {
@@ -332,17 +332,17 @@ const description = "Frontend engineer crafting immersive digital experiences th
 
 	:global(.social-icons) {
 		position: absolute;
-		left: 25%;
-		transform: translateX(-25%);
+		left: 45%;
+		transform: translateX(-50%);
 		display: flex;
 		gap: 1.5rem;
 		z-index: 10;
-		animation: float 3s ease-in-out infinite;
+		margin-top: 0.1rem; /* Add space below the name */
 	}
 
 	:global(.social-icon) {
-		width: 3.5rem;
-		height: 3.5rem;
+		width: 2.8rem;  /* Slightly smaller */
+		height: 2.8rem;
 		border-radius: 50%;
 		background: rgba(255, 255, 255, 0.1);
 		backdrop-filter: blur(5px);
@@ -361,26 +361,8 @@ const description = "Frontend engineer crafting immersive digital experiences th
 	}
 
 	:global(.social-icon svg) {
-		width: 1.7rem;
-		height: 1.7rem;
-	}
-
-	@keyframes float {
-		0%, 100% {
-			transform:  translateY(0);
-		}
-		50% {
-			transform: translateY(-2px);
-		}
-	}
-
-	@keyframes iconFloat {
-		0%, 100% {
-			transform: translateY(0);
-		}
-		50% {
-			transform: translateY(-5px);
-		}
+		width: 1.4rem;  /* Slightly smaller icons */
+		height: 1.4rem;
 	}
 
 	@media (max-width: 768px) {
@@ -389,13 +371,13 @@ const description = "Frontend engineer crafting immersive digital experiences th
 		}
 
 		:global(.social-icon) {
-			width: 2rem;
-			height: 2rem;
+			width: 2.2rem;
+			height: 2.2rem;
 		}
 
 		:global(.social-icon svg) {
-			width: 1rem;
-			height: 1rem;
+			width: 1.1rem;
+			height: 1.1rem;
 		}
 	}
 
