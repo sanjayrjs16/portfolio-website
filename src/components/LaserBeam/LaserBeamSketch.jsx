@@ -490,14 +490,57 @@ const LaserBeamSketch = () => {
 
       // Add with other variables at the top
       let staticStarBuffer;
+      let constellationBuffer;
+
+      const setupBuffers = () => {
+        // Create and setup static buffers
+        staticStarBuffer = p.createGraphics(p.width, p.height);
+        constellationBuffer = p.createGraphics(p.width, p.height);
+        
+        // Clear buffers
+        staticStarBuffer.clear();
+        constellationBuffer.clear();
+      };
+
+      const drawConstellationsToBuffer = () => {
+        constellationBuffer.clear();
+        
+        constellations.forEach(constellation => {
+          if (!constellation.isVisible()) return;
+          
+          // Draw edges with fixed glow
+          constellation.edges.forEach(edge => {
+            const from = constellation.stars[edge.from];
+            const to = constellation.stars[edge.to];
+            
+            // Use static values instead of animation
+            constellationBuffer.strokeWeight(0.5);
+            constellationBuffer.stroke(200, 220, 255, 20);
+            constellationBuffer.line(from.x, from.y, to.x, to.y);
+            
+            // Static glow
+            constellationBuffer.strokeWeight(1.5);
+            constellationBuffer.stroke(200, 220, 255, 30);
+            constellationBuffer.line(from.x, from.y, to.x, to.y);
+          });
+          
+          // Draw stars with fixed brightness
+          constellation.stars.forEach(star => {
+            constellationBuffer.push();
+            constellationBuffer.noStroke();
+            constellationBuffer.fill(255, star.brightness * 0.85);
+            constellationBuffer.circle(star.x, star.y, star.size);
+            constellationBuffer.pop();
+          });
+        });
+      };
 
       p.setup = () => {
         const canvas = p.createCanvas(p.windowWidth, p.windowHeight);
         canvas.parent(sketchRef.current);
         p.angleMode(p.DEGREES);
-
-        // Create buffer for static stars
-        staticStarBuffer = p.createGraphics(p.width, p.height);
+        
+        setupBuffers();
         
         // Initialize empty stars array
         stars = [];
@@ -576,6 +619,9 @@ const LaserBeamSketch = () => {
             constellations.push(new Constellation(p, extraPos.x, extraPos.y, getRandomPattern()[1]));
           }
         }
+
+        // After constellations are created
+        drawConstellationsToBuffer();
       };
 
       // Add scroll listener
@@ -624,6 +670,9 @@ const LaserBeamSketch = () => {
 
         // Draw static stars from buffer
         p.image(staticStarBuffer, 0, 0);
+        
+        // Draw static constellations from buffer
+        p.image(constellationBuffer, 0, 0);
 
         // Draw far shooting stars
         farShootingStars.forEach(star => {
@@ -793,9 +842,10 @@ const LaserBeamSketch = () => {
       p.windowResized = () => {
         p.resizeCanvas(p.windowWidth, p.windowHeight);
         
-        // Recreate and update static star buffer
-        staticStarBuffer = p.createGraphics(p.width, p.height);
+        // Recreate buffers at new size
+        setupBuffers();
         updateStaticStarBuffer();
+        drawConstellationsToBuffer();
       };
 
       // Update isAreaEmpty to be more precise about constellation spacing
