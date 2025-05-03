@@ -1,4 +1,6 @@
 ---
+import Navigation from '../components/Navigation/Navigation.astro';
+
 interface Props {
 	title: string;
 	description: string;
@@ -31,8 +33,11 @@ const { title, description } = Astro.props;
 		<meta name="twitter:title" content={title} />
 		<meta name="twitter:description" content={description} />
 		<meta name="twitter:image" content="/images/og-image.jpg" />
+
+		<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500&display=swap" rel="stylesheet">
 	</head>
 	<body>
+		<Navigation />
 		<slot />
 	</body>
 </html>

@@ -9,7 +9,6 @@ import PerlinEyeSketch from '../components/Eye/PerlinEyeSketch';
 import GenerativeEyeSketch from '../components/Eye/GenerativeEyeSketch';
 import OrganicGrowth from '../components/OrganicGrowth.astro';
 import RealisticTrees from '../components/RealisticTrees.astro';
-import Navigation from '../components/Navigation/Navigation.astro';
 import SocialIcons from '../components/SocialIcons/SocialIcons';
 
 // Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
@@ -47,25 +46,35 @@ const description = "Frontend engineer crafting immersive digital experiences th
 				<div class="hero-content-right">
 					<div class="bio-container">
 						<p class="fun-text">Hey, I build stuff on the web for a living :)</p>
-						<p class="fun-text">Currently, my work focuses on creating immersive user experiences caring about 
-						performance and creative interactions...btw  <span class="highlight-text"> 🔄 Refresh this page & see"</span></p>
-						<div class="youtube-text">
-							<span class="youtube-icon"> 
-								<a href="https://www.youtube.com/@letthedevscook" target="_blank" rel="noopener noreferrer" class="youtube-link">
-									<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-								<path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" fill="currentColor"/>
-							  </svg></a></span> 
-							  <a href="https://www.youtube.com/@letthedevscook" target="_blank" rel="noopener noreferrer" class="youtube-link">
-								Let the devs cook
+						<p class="fun-text">Currently, my work focuses on building scalable web apps with an immersive user experience & creative interactions. <span class="highlight-text "> 🔄 Refresh this page & see</span></p>
+						<p class="fun-text">👨🏻‍💻 Notable works:</p>
+						<div class="movie-text link-container">
+							<span class="icon">🎬</span>
+							<span class="description"> Aadujeevitham: The Goat Life (2024) -  the official movie
+							<a href="https://thegoatlifefilm.com/" target="_blank" rel="noopener noreferrer" class="link">
+								Website✨
 							</a>
-							<span class="youtube-icon">👈</span>
-							<p>
-							web dev. content 
-							</p>
-							</span>
+							<span >🐐</span>
+						</span>
 							
 							
 						</div>
+						<div class="youtube-text link-container">
+							<span class="icon">
+								<a href="https://www.youtube.com/@letthedevscook" target="_blank" rel="noopener noreferrer" class="link">
+									<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+										<path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" fill="currentColor"/>
+									</svg>
+								</a>
+							</span>
+							<a href="https://www.youtube.com/@letthedevscook" target="_blank" rel="noopener noreferrer" class="link">
+								Let the devs cook
+							</a>
+							<span class="icon">👈</span>
+							<span class="description">web dev. content</span>
+						</div>
+
+						
 
 						<div class="quote-accordion">
 							<span class="quote-label-text hide-desktop">Tap here 👉</span>
@@ -105,7 +114,6 @@ const description = "Frontend engineer crafting immersive digital experiences th
 					</div>
 				</div>
 			</div>
-			<Navigation />
 		</section>
 
 		<!-- Content Sections -->
@@ -437,9 +445,10 @@ const description = "Frontend engineer crafting immersive digital experiences th
 	.highlight-text {
 		font-family: 'Space Grotesk', sans-serif;
 		font-size: clamp(1rem, 1.2vw, 1.4rem);
-		color: #8a2be2;
+		color: #cc08b8;
 		margin: 0.15rem 0;
 		font-weight: 500;
+		text-wrap: nowrap;
 	}
 
 	.attribution-text {
@@ -455,64 +464,6 @@ const description = "Frontend engineer crafting immersive digital experiences th
 		font-size: clamp(0.8rem, 1.5vw, 1rem);
 		color: rgba(255, 255, 255, 0.8);
 		margin: 1rem 0 0 0;
-	}
-
-	.youtube-text {
-		font-family: 'Space Grotesk', sans-serif;
-		font-size: clamp(0.8rem, 1.25vw, 1.4rem);
-		color: rgba(255, 255, 255, 0.8);
-		margin: 0.5rem 0 0.5rem 0;
-		display: flex;
-		align-items: center;
-		gap: 0.45rem;
-		justify-content: center;
-		justify-items: center;
-		align-content: center;
-	}
-
-	.youtube-icon {
-		font-size: 1.2em;
-		animation: pulse 2s ease-in-out infinite;
-	}
-
-	.youtube-link {
-		color: #8a2be2;
-		text-decoration: none;
-		position: relative;
-		font-weight: 500;
-		transition: all 0.3s ease;
-	}
-
-	.youtube-link:hover {
-		color: #9d4ced;
-		text-shadow: 0 0 8px rgba(138, 43, 226, 0.5);
-	}
-
-	.youtube-link::after {
-		content: '';
-		position: absolute;
-		width: 100%;
-		height: 1px;
-		bottom: -2px;
-		left: 0;
-		background: #8a2be2;
-		transform: scaleX(0);
-		transform-origin: right;
-		transition: transform 0.3s ease;
-	}
-
-	.youtube-link:hover::after {
-		transform: scaleX(1);
-		transform-origin: left;
-	}
-
-	@keyframes pulse {
-		0%, 100% {
-			transform: scale(1);
-		}
-		50% {
-			transform: scale(1.1);
-		}
 	}
 
 	.quote-accordion {
@@ -588,6 +539,65 @@ const description = "Frontend engineer crafting immersive digital experiences th
 		clip: rect(0, 0, 0, 0);
 		white-space: nowrap;
 		border: 0;
+	}
+
+	.link-container {
+		font-family: 'Space Grotesk', sans-serif;
+		font-size: clamp(0.8rem, 1.25vw, 1.4rem);
+		color: rgba(255, 255, 255, 0.8);
+		margin: 0.55rem 0;
+		display: flex;
+		align-items: center;
+		justify-items: center;
+		/* display: grid;
+		grid-template-columns: auto auto auto 1fr;*/
+		gap: 0.45rem; 	
+		align-items: center;
+	}
+
+	.icon {
+		font-size: 1.2em;
+		animation: pulse 2s ease-in-out infinite;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.link {
+		color: #bd3df9;
+		text-decoration: none;
+		position: relative;
+		font-weight: 500;
+		transition: all 0.3s ease;
+		white-space: nowrap;
+	}
+
+	.link:hover {
+		color: #9d4ced;
+		text-shadow: 0 0 8px rgba(138, 43, 226, 0.5);
+	}
+
+	.link::after {
+		content: '';
+		position: absolute;
+		width: 100%;
+		height: 1px;
+		bottom: -2px;
+		left: 0;
+		background: #8a2be2;
+		transform: scaleX(0);
+		transform-origin: right;
+		transition: transform 0.3s ease;
+	}
+
+	.link:hover::after {
+		transform: scaleX(1);
+		transform-origin: left;
+	}
+
+	.description {
+		color: rgba(255, 255, 255, 0.8);
+		/* white-space: nowrap; */
 	}
 </style>
 

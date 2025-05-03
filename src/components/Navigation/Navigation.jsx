@@ -4,7 +4,7 @@ import './Navigation.css';
 const Navigation = ({ currentPath }) => {
   const navItems = [
     { path: '/work', label: 'Work' },
-    { path: '/', label: 'About' },
+    { path: '/', label: 'Bio' },
     { path: '/posts', label: 'Posts' },
     { path: '/contact', label: 'Contact' }
   ];
