@@ -488,11 +488,17 @@ const LaserBeamSketch = () => {
         }
       };
 
+      // Add with other variables at the top
+      let staticStarBuffer;
+
       p.setup = () => {
         const canvas = p.createCanvas(p.windowWidth, p.windowHeight);
         canvas.parent(sketchRef.current);
         p.angleMode(p.DEGREES);
 
+        // Create buffer for static stars
+        staticStarBuffer = p.createGraphics(p.width, p.height);
+        
         // Initialize empty stars array
         stars = [];
 
@@ -577,6 +583,17 @@ const LaserBeamSketch = () => {
         scrollOffset = window.pageYOffset * 0.1; // Adjust multiplier for effect strength
       });
 
+      // Add function to draw static stars to buffer
+      const updateStaticStarBuffer = () => {
+        staticStarBuffer.clear();
+        staticStarBuffer.background(0);
+        stars.forEach(star => {
+          if (!star.shouldTwinkle && star.isVisible()) {
+            star.display(staticStarBuffer);
+          }
+        });
+      };
+
       p.draw = () => {
         if (shouldReduceEffects) {
           skipFrame++;
@@ -589,35 +606,43 @@ const LaserBeamSketch = () => {
         if (starInitIndex < TOTAL_STARS) {
           const batchSize = Math.min(STAR_BATCH_SIZE, TOTAL_STARS - starInitIndex);
           for (let i = 0; i < batchSize; i++) {
-            if (starInitIndex < TOTAL_STARS * 0.015) { // 1.5% large stars
+            if (starInitIndex < TOTAL_STARS * 0.015) {
               stars.push(new Star('large'));
-            } else if (starInitIndex < TOTAL_STARS * 0.075) { // 7.5% medium stars
+            } else if (starInitIndex < TOTAL_STARS * 0.075) {
               stars.push(new Star('medium'));
             } else {
               stars.push(new Star('normal'));
             }
             starInitIndex++;
           }
+
+          // Update buffer when all stars are initialized
+          if (starInitIndex >= TOTAL_STARS) {
+            updateStaticStarBuffer();
+          }
         }
 
-        // Draw far shooting stars first (behind everything)
+        // Draw static stars from buffer
+        p.image(staticStarBuffer, 0, 0);
+
+        // Draw far shooting stars
         farShootingStars.forEach(star => {
           star.update();
           star.display();
         });
-  
-        // Draw only visible galaxies
+
+        // Draw galaxies
         galaxies.forEach(galaxy => {
           if (galaxy.isVisible()) {
             galaxy.display();
           }
         });
 
-        // Draw only visible stars
+        // Draw only twinkling stars
         stars.forEach(star => {
-          if (star.isVisible()) {
+          if (star.shouldTwinkle && star.isVisible()) {
             star.twinkle();
-            star.display();
+            star.display(p);
           }
         });
 
@@ -766,7 +791,11 @@ const LaserBeamSketch = () => {
 
       // Handle window resizing
       p.windowResized = () => {
-        p.resizeCanvas(window.innerWidth, window.innerHeight);
+        p.resizeCanvas(p.windowWidth, p.windowHeight);
+        
+        // Recreate and update static star buffer
+        staticStarBuffer = p.createGraphics(p.width, p.height);
+        updateStaticStarBuffer();
       };
 
       // Update isAreaEmpty to be more precise about constellation spacing
