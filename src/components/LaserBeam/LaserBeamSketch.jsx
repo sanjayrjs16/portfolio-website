@@ -8,19 +8,9 @@ const LaserBeamSketch = () => {
 
   useEffect(() => {
     const sketch = (p) => {
-      // Add at the top with other device checks
+      // Add simple device check
       const isMobile = /Android|webOS|iPhone|iPad/i.test(navigator.userAgent);
-      const devicePixelRatio = window.devicePixelRatio || 1;
-      const shouldReduceEffects = isMobile || devicePixelRatio > 2;
-      
-      // Calculate optimal pixel density
-      const getOptimalPixelDensity = () => {
-        if (devicePixelRatio > 2) return 0.75;
-        if (devicePixelRatio > 1.5) return 0.85;
-        return 1;
-      };
-      
-      const pixelDensity = getOptimalPixelDensity();
+      const shouldReduceEffects = isMobile || window.devicePixelRatio < 1.5;
       let skipFrame = 0;
       
       let rectangles = []; // Array to store rectangle properties
@@ -29,17 +19,6 @@ const LaserBeamSketch = () => {
       let nebulae = []; // New array for nebula clouds
       let scrollOffset = 0;
       let constellations = [];
-      let lastRectTime = 0;
-      const rectInterval = shouldReduceEffects ? 800 : 400; // in ms
-      let starfieldBuffer;
-
-      // Add constants for array size limits
-      const LIMITS = {
-        rectangles: shouldReduceEffects ? 7 : 30,
-        shootingStars: shouldReduceEffects ? 2 : 3,
-        farShootingStars: shouldReduceEffects ? 3 : 5,
-        galaxies: shouldReduceEffects ? 4 : 6
-      };
 
       // First, let's define our constellation patterns
       const CONSTELLATION_PATTERNS = {
@@ -139,9 +118,9 @@ const LaserBeamSketch = () => {
           }
         }
 
-        display(buffer) {
-          buffer.push();
-          buffer.noStroke();
+        display() {
+          p.push();
+          p.noStroke();
           
           // Draw multiple layers of glow with decreasing opacity
           for (let i = this.layers; i > 0; i--) {
@@ -155,8 +134,8 @@ const LaserBeamSketch = () => {
               p.blue(this.color),
               layerAlpha * 0.3
             );
-            buffer.fill(outerGlow);
-            buffer.circle(this.x, this.y, layerSize);
+            p.fill(outerGlow);
+            p.circle(this.x, this.y, layerSize);
           }
           
           // Draw white core with color blend
@@ -169,24 +148,24 @@ const LaserBeamSketch = () => {
             p.blue(this.color),
             this.brightness * 0.5
           );
-          buffer.fill(haloColor);
-          buffer.circle(this.x, this.y, this.size * 1.2);
+          p.fill(haloColor);
+          p.circle(this.x, this.y, this.size * 1.2);
           
           // White core
           const coreColor = p.color(255, 255, 255, this.brightness);
-          buffer.fill(coreColor);
-          buffer.circle(this.x, this.y, coreSize);
+          p.fill(coreColor);
+          p.circle(this.x, this.y, coreSize);
           
           // Add a subtle bloom effect
-          buffer.drawingContext.shadowBlur = this.size * 2;
-          buffer.drawingContext.shadowColor = p.color(
+          p.drawingContext.shadowBlur = this.size * 2;
+          p.drawingContext.shadowColor = p.color(
             p.red(this.color),
             p.green(this.color),
             p.blue(this.color),
             this.brightness * 0.5
           );
           
-          buffer.pop();
+          p.pop();
         }
       }
 
@@ -248,41 +227,17 @@ const LaserBeamSketch = () => {
               });
             }
           }
-          
-          // Create cached graphics
-          this.cachedGraphics = p.createGraphics(this.size * 2, this.size * 2);
-          this.renderToCache();
         }
 
-        renderToCache() {
-          const g = this.cachedGraphics;
-          g.clear();
-          g.translate(this.size, this.size);
-          
-          if (!shouldReduceEffects) {
-            g.blendMode(g.ADD);
-          }
-          
+        display() {
+          p.push();
+          p.translate(this.x, this.y);
           this.particles.forEach(particle => {
-            g.fill(particle.color, particle.alpha);
-            g.noStroke();
-            g.circle(particle.x, particle.y, particle.size);
+            p.fill(particle.color, particle.alpha);
+            p.noStroke();
+            p.circle(particle.x, particle.y, particle.size);
           });
-          
-          if (!shouldReduceEffects) {
-            g.blendMode(g.BLEND);
-          }
-        }
-
-        display(buffer) {
-          buffer.push();
-          buffer.imageMode(buffer.CENTER);
-          buffer.image(
-            this.cachedGraphics, 
-            this.x, 
-            this.y
-          );
-          buffer.pop();
+          p.pop();
         }
       }
 
@@ -335,19 +290,19 @@ const LaserBeamSketch = () => {
           }
         }
 
-        display(buffer) {
-          buffer.push();
-          buffer.translate(this.x, this.y);
-          buffer.rotate(this.angle);
+        display() {
+          p.push();
+          p.translate(this.x, this.y);
+          p.rotate(this.angle);
           
           // Draw tail gradient
           for (let i = 0; i < this.length; i++) {
             const alpha = p.map(i, 0, this.length, this.alpha, 0);
-            buffer.stroke(255, alpha);
-            buffer.line(0, 0, -1, 0);
-            buffer.translate(-1, 0);
+            p.stroke(255, alpha);
+            p.line(0, 0, -1, 0);
+            p.translate(-1, 0);
           }
-          buffer.pop();
+          p.pop();
         }
       }
 
@@ -390,7 +345,7 @@ const LaserBeamSketch = () => {
           });
         }
 
-        display(buffer) {
+        display() {
           const p = this.p;
           
           // Draw edges with flowing light effect
@@ -460,7 +415,7 @@ const LaserBeamSketch = () => {
         }
       }
 
-      // In your sketch setup, add:
+      // Add at top with other variables
       let shootingStars = [];
       let farShootingStars = [];
 
@@ -468,30 +423,52 @@ const LaserBeamSketch = () => {
       const breatheSpeed = 0.019;
       const breatheAmount = 0.05; // 15% size variation
 
+      // Add at top with other variables
+      let starInitIndex = 0;
+      const STAR_BATCH_SIZE = 50;
+      const TOTAL_STARS = shouldReduceEffects ? 1200 : 2000;
+      let isStarfieldReady = false;
+
+      // Add at top with other variables
+      const inactiveRects = [];
+      const rectPool = {
+        get: () => {
+          if (inactiveRects.length > 0) {
+            const rect = inactiveRects.pop();
+            rect.active = true;
+            return rect;
+          }
+          return {
+            x: 0,
+            y: 0,
+            offset: 0,
+            speed: 0,
+            width: 0,
+            height: 0,
+            opacity: 0,
+            active: true
+          };
+        },
+        recycle: (rect) => {
+          rect.active = false;
+          inactiveRects.push(rect);
+        }
+      };
+
       p.setup = () => {
         const canvas = p.createCanvas(p.windowWidth, p.windowHeight);
         canvas.parent(sketchRef.current);
         p.angleMode(p.DEGREES);
 
-        // Set optimized pixel density
-        p.pixelDensity(pixelDensity);
+        // Initialize empty stars array
+        stars = [];
 
-        // Increase total stars for denser background
-        for (let i = 0; i < 2000; i++) { // Doubled from 1000 to 2000
-          if (i < 30) { // Slightly increased large stars
-            stars.push(new Star('large'));
-          } else if (i < 150) { // Increased medium stars
-            stars.push(new Star('medium'));
-          } else {
-            stars.push(new Star('normal'));
-          }
-        }
-
-        // Create more distinct galaxy clusters
-        for (let i = 0; i < (isMobile ? 4 : 6); i++) { // Instead of 8
+        // Create galaxy clusters
+        for (let i = 0; i < (isMobile ? 4 : 6); i++) {
           galaxies.push(new GalaxyCluster());
         }
-         // Add shooting stars
+
+        // Add shooting stars
         for (let i = 0; i < 3; i++) {
           shootingStars.push(new ShootingStar(false));
         }
@@ -560,62 +537,12 @@ const LaserBeamSketch = () => {
             constellations.push(new Constellation(p, extraPos.x, extraPos.y, getRandomPattern()[1]));
           }
         }
-
-        // Create and draw to buffer
-        starfieldBuffer = p.createGraphics(p.width, p.height);
-        starfieldBuffer.pixelDensity(pixelDensity); // Also set for buffer
-        drawStaticElements(starfieldBuffer);
       };
 
       // Add scroll listener
       window.addEventListener('scroll', () => {
         scrollOffset = window.pageYOffset * 0.1; // Adjust multiplier for effect strength
       });
-
-      // Add function to draw static elements
-      const drawStaticElements = (buffer) => {
-        buffer.pixelDensity(pixelDensity);
-        buffer.background(0);
-        
-        // Draw static stars (non-twinkling)
-        stars.forEach(star => {
-          if (!star.shouldTwinkle) {
-            star.display(buffer);
-          }
-        });
-
-        // Draw galaxies
-        galaxies.forEach(galaxy => {
-          galaxy.display(buffer);
-        });
-      };
-
-      // Add array cleanup helper
-      const cleanupOffscreenElements = () => {
-        // Clean rectangles
-        rectangles = rectangles
-          .filter(rect => rect.x <= p.width)
-          .slice(0, LIMITS.rectangles);
-
-        // Clean shooting stars (keep only active ones within limits)
-        shootingStars = shootingStars
-          .filter(star => (
-            star.x >= -star.length && 
-            star.x <= p.width + star.length && 
-            star.y >= -star.length && 
-            star.y <= p.height + star.length
-          ))
-          .slice(0, LIMITS.shootingStars);
-
-        farShootingStars = farShootingStars
-          .filter(star => (
-            star.x >= -star.length && 
-            star.x <= p.width + star.length && 
-            star.y >= -star.length && 
-            star.y <= p.height + star.length
-          ))
-          .slice(0, LIMITS.farShootingStars);
-      };
 
       p.draw = () => {
         if (shouldReduceEffects) {
@@ -625,29 +552,44 @@ const LaserBeamSketch = () => {
 
         p.background(0);
 
-        // Draw static elements from buffer
-        p.image(starfieldBuffer, 0, 0);
-
-        // Draw only dynamic elements
-        // Twinkling stars
-        stars.forEach(star => {
-          if (star.shouldTwinkle) {
-            star.twinkle();
-            star.display(p);
+        // Progressive star initialization
+        if (starInitIndex < TOTAL_STARS) {
+          const batchSize = Math.min(STAR_BATCH_SIZE, TOTAL_STARS - starInitIndex);
+          for (let i = 0; i < batchSize; i++) {
+            if (starInitIndex < TOTAL_STARS * 0.015) { // 1.5% large stars
+              stars.push(new Star('large'));
+            } else if (starInitIndex < TOTAL_STARS * 0.075) { // 7.5% medium stars
+              stars.push(new Star('medium'));
+            } else {
+              stars.push(new Star('normal'));
+            }
+            starInitIndex++;
           }
-        });
+        }
 
         // Draw far shooting stars first (behind everything)
         farShootingStars.forEach(star => {
           star.update();
-          star.display(p);
+          star.display();
         });
   
         // Draw galaxy clusters (behind stars)
-        galaxies.forEach(galaxy => galaxy.display(p));
+        galaxies.forEach(galaxy => galaxy.display());
+
+        // Draw and update stars
+        stars.forEach(star => {
+          star.twinkle();
+          star.display();
+        });
+
+        // Draw close shooting stars
+        shootingStars.forEach(star => {
+          star.update();
+          star.display();
+        });
 
         // Draw constellations before laser beam
-        constellations.forEach(constellation => constellation.display(p));
+        constellations.forEach(constellation => constellation.display());
 
         // Laser beam properties (moved outside animation)
         const laserStartX = 0;
@@ -688,39 +630,34 @@ const LaserBeamSketch = () => {
           );
         }
 
-        // Replace frameCount-based rectangle creation with time-based
-        const now = performance.now();
-        if (now - lastRectTime > rectInterval && rectangles.length < LIMITS.rectangles) {
-          const rectWidth = p.random(50, 100);
-          const rectHeight = p.random(25, 65);
-          const opacity = p.random(40, 205);
-          const speed = p.random(2, 5);
-          const isAbove = p.random() > 0.5;
-          const offset = isAbove ? p.random(60, 90) : p.random(-90, -60);
-
-          rectangles.push({
-            x: laserStartX,
-            y: laserStartY + offset,
-            offset: offset,
-            speed: speed,
-            width: rectWidth,
-            height: rectHeight,
-            opacity: opacity,
-          });
+        // Modify rectangle creation to use pool
+        if (p.frameCount % (isMobile ? 4 : 3) === 0 && rectangles.filter(r => r.active).length < (isMobile ? 7 : 30)) {
+          const rect = rectPool.get();
+          rect.width = p.random(50, 100);
+          rect.height = p.random(25, 65);
+          rect.opacity = p.random(40, 205);
+          rect.speed = p.random(2, 5);
           
-          lastRectTime = now;
+          const isAbove = p.random() > 0.5;
+          rect.offset = isAbove ? p.random(60, 90) : p.random(-90, -60);
+          rect.x = laserStartX;
+          rect.y = laserStartY + rect.offset;
+
+          rectangles.push(rect);
         }
 
-        // Update and draw rectangles
+        // Update and draw rectangles with pooling
         for (let i = rectangles.length - 1; i >= 0; i--) {
           const rect = rectangles[i];
+          if (!rect.active) continue;
 
           // Update rectangle position
-          rect.x += rect.speed; // Move along the laser's direction
-          rect.y = laserStartY + rect.offset + ((rect.x / p.width) * (laserEndY - laserStartY)); // Straight-line movement
+          rect.x += rect.speed;
+          rect.y = laserStartY + rect.offset + ((rect.x / p.width) * (laserEndY - laserStartY));
 
-          // Remove rectangles that go off-screen
+          // Remove and recycle off-screen rectangles
           if (rect.x > p.width) {
+            rectPool.recycle(rect);
             rectangles.splice(i, 1);
             continue;
           }
@@ -728,11 +665,11 @@ const LaserBeamSketch = () => {
           // Draw rectangle
           p.push();
           p.translate(rect.x, rect.y);
-          p.rotate(angle); // Rotate rectangle to align with the laser beam
-          p.fill(128, 0, 128, rect.opacity); // Purple with varying opacity
+          p.rotate(angle);
+          p.fill(128, 0, 128, rect.opacity);
           p.noStroke();
           p.rectMode(p.CENTER);
-          p.rect(0, 0, rect.width, rect.height); // Draw rectangle
+          p.rect(0, 0, rect.width, rect.height);
           p.pop();
         }
 
@@ -770,19 +707,6 @@ const LaserBeamSketch = () => {
 
         // Use adjustedY for positioning elements
         // ... rest of drawing code ...
-
-        // Replace individual cleanup with centralized cleanup
-        if (p.frameCount % 60 === 0) { // Run cleanup every 60 frames
-          cleanupOffscreenElements();
-        }
-
-        // Update shooting star creation
-        if (shootingStars.length < LIMITS.shootingStars) {
-          shootingStars.push(new ShootingStar(false));
-        }
-        if (farShootingStars.length < LIMITS.farShootingStars) {
-          farShootingStars.push(new ShootingStar(true));
-        }
       };
 
       // Add preload function to load the avatar image
@@ -792,15 +716,7 @@ const LaserBeamSketch = () => {
 
       // Handle window resizing
       p.windowResized = () => {
-        p.resizeCanvas(p.windowWidth, p.windowHeight);
-        
-        // Maintain pixel density on resize
-        p.pixelDensity(pixelDensity);
-        
-        // Recreate buffer at new size
-        starfieldBuffer = p.createGraphics(p.width, p.height);
-        starfieldBuffer.pixelDensity(pixelDensity); // Also set for buffer
-        drawStaticElements(starfieldBuffer);
+        p.resizeCanvas(window.innerWidth, window.innerHeight);
       };
 
       // Update isAreaEmpty to be more precise about constellation spacing
