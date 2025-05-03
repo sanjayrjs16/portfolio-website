@@ -118,7 +118,18 @@ const LaserBeamSketch = () => {
           }
         }
 
+        isVisible() {
+          const buffer = this.glowSize * 2; // Account for glow radius
+          return (
+            this.x > -buffer && 
+            this.x < p.width + buffer && 
+            this.y > -buffer && 
+            this.y < p.height + buffer
+          );
+        }
+
         display() {
+          if (!this.isVisible()) return;
           p.push();
           p.noStroke();
           
@@ -229,7 +240,18 @@ const LaserBeamSketch = () => {
           }
         }
 
+        isVisible() {
+          const buffer = this.size;
+          return (
+            this.x > -buffer && 
+            this.x < p.width + buffer && 
+            this.y > -buffer && 
+            this.y < p.height + buffer
+          );
+        }
+
         display() {
+          if (!this.isVisible()) return;
           p.push();
           p.translate(this.x, this.y);
           this.particles.forEach(particle => {
@@ -345,7 +367,18 @@ const LaserBeamSketch = () => {
           });
         }
 
+        isVisible() {
+          // Check if any star in constellation is visible
+          return this.stars.some(star => (
+            star.x > -50 && 
+            star.x < p.width + 50 && 
+            star.y > -50 && 
+            star.y < p.height + 50
+          ));
+        }
+
         display() {
+          if (!this.isVisible()) return;
           const p = this.p;
           
           // Draw edges with flowing light effect
@@ -573,13 +606,19 @@ const LaserBeamSketch = () => {
           star.display();
         });
   
-        // Draw galaxy clusters (behind stars)
-        galaxies.forEach(galaxy => galaxy.display());
+        // Draw only visible galaxies
+        galaxies.forEach(galaxy => {
+          if (galaxy.isVisible()) {
+            galaxy.display();
+          }
+        });
 
-        // Draw and update stars
+        // Draw only visible stars
         stars.forEach(star => {
-          star.twinkle();
-          star.display();
+          if (star.isVisible()) {
+            star.twinkle();
+            star.display();
+          }
         });
 
         // Draw close shooting stars
@@ -588,8 +627,12 @@ const LaserBeamSketch = () => {
           star.display();
         });
 
-        // Draw constellations before laser beam
-        constellations.forEach(constellation => constellation.display());
+        // Draw only visible constellations
+        constellations.forEach(constellation => {
+          if (constellation.isVisible()) {
+            constellation.display();
+          }
+        });
 
         // Laser beam properties (moved outside animation)
         const laserStartX = 0;
@@ -651,16 +694,23 @@ const LaserBeamSketch = () => {
           const rect = rectangles[i];
           if (!rect.active) continue;
 
-          // Update rectangle position
-          rect.x += rect.speed;
-          rect.y = laserStartY + rect.offset + ((rect.x / p.width) * (laserEndY - laserStartY));
+          // Check visibility with buffer for rotation
+          const isVisible = (
+            rect.x > -rect.width && 
+            rect.x < p.width + rect.width && 
+            rect.y > -rect.height && 
+            rect.y < p.height + rect.height
+          );
 
-          // Remove and recycle off-screen rectangles
-          if (rect.x > p.width) {
+          if (!isVisible) {
             rectPool.recycle(rect);
             rectangles.splice(i, 1);
             continue;
           }
+
+          // Update rectangle position
+          rect.x += rect.speed;
+          rect.y = laserStartY + rect.offset + ((rect.x / p.width) * (laserEndY - laserStartY));
 
           // Draw rectangle
           p.push();
