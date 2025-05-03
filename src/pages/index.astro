@@ -49,6 +49,7 @@ const description = "Frontend engineer crafting immersive digital experiences th
 					<div class="bio-container">
 						<p class="fun-text">Hey, I build stuff on the web for a living :)</p>
 						<p class="fun-text">Currently, my work focuses on building scalable web apps with an immersive user experience & creative interactions. <span class="highlight-text "> 🔄 Refresh this page to see sky change</span></p>
+						<div class="bg-purple">
 						<p class="fun-text">👨🏻‍💻 Notable works:</p>
 						<div class="movie-text link-container">
 							<span class="icon">🎬</span>
@@ -62,7 +63,7 @@ const description = "Frontend engineer crafting immersive digital experiences th
 							
 						</div>
 						<div class="youtube-text link-container">
-							<span class="icon">
+							<span class="icon" style="transform: translate(0, 0.2rem)">
 								<a href="https://www.youtube.com/@letthedevscook" target="_blank" rel="noopener noreferrer" class="link">
 									<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 										<path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" fill="currentColor"/>
@@ -72,9 +73,10 @@ const description = "Frontend engineer crafting immersive digital experiences th
 							<a href="https://www.youtube.com/@letthedevscook" target="_blank" rel="noopener noreferrer" class="link">
 								Let the devs cook
 							</a>
-							<span class="icon">👈</span>
-							<span class="description">web dev. content</span>
+							<!-- <span class="icon">👈</span> -->
+							<span class="description"> - YouTube channel</span>
 						</div>
+					</div>
 
 						
 
@@ -86,7 +88,7 @@ const description = "Frontend engineer crafting immersive digital experiences th
 							</label>
 							<div class="quote-content">
 								<p class="quote-text">"The Art challenges the technology,</p>
-								<p class="highlight-text">& technology inspires art"</p>
+								<p class="highlight-text bg-purple">& technology inspires art"</p>
 								<p class="attribution-text">- John Lasseter</p>
 							</div>
 						</div>
@@ -444,11 +446,18 @@ const description = "Frontend engineer crafting immersive digital experiences th
 		text-wrap: nowrap;
 		padding-top: 1rem;
 	}
-
+	/* #bfd518; */
+	.bg-purple {
+		background-color: rgba(189, 23, 162, 0.359);
+		padding: 0.2rem;
+		border-radius: 0.5rem;
+		margin: 0.2rem 0;
+		border: 1px solid rgba(255, 255, 255, 0.1);
+	}
 	.highlight-text {
 		font-family: 'Space Grotesk', sans-serif;
 		font-size: clamp(1rem, 1.2vw, 1.4rem);
-		color: #cc08b8;
+		color: #ddd613;
 		margin: 0.15rem 0;
 		font-weight: 500;
 		text-wrap: nowrap;
@@ -567,7 +576,7 @@ const description = "Frontend engineer crafting immersive digital experiences th
 	}
 
 	.link {
-		color: #bd3df9;
+		color: #dbe211;
 		text-decoration: none;
 		position: relative;
 		font-weight: 500;
@@ -576,7 +585,7 @@ const description = "Frontend engineer crafting immersive digital experiences th
 	}
 
 	.link:hover {
-		color: #9d4ced;
+		color: #dcbffa;
 		text-shadow: 0 0 8px rgba(138, 43, 226, 0.5);
 	}
 
