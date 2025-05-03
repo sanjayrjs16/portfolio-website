@@ -10,6 +10,8 @@ const LaserBeamSketch = () => {
     const sketch = (p) => {
       // Add simple device check
       const isMobile = /Android|webOS|iPhone|iPad/i.test(navigator.userAgent);
+      const shouldReduceEffects = isMobile || window.devicePixelRatio < 1.5;
+      let skipFrame = 0;
       
       let rectangles = []; // Array to store rectangle properties
       let stars = []; // Array to store star properties
@@ -217,16 +219,17 @@ const LaserBeamSketch = () => {
           this.size = type.size;
           this.isSpiral = type.spiral;
           
-          // Reduce particle count
-          const particleCount = isMobile ? 40 : 80; // Instead of 100
+          // Reduce particle count and simplify
+          const particleCount = shouldReduceEffects ? 40 : 80;
           
-          // Create particles with spiral or elliptical pattern
           for (let i = 0; i < particleCount; i++) {
             let radius, angle;
             if (this.isSpiral) {
-              angle = i * p.random(Array.from([0.1,0.84,0.96, 0.75, 0.65, 0.54]))* p.TWO_PI;
-              radius = (i / 100) * (this.size / 2);
+              // Simplified spiral pattern
+              angle = i * 0.5 * p.TWO_PI;
+              radius = (i / particleCount) * (this.size / 2);
             } else {
+              // Simplified elliptical pattern
               angle = p.random(p.TWO_PI);
               radius = p.random(this.size/4, this.size/2);
             }
@@ -237,6 +240,7 @@ const LaserBeamSketch = () => {
               alpha: p.random(30, 100),
               size: p.random(0.5, 2.5),
               color: p.random() > 0.5 ? this.primaryColor : this.secondaryColor
+              // Removed any animation properties
             });
           }
         }
@@ -244,27 +248,15 @@ const LaserBeamSketch = () => {
         display() {
           p.push();
           p.translate(this.x, this.y);
-          p.rotate(this.rotation);
-          p.noStroke();
           
-          // Draw galaxy core with gradient
-          const coreSize = this.size/4;
-          for (let i = coreSize; i > 0; i -= 2) {
-            const interColor = p.lerpColor(this.primaryColor, this.secondaryColor, i/coreSize);
-            p.fill(p.red(interColor), p.green(interColor), p.blue(interColor), 100 * (i/coreSize));
-            p.circle(0, 0, i);
-          }
-          
-          // Draw particles with blend mode for glow effect
-          p.blendMode(p.ADD);
+          // Static display without animation
           this.particles.forEach(particle => {
-            p.fill(p.red(particle.color), p.green(particle.color), p.blue(particle.color), particle.alpha);
+            p.fill(particle.color, particle.alpha);
+            p.noStroke();
             p.circle(particle.x, particle.y, particle.size);
           });
           
-          this.rotation += this.rotationSpeed;
           p.pop();
-          p.blendMode(p.BLEND);
         }
       }
 
@@ -547,7 +539,13 @@ const LaserBeamSketch = () => {
       });
 
       p.draw = () => {
-        p.background(0); // Black background
+        // Add frame throttling
+        if (shouldReduceEffects) {
+          skipFrame++;
+          if (skipFrame % 2 !== 0) return; // Only draw every 2nd frame
+        }
+
+        p.background(0);
 
         // Draw far shooting stars first (behind everything)
         farShootingStars.forEach(star => {
