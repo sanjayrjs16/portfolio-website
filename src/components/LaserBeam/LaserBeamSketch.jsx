@@ -6,6 +6,8 @@ import { Constellation } from './Constellation';
 import { ShootingStar } from './ShootingStar';
 import { LaserBeam } from './LaserBeam';
 
+const scrollHandler = () => { scrollOffset = window.pageYOffset * 0.1; };
+
 const LaserBeamSketch = () => {
   const sketchRef = useRef();
 
@@ -19,9 +21,10 @@ const LaserBeamSketch = () => {
       let rectangles = []; // Array to store rectangle properties
       let stars = []; // Array to store star properties
       let galaxies = []; // Array to store small galaxy clusters
-      let nebulae = []; // New array for nebula clouds
       let scrollOffset = 0;
       let constellations = [];
+      let shootingStars = [];
+      let farShootingStars = [];
 
       // First, let's define our constellation patterns
       const CONSTELLATION_PATTERNS = {
@@ -61,9 +64,6 @@ const LaserBeamSketch = () => {
       };
 
       // Add at top with other variables
-      let shootingStars = [];
-      let farShootingStars = [];
-
       let breathePhase = 0;
       const breatheSpeed = 0.019;
       const breatheAmount = 0.05; // 15% size variation
@@ -240,32 +240,30 @@ const LaserBeamSketch = () => {
         // After constellations are created
         // updateStaticSceneBuffer();
       };
-
+      
       // Add scroll listener
-      window.addEventListener('scroll', () => {
-        scrollOffset = window.pageYOffset * 0.1; // Adjust multiplier for effect strength
-      });
+      window.addEventListener('scroll', scrollHandler );
 
       p.draw = () => {
-        if (shouldReduceEffects) {
-          skipFrame++;
-          if (skipFrame % 2 !== 0) return;
-        }
-
         p.background(0);
-
-        // During initialization
-        if (!isInitComplete) {
-          buildProgressiveStage();
-        } else {
-          // Just draw the buffer at full size, no scaling needed
-          p.image(staticSceneBuffer, 0, 0);
-        }
         
-        // Always draw the laser beam buffer
+        if (isInitComplete) {
+          p.image(staticSceneBuffer, 0, 0);
+          p.image(laserBeamBuffer, 0, 0);
+          drawDynamicElements();
+          return;
+        }
+        // Always draw the laser beam buffer, even during initialization
         p.image(laserBeamBuffer, 0, 0);
         
-        drawDynamicElements();
+       
+        
+        // Throttle initialization on mobile but don't skip drawing laser beam
+        if (shouldReduceEffects && skipFrame++ < 1) {
+          return;
+        }
+        skipFrame = 0;
+        buildProgressiveStage();
       };
 
       // Clear phase functions for better readability
@@ -461,6 +459,7 @@ const LaserBeamSketch = () => {
 
     // Cleanup function to remove the p5 instance when the component unmounts
     return () => {
+      window.removeEventListener('scroll', scrollHandler);
       myP5.remove();
     };
   }, []);
