@@ -63,17 +63,20 @@ const description = "Frontend engineer crafting immersive digital experiences th
 							<div class="quote-content">
 								<div class="bg-purple">
 									<p class="fun-text">👨🏻‍💻 Notable works:</p>
+									
+									<!-- Special styling for the movie item -->
 									<div class="movie-text link-container">
-										<span class="icon">🎬</span>
-										<span class="description"> Aadujeevitham: The Goat Life (2024) -  the official movie
-										<a href="https://thegoatlifefilm.com/" target="_blank" rel="noopener noreferrer" class="link">
-											Website✨
-										</a>
-										<span >🐐</span>
-									</span>
 										
-										
+										<span class="description">
+											🎬
+										Aadujeevitham: The Goat Life (2024) - the official movie <a href="https://thegoatlifefilm.com/" target="_blank" rel="noopener noreferrer" class="link">
+											Website
+										</a> launched by 
+											<a href="https://timesofindia.indiatimes.com/entertainment/malayalam/movies/news/director-blessy-on-aadujeevitham-website-launch/articleshow/108015198.cms" target="_blank" rel="noopener noreferrer" class="link">A R Rahman</a> ✨
+										</span>
 									</div>
+									
+									<!-- YouTube item with grid styling -->
 									<div class="youtube-text link-container">
 										<span class="icon" style="transform: translate(0, 0.2rem)">
 											<a href="https://www.youtube.com/@letthedevscook" target="_blank" rel="noopener noreferrer" class="link">
@@ -86,7 +89,22 @@ const description = "Frontend engineer crafting immersive digital experiences th
 											Let the devs cook
 										</a>
 										<!-- <span class="icon">👈</span> -->
-										<span class="description"> - YouTube channel</span>
+										<span class="description"> YouTube channel</span>
+									</div>
+									
+									<!-- GitHub item with grid styling -->
+									<div class="github-text link-container">
+										<span class="icon">
+											<a href="https://github.com/ohcnetwork/bot" target="_blank" rel="noopener noreferrer" class="link">
+												<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+													<path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+												</svg>
+											</a>
+										</span>
+										<a href="https://github.com/ohcnetwork/bot" target="_blank" rel="noopener noreferrer" class="link">
+											OHC Network Chatbot
+										</a>
+										<span class="description"> Open-source COVID assistance bot for OHC Network aiding Kerala Government healthcare (2020) <a href="https://www.youtube.com/watch?v=A81YflXaZKQ" target="_blank" rel="noopener noreferrer" class="link">demo</a></span>
 									</div>
 								</div>
 								<p class="quote-text">"The Art challenges the technology,</p>
@@ -193,6 +211,8 @@ const description = "Frontend engineer crafting immersive digital experiences th
 		/* background: linear-gradient(45deg, #070707c5 30%, #0a0013); */
 		opacity: 0;
 		animation: fadeIn 1s ease-out 2s forwards;
+		position: relative;
+		z-index: 5;
 	}
 
 	.title-line {
@@ -447,6 +467,8 @@ const description = "Frontend engineer crafting immersive digital experiences th
 		border: 1px solid rgba(255, 255, 255, 0.1);
 		opacity: 0;
 		animation: fadeIn 1s ease-out 2s forwards;
+		position: relative;
+		z-index: 10;
 	}
 
 	.quote-text {
@@ -565,17 +587,13 @@ const description = "Frontend engineer crafting immersive digital experiences th
 	}
 
 	.link-container {
+		display: grid;
+		grid-template-columns: 10% 30% 60%; /* Proportional columns as requested */
+		align-items: center;
 		font-family: 'Space Grotesk', sans-serif;
 		font-size: clamp(0.8rem, 1.25vw, 1.4rem);
 		color: rgba(255, 255, 255, 0.8);
 		margin: 0.55rem 0;
-		display: flex;
-		align-items: center;
-		justify-items: center;
-		/* display: grid;
-		grid-template-columns: auto auto auto 1fr;*/
-		gap: 0.45rem; 	
-		align-items: center;
 	}
 
 	.icon {
@@ -683,6 +701,55 @@ const description = "Frontend engineer crafting immersive digital experiences th
 		50% {
 			transform: translateY(-5px);
 		}
+	}
+
+	/* For mobile screens, make it stack */
+	@media (max-width: 768px) {
+		.link-container {
+			grid-template-columns: 15% 85%;
+			grid-template-rows: auto auto;
+		}
+		
+		.link-container .icon {
+			grid-row: 1;
+			grid-column: 1;
+		}
+		
+		.link-container a.link {
+			grid-row: 1;
+			grid-column: 2;
+		}
+		
+		.link-container .description {
+			grid-row: 2;
+			grid-column: 1 / span 2;
+			padding-left: 15%; /* Align with the content */
+		}
+	}
+
+	/* Add these styles to prevent link text from overflowing */
+	.link-container a.link {
+		display: inline-block;
+		white-space: normal; /* Allow text to wrap */
+		word-break: break-word; /* Break words if needed */
+		overflow-wrap: break-word; /* Handle long words */
+		max-width: 100%; /* Ensure it stays within its grid cell */
+	}
+
+	/* Special styling for the movie entry */
+	.movie-text {
+		display: flex;
+		align-items: center;
+		flex-wrap: wrap;
+		gap: 0.5rem;
+		margin-bottom: 0.75rem;
+		font-family: 'Space Grotesk', sans-serif;
+		font-size: clamp(0.8rem, 1.25vw, 1.4rem);
+		color: rgba(255, 255, 255, 0.8);
+	}
+	
+	.icon-movie {
+		font-size: 1.4rem;
 	}
 </style>
 
