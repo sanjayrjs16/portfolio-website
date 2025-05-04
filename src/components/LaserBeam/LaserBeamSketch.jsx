@@ -248,29 +248,49 @@ const LaserBeamSketch = () => {
       };
       
       p.draw = () => {
-        // Always draw a complete frame
-        drawFrame();
+        p.background(0);
         
-        // If not initialized, continue with progressive building
-        if (!isInitComplete) {
-          buildProgressiveStage();
+        if (isInitComplete) {
+          // Draw static elements from buffer (includes galaxies) FIRST
+          p.image(staticSceneBuffer, 0, 0);
+          
+          // Then draw the laser beam OVER the static elements
+          p.image(laserBeamBuffer, 0, 0);
+          
+          // Draw dynamic elements last
+          drawDynamicElements();
+          return;
         }
+        
+        // During initialization, draw galaxies directly
+        drawCurrentState();
+        
+        // Draw laser beam on top
+        p.image(laserBeamBuffer, 0, 0);
+        
+        // Continue with progressive building
+        buildProgressiveStage();
       };
 
       // Create a comprehensive drawFrame function that always draws a complete frame
       const drawFrame = () => {
         p.background(0);
         
-        // Always draw the laser beam
-        p.image(laserBeamBuffer, 0, 0);
-        
         if (isInitComplete) {
-          // If initialization is complete, draw from static buffer
+          // Draw static elements from buffer first
           p.image(staticSceneBuffer, 0, 0);
+          
+          // Then laser beam
+          p.image(laserBeamBuffer, 0, 0);
+          
+          // Then dynamic elements
           drawDynamicElements();
         } else {
-          // Otherwise, draw current state of stars/galaxies/constellations
+          // Draw current state first (galaxies, stars)
           drawCurrentState();
+          
+          // Then laser beam on top
+          p.image(laserBeamBuffer, 0, 0);
         }
       };
 
@@ -303,9 +323,9 @@ const LaserBeamSketch = () => {
 
       // Modify buildProgressiveStage to only handle the initialization work, not drawing
       const buildProgressiveStage = () => {
-        // Throttle only the heavy initialization work
+        // Throttle only the heavy initialization work, not the drawing
         if (shouldReduceEffects && skipFrame++ < 1) {
-          return; // We already drew the current state in drawFrame
+          return;
         }
         skipFrame = 0;
         
