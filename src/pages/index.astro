@@ -48,44 +48,47 @@ const description = "Frontend engineer crafting immersive digital experiences th
 					<div class="bio-container">
 						<p class="fun-text">Hey, I build stuff on the web for a living :)</p>
 						<p class="fun-text">Currently, my work focuses on building scalable web apps with an immersive user experience & creative interactions. <span class="highlight-text "> 🔄 Refresh to see the sky change</span></p>
-						<div class="bg-purple">
-						<p class="fun-text">👨🏻‍💻 Notable works:</p>
-						<div class="movie-text link-container">
-							<span class="icon">🎬</span>
-							<span class="description"> Aadujeevitham: The Goat Life (2024) -  the official movie
-							<a href="https://thegoatlifefilm.com/" target="_blank" rel="noopener noreferrer" class="link">
-								Website✨
-							</a>
-							<span >🐐</span>
-						</span>
-							
-							
-						</div>
-						<div class="youtube-text link-container">
-							<span class="icon" style="transform: translate(0, 0.2rem)">
-								<a href="https://www.youtube.com/@letthedevscook" target="_blank" rel="noopener noreferrer" class="link">
-									<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-										<path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" fill="currentColor"/>
-									</svg>
-								</a>
-							</span>
-							<a href="https://www.youtube.com/@letthedevscook" target="_blank" rel="noopener noreferrer" class="link">
-								Let the devs cook
-							</a>
-							<!-- <span class="icon">👈</span> -->
-							<span class="description"> - YouTube channel</span>
-						</div>
-					</div>
+						
 
 						
 
 						<div class="quote-accordion">
-							<span class="quote-label-text hide-desktop">Tap here 👉</span>
+							<label for="quote-toggle" class="tap-label">
+								<span class="quote-label-text hide-desktop">Tap here 👉</span>
+							</label>
 							<input type="checkbox" id="quote-toggle" class="accordion-checkbox">
 							<label for="quote-toggle" class="accordion-trigger">
 								<span class="arrow">▼</span>
 							</label>
 							<div class="quote-content">
+								<div class="bg-purple">
+									<p class="fun-text">👨🏻‍💻 Notable works:</p>
+									<div class="movie-text link-container">
+										<span class="icon">🎬</span>
+										<span class="description"> Aadujeevitham: The Goat Life (2024) -  the official movie
+										<a href="https://thegoatlifefilm.com/" target="_blank" rel="noopener noreferrer" class="link">
+											Website✨
+										</a>
+										<span >🐐</span>
+									</span>
+										
+										
+									</div>
+									<div class="youtube-text link-container">
+										<span class="icon" style="transform: translate(0, 0.2rem)">
+											<a href="https://www.youtube.com/@letthedevscook" target="_blank" rel="noopener noreferrer" class="link">
+												<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+													<path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" fill="currentColor"/>
+												</svg>
+											</a>
+										</span>
+										<a href="https://www.youtube.com/@letthedevscook" target="_blank" rel="noopener noreferrer" class="link">
+											Let the devs cook
+										</a>
+										<!-- <span class="icon">👈</span> -->
+										<span class="description"> - YouTube channel</span>
+									</div>
+								</div>
 								<p class="quote-text">"The Art challenges the technology,</p>
 								<p class="highlight-text bg-purple">& technology inspires art"</p>
 								<p class="attribution-text">- John Lasseter</p>
@@ -187,6 +190,8 @@ const description = "Frontend engineer crafting immersive digital experiences th
 		flex-direction: column;
 		gap: 0.5rem;
 		/* background: linear-gradient(45deg, #070707c5 30%, #0a0013); */
+		opacity: 0;
+		animation: fadeIn 1s ease-out 2s forwards;
 	}
 
 	.title-line {
@@ -335,7 +340,8 @@ const description = "Frontend engineer crafting immersive digital experiences th
 		}
 
 		.hero-content-right {
-			right: 2rem;
+			left: 50%;
+        transform: translateX(-50%);
 			bottom: 18.5%;
 			max-width: 95vw;
 		}
@@ -343,13 +349,15 @@ const description = "Frontend engineer crafting immersive digital experiences th
 
 	:global(.social-icons) {
 		position: absolute;
-		left: 45%;
-		transform: translateX(-50%);
+		left: 2%;
+		transform: translateX(-2%);
 		display: flex;
 		gap: 0.25rem;
 		z-index: 10;
 		/* margin-top: 0.1rem; Add space below the name */
-		width: 75%;
+		width: 85%;
+		opacity: 0;
+		animation: fadeIn 1s ease-out 2.5s forwards;
 	}
 
 	:global(.social-icon) {
@@ -363,8 +371,9 @@ const description = "Frontend engineer crafting immersive digital experiences th
 		justify-content: center;
 		color: white;
 		transition: all 0.3s ease;
-		animation: iconFloat 4s ease-in-out infinite;
-		animation-delay: var(--delay, 0s);
+		opacity: 0;
+		animation: socialFadeIn 0.5s ease-out forwards, iconFloat 4s ease-in-out infinite;
+		animation-delay: calc(var(--delay, 0s) + 2.5s), calc(var(--delay, 0s) + 3s);
 	}
 
 	:global(.social-icon:hover) {
@@ -435,6 +444,8 @@ const description = "Frontend engineer crafting immersive digital experiences th
 		padding: 1rem;
 		border-radius: 8px;
 		border: 1px solid rgba(255, 255, 255, 0.1);
+		opacity: 0;
+		animation: fadeIn 1s ease-out 2s forwards;
 	}
 
 	.quote-text {
@@ -527,8 +538,8 @@ const description = "Frontend engineer crafting immersive digital experiences th
 		}
 
 		.quote-content {
-			margin-top: 1rem;
-			max-height: 200px;
+			/* margin-top: 1rem; */
+			max-height: 500px;
 			opacity: 1;
 			transition: all 0.3s ease;
 		}
@@ -609,6 +620,68 @@ const description = "Frontend engineer crafting immersive digital experiences th
 	.description {
 		color: rgba(255, 255, 255, 0.8);
 		/* white-space: nowrap; */
+	}
+
+	/* Make tap-label clickable and style it properly */
+	.tap-label {
+		cursor: pointer;
+		display: inline-block;
+	}
+
+	/* Add fade-in animations for various elements */
+	.hero-title {
+		opacity: 0;
+		animation: fadeIn 1s ease-out 2s forwards;
+	}
+
+	.social-icons {
+		opacity: 0;
+		animation: fadeIn 1s ease-out 2.5s forwards;
+	}
+
+	.bio-container {
+		opacity: 0;
+		animation: fadeIn 1s ease-out 2s forwards;
+	}
+
+	/* Define the fade-in animation */
+	@keyframes fadeIn {
+		from { 
+			opacity: 0;
+			transform: translateY(10px); 
+		}
+		to { 
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+
+	/* Override the existing social icon animation to include the fade-in */
+	:global(.social-icon) {
+		opacity: 0;
+		animation: socialFadeIn 0.5s ease-out forwards, iconFloat 4s ease-in-out infinite;
+		animation-delay: calc(var(--delay, 0s) + 2.5s), calc(var(--delay, 0s) + 3s);
+	}
+
+	@keyframes socialFadeIn {
+		from {
+			opacity: 0;
+			transform: translateX(-10px);
+		}
+		to {
+			opacity: 1;
+			transform: translateX(0);
+		}
+	}
+
+	/* Existing iconFloat animation will now start after the fade-in */
+	@keyframes iconFloat {
+		0%, 100% {
+			transform: translateY(0);
+		}
+		50% {
+			transform: translateY(-5px);
+		}
 	}
 </style>
 
