@@ -69,9 +69,9 @@ export class Star {
     );
   }
 
-  display() {
+  display(ctx = this.p) {
     if (!this.isVisible()) return;
-    const p = this.p;
+    const p = ctx;  // Use the provided context or fall back to this.p
     p.push();
     p.noStroke();
     
@@ -113,5 +113,13 @@ export class Star {
     );
     
     p.pop();
+  }
+
+  // New method to draw to a specific buffer
+  drawToBuffer(ctx) {
+    const oldP = this.p;
+    this.p = ctx;
+    this.display();
+    this.p = oldP;
   }
 } 

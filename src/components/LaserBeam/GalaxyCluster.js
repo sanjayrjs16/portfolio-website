@@ -46,9 +46,9 @@ export class GalaxyCluster {
     );
   }
 
-  display() {
+  display(ctx = this.p) {
     if (!this.isVisible()) return;
-    const p = this.p;
+    const p = ctx;
     
     this.particles.forEach(particle => {
       p.push();
@@ -58,5 +58,12 @@ export class GalaxyCluster {
       p.circle(0, 0, particle.size);
       p.pop();
     });
+  }
+  
+  drawToBuffer(ctx) {
+    const oldP = this.p;
+    this.p = ctx;
+    this.display();
+    this.p = oldP;
   }
 } 

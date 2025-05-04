@@ -40,9 +40,9 @@ export class Constellation {
     ));
   }
 
-  display() {
+  display(ctx = this.p) {
     if (!this.isVisible()) return;
-    const p = this.p;
+    const p = ctx;
     
     p.push();
     this.edges.forEach(edge => {
@@ -80,5 +80,13 @@ export class Constellation {
       p.circle(star.x, star.y, star.size);
       p.pop();
     });
+  }
+
+  // New method to draw to a specific buffer
+  drawToBuffer(ctx) {
+    const oldP = this.p;
+    this.p = ctx;
+    this.display();
+    this.p = oldP;
   }
 } 

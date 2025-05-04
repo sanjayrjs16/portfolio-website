@@ -4,6 +4,7 @@ import { Star } from './Star';
 import { GalaxyCluster } from './GalaxyCluster';
 import { Constellation } from './Constellation';
 import { ShootingStar } from './ShootingStar';
+import { LaserBeam } from './LaserBeam';
 
 const LaserBeamSketch = () => {
   const sketchRef = useRef();
@@ -99,80 +100,51 @@ const LaserBeamSketch = () => {
         }
       };
 
-      // With a single unified buffer
+      // With unified buffers
       let staticSceneBuffer;
+      let laserBeamBuffer; // New buffer just for the laser beam
       let isInitComplete = false;
-
+      let laserBeam; // Instance of our LaserBeam class
+      
       const setupBuffers = () => {
-        // Create just one static buffer, potentially at reduced resolution for low-end devices
-        const bufferScale = shouldReduceEffects ? 0.75 : 1;
-        staticSceneBuffer = p.createGraphics(p.width * bufferScale, p.height * bufferScale);
+        // Always use full-size buffers, no scaling
+        staticSceneBuffer = p.createGraphics(p.width, p.height);
         staticSceneBuffer.clear();
+        
+        laserBeamBuffer = p.createGraphics(p.width, p.height);
+        laserBeamBuffer.clear();
       };
 
       const updateStaticSceneBuffer = () => {
         staticSceneBuffer.clear();
-        drawStarsToBuffer();
-        drawGalaxiesToBuffer();
-        drawConstellationsToBuffer();
-      };
-
-      const drawStarsToBuffer = () => {
+        
+        // Draw all stars to buffer (twinkling and non-twinkling)
         stars.forEach(star => {
-          if (!star.shouldTwinkle && star.isVisible()) {
-            star.display(staticSceneBuffer);
+          if (star.isVisible()) {
+            star.drawToBuffer(staticSceneBuffer);
           }
         });
-      };
-
-      const drawGalaxiesToBuffer = () => {
+        
+        // Draw galaxies to buffer
         galaxies.forEach(galaxy => {
-          if (!galaxy.isVisible()) return;
-          
-          galaxy.particles.forEach(particle => {
-            staticSceneBuffer.push();
-            staticSceneBuffer.translate(galaxy.x + particle.x, galaxy.y + particle.y);
-            staticSceneBuffer.noStroke();
-            staticSceneBuffer.fill(
-              particle.color[0], 
-              particle.color[1], 
-              particle.color[2], 
-              150 // Fixed opacity for static look
-            );
-            staticSceneBuffer.circle(0, 0, particle.size * 0.8);
-            staticSceneBuffer.pop();
-          });
+          if (galaxy.isVisible()) {
+            if (galaxy.drawToBuffer) {
+              galaxy.drawToBuffer(staticSceneBuffer);
+            } else {
+              galaxy.display(staticSceneBuffer);
+            }
+          }
         });
-      };
-
-      const drawConstellationsToBuffer = () => {
+        
+        // Draw constellations to buffer
         constellations.forEach(constellation => {
-          if (!constellation.isVisible()) return;
-          
-          // Draw edges with fixed glow
-          constellation.edges.forEach(edge => {
-            const from = constellation.stars[edge.from];
-            const to = constellation.stars[edge.to];
-            
-            // Use static values instead of animation
-            staticSceneBuffer.strokeWeight(0.5);
-            staticSceneBuffer.stroke(200, 220, 255, 20);
-            staticSceneBuffer.line(from.x, from.y, to.x, to.y);
-            
-            // Static glow
-            staticSceneBuffer.strokeWeight(1.5);
-            staticSceneBuffer.stroke(200, 220, 255, 30);
-            staticSceneBuffer.line(from.x, from.y, to.x, to.y);
-          });
-          
-          // Draw constellation stars with fixed brightness
-          constellation.stars.forEach(star => {
-            staticSceneBuffer.push();
-            staticSceneBuffer.noStroke();
-            staticSceneBuffer.fill(255, star.brightness * 0.85);
-            staticSceneBuffer.circle(star.x, star.y, star.size);
-            staticSceneBuffer.pop();
-          });
+          if (constellation.isVisible()) {
+            if (constellation.drawToBuffer) {
+              constellation.drawToBuffer(staticSceneBuffer);
+            } else {
+              constellation.display(staticSceneBuffer);
+            }
+          }
         });
       };
 
@@ -182,6 +154,10 @@ const LaserBeamSketch = () => {
         p.angleMode(p.DEGREES);
         
         setupBuffers();
+        
+        // Initialize laser beam and draw it to buffer immediately
+        laserBeam = new LaserBeam(p);
+        laserBeam.drawToBuffer(laserBeamBuffer);
         
         // Initialize empty stars array
         stars = [];
@@ -278,12 +254,16 @@ const LaserBeamSketch = () => {
 
         p.background(0);
 
-        // Break draw into clear phases
+        // During initialization
         if (!isInitComplete) {
           buildProgressiveStage();
         } else {
-          drawStaticScene();
+          // Just draw the buffer at full size, no scaling needed
+          p.image(staticSceneBuffer, 0, 0);
         }
+        
+        // Always draw the laser beam buffer
+        p.image(laserBeamBuffer, 0, 0);
         
         drawDynamicElements();
       };
@@ -310,14 +290,20 @@ const LaserBeamSketch = () => {
             isInitComplete = true;
           }
         }
-
-        // During initialization, directly draw what we have so far
+ // During initialization, directly draw what we have so far
         stars.forEach(star => {
-          if (!star.shouldTwinkle && star.isVisible()) {
-            star.display(p);
+          if(star.isVisible()){
+            if (!star.shouldTwinkle) {
+              star.display(p);
+            }
+            else {
+              star.twinkle();
+              star.display(p);
+            }
           }
         });
-        
+       
+       
         galaxies.forEach(galaxy => {
           if (galaxy.isVisible()) {
             galaxy.display(p);
@@ -333,16 +319,6 @@ const LaserBeamSketch = () => {
         });
       };
 
-      const drawStaticScene = () => {
-        // Draw the entire static scene from buffer
-        // If we're using a scaled buffer, stretch to full size
-        if (staticSceneBuffer.width !== p.width || staticSceneBuffer.height !== p.height) {
-          p.image(staticSceneBuffer, 0, 0, p.width, p.height);
-        } else {
-          p.image(staticSceneBuffer, 0, 0);
-        }
-      };
-
       const drawDynamicElements = () => {
         // Draw far shooting stars
         farShootingStars.forEach(star => {
@@ -350,13 +326,7 @@ const LaserBeamSketch = () => {
           star.display(p);
         });
 
-        // Draw only twinkling stars
-        stars.forEach(star => {
-          if (star.shouldTwinkle && star.isVisible()) {
-            star.twinkle();
-            star.display(p);
-          }
-        });
+      
 
         // Draw close shooting stars
         shootingStars.forEach(star => {
@@ -364,46 +334,32 @@ const LaserBeamSketch = () => {
           star.display(p);
         });
 
-        // Laser beam properties (moved outside animation)
-        const laserStartX = 0;
-        const laserStartY = p.height / 2;
-        const laserEndX = p.width;
-        const laserEndY = p.height / 3;
-        const laserThickness = 55;
-
-        // Calculate beam positions (no animation)
-        const angle = p.atan2(laserEndY - laserStartY, laserEndX - laserStartX);
-        const beamLength = p.dist(laserStartX, laserStartY, laserEndX, laserEndY);
-        const avatarPosX = laserStartX + (beamLength / 2) * p.cos(angle);
-        const avatarPosY = laserStartY + (beamLength / 2) * p.sin(angle);
-
-        // Draw static laser beam
-        for (let i = 0; i < laserThickness; i++) {
-          const alpha = p.map(i, 0, laserThickness, 255, 0);
-          const color = p.lerpColor(
-            p.color(255, 255, 255, alpha),
-            p.color(255, 65, 240, alpha),
-            i / laserThickness
-          );
-          p.stroke(color);
-          p.strokeWeight(2);
+        // Calculate breathing effect for avatar
+        breathePhase += breatheSpeed;
+        const breatheScale = 1 + Math.sin(breathePhase) * breatheAmount;
+        
+        // Draw the avatar with breathing effect
+        const avatarSize = laserBeam.thickness * 10;
+        const avatarPos = laserBeam.getAvatarPosition();
+        
+        p.push();
+        p.imageMode(p.CENTER);
+        if (p.avatarImg) {
+          // Optional: add slight rotation based on breathing
+          const breatheRotation = Math.sin(breathePhase) * 2; // 2 degrees max rotation
           
-          // Remove pulse animation
-          p.line(
-            laserStartX, 
-            laserStartY + i, 
-            laserEndX, 
-            laserEndY + i
-          );
-          p.line(
-            laserStartX, 
-            laserStartY - i, 
-            laserEndX, 
-            laserEndY - i
-          );
+          p.push();
+          p.translate(avatarPos.x, avatarPos.y);
+          p.rotate(p.radians(breatheRotation));
+          p.scale(breatheScale);
+          
+          // Draw the avatar
+          p.image(p.avatarImg, 0, 0, avatarSize, avatarSize);
+          p.pop();
         }
+        p.pop();
 
-        // Modify rectangle creation to use pool
+        // Rectangle creation code using object pool
         if (p.frameCount % (isMobile ? 4 : 3) === 0 && rectangles.filter(r => r.active).length < (isMobile ? 7 : 30)) {
           const rect = rectPool.get();
           rect.width = p.random(50, 100);
@@ -413,18 +369,18 @@ const LaserBeamSketch = () => {
           
           const isAbove = p.random() > 0.5;
           rect.offset = isAbove ? p.random(60, 90) : p.random(-90, -60);
-          rect.x = laserStartX;
-          rect.y = laserStartY + rect.offset;
+          rect.x = laserBeam.startX;
+          rect.y = laserBeam.startY + rect.offset;
 
           rectangles.push(rect);
         }
 
-        // Update and draw rectangles with pooling
+        // Update and draw rectangles
         for (let i = rectangles.length - 1; i >= 0; i--) {
           const rect = rectangles[i];
           if (!rect.active) continue;
 
-          // Check visibility with buffer for rotation
+          // Check visibility
           const isVisible = (
             rect.x > -rect.width && 
             rect.x < p.width + rect.width && 
@@ -440,53 +396,18 @@ const LaserBeamSketch = () => {
 
           // Update rectangle position
           rect.x += rect.speed;
-          rect.y = laserStartY + rect.offset + ((rect.x / p.width) * (laserEndY - laserStartY));
+          rect.y = laserBeam.startY + rect.offset + ((rect.x / p.width) * (laserBeam.endY - laserBeam.startY));
 
           // Draw rectangle
           p.push();
           p.translate(rect.x, rect.y);
-          p.rotate(angle);
+          p.rotate(laserBeam.angle);
           p.fill(128, 0, 128, rect.opacity);
           p.noStroke();
           p.rectMode(p.CENTER);
           p.rect(0, 0, rect.width, rect.height);
           p.pop();
         }
-
-        // Calculate breathing effect
-        breathePhase += breatheSpeed;
-        const breatheScale = 1 + Math.sin(breathePhase) * breatheAmount;
-        
-        // Draw the avatar with breathing effect
-        const avatarSize = laserThickness * 10;
-        p.push();
-        p.imageMode(p.CENTER);
-        if (p.avatarImg) {
-          // Optional: add slight rotation based on breathing
-          const breatheRotation = Math.sin(breathePhase) * 2; // 2 degrees max rotation
-          
-          p.push();
-          p.translate(avatarPosX, avatarPosY);
-          p.rotate(p.radians(breatheRotation));
-          p.scale(breatheScale);
-          
-          // Clear a small area behind the avatar for better visibility
-          p.noStroke();
-          p.fill(0, 150);
-          // p.circle(0, 0, avatarSize * 1.1);
-          
-          // Draw the avatar
-          p.image(p.avatarImg, 0, 0, avatarSize, avatarSize);
-          p.pop();
-        }
-        p.pop();
-
-        // Adjust positions based on scroll
-        const baseY = p.height / 2;
-        const adjustedY = baseY + scrollOffset;
-
-        // Use adjustedY for positioning elements
-        // ... rest of drawing code ...
       };
 
       // Add preload function to load the avatar image
@@ -498,8 +419,12 @@ const LaserBeamSketch = () => {
       p.windowResized = () => {
         p.resizeCanvas(p.windowWidth, p.windowHeight);
         
-        // Always recreate the buffer at the new size
+        // Always recreate the buffers at the new size
         setupBuffers();
+        
+        // Update laser beam for new dimensions and redraw to buffer
+        laserBeam.resize(p.width, p.height);
+        laserBeam.drawToBuffer(laserBeamBuffer);
         
         // If initialization is complete, re-snapshot everything
         if (isInitComplete) {
