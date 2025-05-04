@@ -93,6 +93,9 @@ const LaserBeamSketch = () => {
       let avatarOpacity = 0;
       const avatarFadeSpeed = 5; // Speed of fade-in
 
+      // Add this constant near the top with your other constants
+      const RECT_OVER_THRESHOLD = 0.7; // 80% opacity threshold
+
       const setupBuffers = () => {
         // Always use full-size buffers, no scaling
         staticSceneBuffer = p.createGraphics(p.width, p.height);
@@ -350,47 +353,50 @@ const LaserBeamSketch = () => {
           avatarOpacity = Math.min(avatarOpacity + avatarFadeSpeed, 255);
         }
 
-        // Draw the avatar with breathing effect and mobile size adjustment
-        const avatarSizeMultiplier = isMobile ? 7 : 10; // Smaller on mobile
+        // 1. Update all fragments first
+        fragments.forEach(fragment => fragment.update());
+        
+        // 2. Draw fragments that should appear BEHIND the avatar
+        fragments
+          .filter(fragment => fragment.active && fragment.opacity/255 <= RECT_OVER_THRESHOLD)
+          .forEach(fragment => fragment.display(p));
+        
+        // 3. Draw the avatar with breathing effect
+        const avatarSizeMultiplier = isMobile ? 7 : 10; 
         const avatarSize = laserBeam.thickness * avatarSizeMultiplier;
         const avatarPos = laserBeam.getAvatarPosition();
         
         p.push();
         p.imageMode(p.CENTER);
         if (p.avatarImg) {
-          // Optional: add slight rotation based on breathing
-          const breatheRotation = Math.sin(breathePhase) * 2; // 2 degrees max rotation
-          
+          const breatheRotation = Math.sin(breathePhase) * 2;
           p.push();
           p.translate(avatarPos.x, avatarPos.y);
           p.rotate(p.radians(breatheRotation));
           p.scale(breatheScale);
-          
-          // Draw the avatar with fade-in effect
           p.tint(255, avatarOpacity);
           p.image(p.avatarImg, 0, 0, avatarSize, avatarSize);
           p.noTint();
           p.pop();
         }
         p.pop();
-
-        // Fragment creation code using object pool
+        
+        // 4. Draw fragments that should appear IN FRONT of the avatar
+        fragments
+          .filter(fragment => fragment.active && fragment.opacity/255 > RECT_OVER_THRESHOLD)
+          .forEach(fragment => fragment.display(p));
+        
+        // 5. Recycle inactive fragments
+        for (let i = fragments.length - 1; i >= 0; i--) {
+          if (!fragments[i].active) {
+            fragmentPool.recycle(fragments.splice(i, 1)[0]);
+          }
+        }
+        
+        // 6. Create new fragments if needed
         if (isInitComplete && p.frameCount % (isMobile ? 4 : 3) === 0 && 
             fragments.filter(f => f.active).length < (isMobile ? 7 : 30)) {
           fragments.push(fragmentPool.get());
-        }
-
-        // Update and draw fragments
-        for (let i = fragments.length - 1; i >= 0; i--) {
-          const fragment = fragments[i];
-          fragment.update();
-          
-          if (!fragment.active) {
-            fragments.splice(i, 1);
-            fragmentPool.recycle(fragment);
-          } else {
-            fragment.display(p);
-          }
         }
       };
 
