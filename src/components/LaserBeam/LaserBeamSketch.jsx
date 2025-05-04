@@ -1,7 +1,9 @@
 import React, { useEffect, useRef } from 'react';
 import p5 from 'p5';
-import PortalBlob from '../PortalBlob';
-import SocialIcons from '../SocialIcons/SocialIcons';
+import { Star } from './Star';
+import { GalaxyCluster } from './GalaxyCluster';
+import { Constellation } from './Constellation';
+import { ShootingStar } from './ShootingStar';
 
 const LaserBeamSketch = () => {
   const sketchRef = useRef();
@@ -57,397 +59,6 @@ const LaserBeamSketch = () => {
         }
       };
 
-      // Enhanced Star class
-      class Star {
-        constructor(type = 'normal') {
-          this.x = p.random(p.width);
-          this.y = p.random(p.height);
-          this.type = type;
-          
-          // Different properties based on star type
-          switch(type) {
-            case 'large':
-              this.size = p.random(2, 2.2);
-              this.twinkleSpeed = p.random(0.03, 0.06);
-              this.color = this.getRandomStarColor(true);
-              this.glowSize = this.size * 5; // Increased glow size
-              this.layers = 4; // More layers for larger stars
-              break;
-            case 'medium':
-              this.size = p.random(1, 2);
-              this.twinkleSpeed = p.random(0.02, 0.04);
-              this.color = this.getRandomStarColor(false);
-              this.glowSize = this.size * 3;
-              this.layers = 3;
-              break;
-            default: // small stars
-              this.size = p.random(0.2, 0.8);
-              this.twinkleSpeed = p.random(0.01, 0.03);
-              this.color = p.color(255);
-              this.glowSize = this.size * 2;
-              this.layers = 2;
-          }
-          
-          this.brightness = p.random(150, 255);
-          this.angle = p.random(p.TWO_PI);
-          this.baseAlpha = p.random(150, 255);
-          this.shouldTwinkle = p.random() < 0.6; // 60% of stars will twinkle
-        }
-
-        getRandomStarColor(bright = false) {
-          const colors = bright ? [
-            [255, 200, 150],  // Warm white
-            [200, 220, 255],  // Blue white
-            [255, 180, 180],  // Reddish
-            [180, 255, 180],  // Greenish
-            [255, 255, 200]   // Yellow white
-          ] : [
-            [255, 255, 255],  // Pure white
-            [200, 200, 255],  // Slight blue
-            [255, 200, 200]   // Slight red
-          ];
-          
-          const color = p.random(colors);
-          return p.color(color[0], color[1], color[2]);
-        }
-
-        twinkle() {
-          if (this.shouldTwinkle) {
-            this.angle += this.twinkleSpeed;
-            this.brightness = p.map(p.sin(this.angle), -1, 1, 150, 255);
-          }
-        }
-
-        isVisible() {
-          const buffer = this.glowSize * 2; // Account for glow radius
-          return (
-            this.x > -buffer && 
-            this.x < p.width + buffer && 
-            this.y > -buffer && 
-            this.y < p.height + buffer
-          );
-        }
-
-        display() {
-          if (!this.isVisible()) return;
-          p.push();
-          p.noStroke();
-          
-          // Draw multiple layers of glow with decreasing opacity
-          for (let i = this.layers; i > 0; i--) {
-            const layerSize = this.glowSize * (i / this.layers);
-            const layerAlpha = (this.brightness / this.layers) * (i / this.layers);
-            
-            // Outer colored glow
-            const outerGlow = p.color(
-              p.red(this.color),
-              p.green(this.color),
-              p.blue(this.color),
-              layerAlpha * 0.3
-            );
-            p.fill(outerGlow);
-            p.circle(this.x, this.y, layerSize);
-          }
-          
-          // Draw white core with color blend
-          const coreSize = this.size * 0.8;
-          
-          // Colored halo around core
-          const haloColor = p.color(
-            p.red(this.color),
-            p.green(this.color),
-            p.blue(this.color),
-            this.brightness * 0.5
-          );
-          p.fill(haloColor);
-          p.circle(this.x, this.y, this.size * 1.2);
-          
-          // White core
-          const coreColor = p.color(255, 255, 255, this.brightness);
-          p.fill(coreColor);
-          p.circle(this.x, this.y, coreSize);
-          
-          // Add a subtle bloom effect
-          p.drawingContext.shadowBlur = this.size * 2;
-          p.drawingContext.shadowColor = p.color(
-            p.red(this.color),
-            p.green(this.color),
-            p.blue(this.color),
-            this.brightness * 0.5
-          );
-          
-          p.pop();
-        }
-      }
-
-      // Enhanced Galaxy cluster class
-      class GalaxyCluster {
-        constructor() {
-          this.x = p.random(p.width);
-          this.y = p.random(p.height);
-          this.particles = [];
-          
-          // Simplified galaxy types
-          const galaxyTypes = [
-            { 
-              // Spiral galaxy
-              primary: [255, 250, 255],
-              secondary: [155, 150, 150],
-              size: p.random(80, 120),
-              type: 'spiral'
-            },
-            { 
-              // Edge-on galaxy
-              primary: [255, 255, 255],
-              secondary: [240, 250, 105],
-              size: p.random(60, 100),
-              type: 'edge'
-            }
-          ];
-          
-          const type = p.random(galaxyTypes);
-          this.primaryColor = p.color(...type.primary);
-          this.secondaryColor = p.color(...type.secondary);
-          this.size = type.size;
-          this.type = type.type;
-          
-          const particleCount = shouldReduceEffects ? 40 : 80;
-          
-          // Create particles based on galaxy type
-          for (let i = 0; i < particleCount; i++) {
-            if (this.type === 'spiral') {
-              const angle = (i / particleCount) * p.TWO_PI * 2;
-              const spiralRadius = (i / particleCount) * (this.size / 2);
-              this.particles.push({
-                x: p.cos(angle) * spiralRadius,
-                y: p.sin(angle) * spiralRadius,
-                alpha: p.map(i, 0, particleCount, 100, 30),
-                size: p.random(0.5, 2),
-                color: i < particleCount/2 ? this.primaryColor : this.secondaryColor
-              });
-            } else {
-              // Edge-on galaxy
-              const x = p.random(-this.size/2, this.size/2);
-              const y = p.random(-this.size/8, this.size/8); // Flattened on y-axis
-              this.particles.push({
-                x: x,
-                y: y,
-                alpha: p.map(Math.abs(y), 0, this.size/8, 100, 30),
-                size: p.random(0.5, 2),
-                color: Math.abs(x) < this.size/4 ? this.primaryColor : this.secondaryColor
-              });
-            }
-          }
-        }
-
-        isVisible() {
-          const buffer = this.size;
-          return (
-            this.x > -buffer && 
-            this.x < p.width + buffer && 
-            this.y > -buffer && 
-            this.y < p.height + buffer
-          );
-        }
-
-        display() {
-          if (!this.isVisible()) return;
-          p.push();
-          p.translate(this.x, this.y);
-          this.particles.forEach(particle => {
-            p.fill(particle.color, particle.alpha);
-            p.noStroke();
-            p.circle(particle.x, particle.y, particle.size);
-          });
-          p.pop();
-        }
-      }
-
-      // New ShootingStar class
-      class ShootingStar {
-        constructor(isFar = false) {
-          this.reset(isFar);
-          this.isFar = isFar;
-        }
-
-        reset(isFar) {
-          // Start from a random edge of the screen
-          const edge = Math.floor(p.random(4));
-          this.angle = p.random(p.TWO_PI);
-          this.speed = isFar ? p.random(0.5, 1) : p.random(15, 25);
-          this.length = isFar ? p.random(20, 40) : p.random(100, 500);
-          this.alpha = isFar ? p.random(100, 150) : p.random(150, 200);
-          
-          switch(edge) {
-            case 0: // top
-              this.x = p.random(p.width);
-              this.y = -this.length;
-              break;
-            case 1: // right
-              this.x = p.width + this.length;
-              this.y = p.random(p.height);
-              break;
-            case 2: // bottom
-              this.x = p.random(p.width);
-              this.y = p.height + this.length;
-              break;
-            case 3: // left
-              this.x = -this.length;
-              this.y = p.random(p.height);
-              break;
-          }
-          
-          this.dx = p.cos(this.angle) * this.speed;
-          this.dy = p.sin(this.angle) * this.speed;
-        }
-
-        update() {
-          this.x += this.dx;
-          this.y += this.dy;
-          
-          // Check if off screen
-          if (this.x < -this.length || this.x > p.width + this.length ||
-            this.y < -this.length || this.y > p.height + this.length) {
-            this.reset(this.isFar);
-          }
-        }
-
-        display() {
-          p.push();
-          p.translate(this.x, this.y);
-          p.rotate(this.angle);
-          
-          // Draw tail gradient
-          for (let i = 0; i < this.length; i++) {
-            const alpha = p.map(i, 0, this.length, this.alpha, 0);
-            p.stroke(255, alpha);
-            p.line(0, 0, -1, 0);
-            p.translate(-1, 0);
-          }
-          p.pop();
-        }
-      }
-
-      // Modify the Constellation class
-      class Constellation {
-        constructor(p, x, y, pattern, type = 'normal') {
-          this.p = p;
-          this.stars = [];
-          this.edges = [];
-          this.centerX = x;
-          this.centerY = y;
-          this.scale = p.random(180, 280); // Increased scale
-          
-          // Create stars with enhanced properties
-          pattern.pattern.forEach(pos => {
-            const starX = this.centerX + (pos[0] - 0.5) * this.scale;
-            const starY = this.centerY + (pos[1] - 0.5) * this.scale;
-            
-            this.stars.push({
-              x: starX,
-              y: starY,
-              size: p.random(3.5, 4.5), // Increased star size
-              brightness: p.random(200, 255),
-              twinkleSpeed: p.random(0.02, 0.04),
-              twinklePhase: p.random(p.TWO_PI),
-              shimmerSpeed: p.random(0.01, 0.03),
-              shimmerPhase: p.random(p.TWO_PI)
-            });
-          });
-          
-          // Enhanced edges with animation properties
-          pattern.connections.forEach(conn => {
-            this.edges.push({
-              from: conn[0],
-              to: conn[1],
-              flowPhase: p.random(p.TWO_PI),
-              flowSpeed: p.random(0.005, 0.015), // Slow animation
-              glowIntensity: 0
-            });
-          });
-        }
-
-        isVisible() {
-          // Check if any star in constellation is visible
-          return this.stars.some(star => (
-            star.x > -50 && 
-            star.x < p.width + 50 && 
-            star.y > -50 && 
-            star.y < p.height + 50
-          ));
-        }
-
-        display() {
-          if (!this.isVisible()) return;
-          const p = this.p;
-          
-          // Draw edges with flowing light effect
-          p.push();
-          this.edges.forEach(edge => {
-            const from = this.stars[edge.from];
-            const to = this.stars[edge.to];
-            
-            // Update flow animation
-            edge.flowPhase += edge.flowSpeed;
-            edge.glowIntensity = (p.sin(edge.flowPhase) + 1) / 2; // 0 to 1
-
-            // Base line
-            p.strokeWeight(0.5);
-            p.stroke(200, 220, 255, 20);
-            p.line(from.x, from.y, to.x, to.y);
-
-            // Animated glow effect
-            const gradient = p.drawingContext.createLinearGradient(
-              from.x, from.y, to.x, to.y
-            );
-            
-            // Create flowing light effect
-            const flowPos = (p.sin(edge.flowPhase) + 1) / 2;
-            gradient.addColorStop(0, p.color(200, 220, 255, 10));
-            gradient.addColorStop(Math.max(0, flowPos - 0.2), p.color(200, 220, 255, 10));
-            gradient.addColorStop(flowPos, p.color(200, 220, 255, 60 * edge.glowIntensity));
-            gradient.addColorStop(Math.min(1, flowPos + 0.2), p.color(200, 220, 255, 10));
-            gradient.addColorStop(1, p.color(200, 220, 255, 10));
-            
-            p.drawingContext.strokeStyle = gradient;
-            p.strokeWeight(1.5);
-            p.line(from.x, from.y, to.x, to.y);
-          });
-          p.pop();
-          
-          // Draw enhanced stars with multiple layers and shimmer
-          this.stars.forEach(star => {
-            star.twinklePhase += star.twinkleSpeed;
-            star.shimmerPhase += star.shimmerSpeed;
-            
-            const twinkle = p.map(p.sin(star.twinklePhase), -1, 1, 0.7, 1);
-            const shimmer = p.map(p.sin(star.shimmerPhase), -1, 1, 0.8, 1.2);
-            
-            p.push();
-            p.noStroke();
-            
-            // Outer glow layers
-            for(let i = 6; i > 0; i--) {
-              const glowSize = star.size * i * shimmer;
-              const glowAlpha = p.map(i, 6, 1, 
-                star.brightness * 0.05, star.brightness * 0.3);
-              p.fill(180, 220, 255, glowAlpha * twinkle);
-              p.circle(star.x, star.y, glowSize);
-            }
-            
-            // Bright core with shimmer
-            const coreSize = star.size * shimmer;
-            p.fill(220, 235, 255, star.brightness * twinkle);
-            p.circle(star.x, star.y, coreSize);
-            
-            // Center highlight
-            p.fill(255, star.brightness * twinkle);
-            p.circle(star.x, star.y, coreSize * 0.5);
-            p.pop();
-          });
-        }
-      }
-
       // Add at top with other variables
       let shootingStars = [];
       let farShootingStars = [];
@@ -488,23 +99,53 @@ const LaserBeamSketch = () => {
         }
       };
 
-      // Add with other variables at the top
-      let staticStarBuffer;
-      let constellationBuffer;
+      // With a single unified buffer
+      let staticSceneBuffer;
+      let isInitComplete = false;
 
       const setupBuffers = () => {
-        // Create and setup static buffers
-        staticStarBuffer = p.createGraphics(p.width, p.height);
-        constellationBuffer = p.createGraphics(p.width, p.height);
-        
-        // Clear buffers
-        staticStarBuffer.clear();
-        constellationBuffer.clear();
+        // Create just one static buffer, potentially at reduced resolution for low-end devices
+        const bufferScale = shouldReduceEffects ? 0.75 : 1;
+        staticSceneBuffer = p.createGraphics(p.width * bufferScale, p.height * bufferScale);
+        staticSceneBuffer.clear();
+      };
+
+      const updateStaticSceneBuffer = () => {
+        staticSceneBuffer.clear();
+        drawStarsToBuffer();
+        drawGalaxiesToBuffer();
+        drawConstellationsToBuffer();
+      };
+
+      const drawStarsToBuffer = () => {
+        stars.forEach(star => {
+          if (!star.shouldTwinkle && star.isVisible()) {
+            star.display(staticSceneBuffer);
+          }
+        });
+      };
+
+      const drawGalaxiesToBuffer = () => {
+        galaxies.forEach(galaxy => {
+          if (!galaxy.isVisible()) return;
+          
+          galaxy.particles.forEach(particle => {
+            staticSceneBuffer.push();
+            staticSceneBuffer.translate(galaxy.x + particle.x, galaxy.y + particle.y);
+            staticSceneBuffer.noStroke();
+            staticSceneBuffer.fill(
+              particle.color[0], 
+              particle.color[1], 
+              particle.color[2], 
+              150 // Fixed opacity for static look
+            );
+            staticSceneBuffer.circle(0, 0, particle.size * 0.8);
+            staticSceneBuffer.pop();
+          });
+        });
       };
 
       const drawConstellationsToBuffer = () => {
-        constellationBuffer.clear();
-        
         constellations.forEach(constellation => {
           if (!constellation.isVisible()) return;
           
@@ -514,23 +155,23 @@ const LaserBeamSketch = () => {
             const to = constellation.stars[edge.to];
             
             // Use static values instead of animation
-            constellationBuffer.strokeWeight(0.5);
-            constellationBuffer.stroke(200, 220, 255, 20);
-            constellationBuffer.line(from.x, from.y, to.x, to.y);
+            staticSceneBuffer.strokeWeight(0.5);
+            staticSceneBuffer.stroke(200, 220, 255, 20);
+            staticSceneBuffer.line(from.x, from.y, to.x, to.y);
             
             // Static glow
-            constellationBuffer.strokeWeight(1.5);
-            constellationBuffer.stroke(200, 220, 255, 30);
-            constellationBuffer.line(from.x, from.y, to.x, to.y);
+            staticSceneBuffer.strokeWeight(1.5);
+            staticSceneBuffer.stroke(200, 220, 255, 30);
+            staticSceneBuffer.line(from.x, from.y, to.x, to.y);
           });
           
-          // Draw stars with fixed brightness
+          // Draw constellation stars with fixed brightness
           constellation.stars.forEach(star => {
-            constellationBuffer.push();
-            constellationBuffer.noStroke();
-            constellationBuffer.fill(255, star.brightness * 0.85);
-            constellationBuffer.circle(star.x, star.y, star.size);
-            constellationBuffer.pop();
+            staticSceneBuffer.push();
+            staticSceneBuffer.noStroke();
+            staticSceneBuffer.fill(255, star.brightness * 0.85);
+            staticSceneBuffer.circle(star.x, star.y, star.size);
+            staticSceneBuffer.pop();
           });
         });
       };
@@ -547,15 +188,15 @@ const LaserBeamSketch = () => {
 
         // Create galaxy clusters
         for (let i = 0; i < (isMobile ? 4 : 6); i++) {
-          galaxies.push(new GalaxyCluster());
+          galaxies.push(new GalaxyCluster(p));
         }
 
         // Add shooting stars
         for (let i = 0; i < 3; i++) {
-          shootingStars.push(new ShootingStar(false));
+          shootingStars.push(new ShootingStar(p, false));
         }
         for (let i = 0; i < 5; i++) {
-          farShootingStars.push(new ShootingStar(true));
+          farShootingStars.push(new ShootingStar(p, true));
         }
 
         constellations = [];
@@ -621,24 +262,13 @@ const LaserBeamSketch = () => {
         }
 
         // After constellations are created
-        drawConstellationsToBuffer();
+        // updateStaticSceneBuffer();
       };
 
       // Add scroll listener
       window.addEventListener('scroll', () => {
         scrollOffset = window.pageYOffset * 0.1; // Adjust multiplier for effect strength
       });
-
-      // Add function to draw static stars to buffer
-      const updateStaticStarBuffer = () => {
-        staticStarBuffer.clear();
-        staticStarBuffer.background(0);
-        stars.forEach(star => {
-          if (!star.shouldTwinkle && star.isVisible()) {
-            star.display(staticStarBuffer);
-          }
-        });
-      };
 
       p.draw = () => {
         if (shouldReduceEffects) {
@@ -648,43 +278,76 @@ const LaserBeamSketch = () => {
 
         p.background(0);
 
+        // Break draw into clear phases
+        if (!isInitComplete) {
+          buildProgressiveStage();
+        } else {
+          drawStaticScene();
+        }
+        
+        drawDynamicElements();
+      };
+
+      // Clear phase functions for better readability
+      const buildProgressiveStage = () => {
         // Progressive star initialization
         if (starInitIndex < TOTAL_STARS) {
           const batchSize = Math.min(STAR_BATCH_SIZE, TOTAL_STARS - starInitIndex);
           for (let i = 0; i < batchSize; i++) {
             if (starInitIndex < TOTAL_STARS * 0.015) {
-              stars.push(new Star('large'));
+              stars.push(new Star(p, 'large'));
             } else if (starInitIndex < TOTAL_STARS * 0.075) {
-              stars.push(new Star('medium'));
+              stars.push(new Star(p, 'medium'));
             } else {
-              stars.push(new Star('normal'));
+              stars.push(new Star(p, 'normal'));
             }
             starInitIndex++;
           }
 
-          // Update buffer when all stars are initialized
-          if (starInitIndex >= TOTAL_STARS) {
-            updateStaticStarBuffer();
+          // Create the buffer ONCE when all stars are initialized
+          if (starInitIndex >= TOTAL_STARS && !isInitComplete) {
+            updateStaticSceneBuffer();
+            isInitComplete = true;
           }
         }
 
-        // Draw static stars from buffer
-        p.image(staticStarBuffer, 0, 0);
+        // During initialization, directly draw what we have so far
+        stars.forEach(star => {
+          if (!star.shouldTwinkle && star.isVisible()) {
+            star.display(p);
+          }
+        });
         
-        // Draw static constellations from buffer
-        p.image(constellationBuffer, 0, 0);
+        galaxies.forEach(galaxy => {
+          if (galaxy.isVisible()) {
+            galaxy.display(p);
+          }
+        });
+        
+        constellations.forEach(constellation => {
+          if (constellation.isVisible()) {
+            // Consider using a dedicated drawStatic(ctx) method that matches
+            // the buffer appearance exactly
+            constellation.display(p);
+          }
+        });
+      };
 
+      const drawStaticScene = () => {
+        // Draw the entire static scene from buffer
+        // If we're using a scaled buffer, stretch to full size
+        if (staticSceneBuffer.width !== p.width || staticSceneBuffer.height !== p.height) {
+          p.image(staticSceneBuffer, 0, 0, p.width, p.height);
+        } else {
+          p.image(staticSceneBuffer, 0, 0);
+        }
+      };
+
+      const drawDynamicElements = () => {
         // Draw far shooting stars
         farShootingStars.forEach(star => {
           star.update();
-          star.display();
-        });
-
-        // Draw galaxies
-        galaxies.forEach(galaxy => {
-          if (galaxy.isVisible()) {
-            galaxy.display();
-          }
+          star.display(p);
         });
 
         // Draw only twinkling stars
@@ -698,14 +361,7 @@ const LaserBeamSketch = () => {
         // Draw close shooting stars
         shootingStars.forEach(star => {
           star.update();
-          star.display();
-        });
-
-        // Draw only visible constellations
-        constellations.forEach(constellation => {
-          if (constellation.isVisible()) {
-            constellation.display();
-          }
+          star.display(p);
         });
 
         // Laser beam properties (moved outside animation)
@@ -842,10 +498,13 @@ const LaserBeamSketch = () => {
       p.windowResized = () => {
         p.resizeCanvas(p.windowWidth, p.windowHeight);
         
-        // Recreate buffers at new size
+        // Always recreate the buffer at the new size
         setupBuffers();
-        updateStaticStarBuffer();
-        drawConstellationsToBuffer();
+        
+        // If initialization is complete, re-snapshot everything
+        if (isInitComplete) {
+          updateStaticSceneBuffer();
+        }
       };
 
       // Update isAreaEmpty to be more precise about constellation spacing
