@@ -5,23 +5,29 @@ import { GalaxyCluster } from './GalaxyCluster';
 import { Constellation } from './Constellation';
 import { ShootingStar } from './ShootingStar';
 import { LaserBeam } from './LaserBeam';
+import { RectFragment } from './RectFragment';
 
-const scrollHandler = () => { scrollOffset = window.pageYOffset * 0.1; };
+
 
 const LaserBeamSketch = () => {
   const sketchRef = useRef();
 
   useEffect(() => {
+    let scrollOffset = 0;
+    const scrollHandler = () => { scrollOffset = window.pageYOffset * 0.1; };
+    window.addEventListener('scroll', scrollHandler);
+
     const sketch = (p) => {
       // Add simple device check
       const isMobile = /Android|webOS|iPhone|iPad/i.test(navigator.userAgent);
       const shouldReduceEffects = isMobile || window.devicePixelRatio < 1.5;
       let skipFrame = 0;
       
-      let rectangles = []; // Array to store rectangle properties
-      let stars = []; // Array to store star properties
-      let galaxies = []; // Array to store small galaxy clusters
-      let scrollOffset = 0;
+      let fragments = [];
+      let inactiveFragments = [];
+      
+      let stars = [];
+      let galaxies = [];
       let constellations = [];
       let shootingStars = [];
       let farShootingStars = [];
@@ -74,31 +80,8 @@ const LaserBeamSketch = () => {
       const TOTAL_STARS = shouldReduceEffects ? 1200 : 2000;
       let isStarfieldReady = false;
 
-      // Add at top with other variables
-      const inactiveRects = [];
-      const rectPool = {
-        get: () => {
-          if (inactiveRects.length > 0) {
-            const rect = inactiveRects.pop();
-            rect.active = true;
-            return rect;
-          }
-          return {
-            x: 0,
-            y: 0,
-            offset: 0,
-            speed: 0,
-            width: 0,
-            height: 0,
-            opacity: 0,
-            active: true
-          };
-        },
-        recycle: (rect) => {
-          rect.active = false;
-          inactiveRects.push(rect);
-        }
-      };
+      // Add at top with other variables - new fragment pool
+      let fragmentPool;
 
       // With unified buffers
       let staticSceneBuffer;
@@ -106,8 +89,8 @@ const LaserBeamSketch = () => {
       let isInitComplete = false;
       let laserBeam; // Instance of our LaserBeam class
       
-      // Add this variable near the top with your other animation variables
-      let avatarOpacity = 0; // For fade-in effect
+      // Add this variable for fade-in effect
+      let avatarOpacity = 0;
       const avatarFadeSpeed = 5; // Speed of fade-in
 
       const setupBuffers = () => {
@@ -162,6 +145,22 @@ const LaserBeamSketch = () => {
         // Initialize laser beam and draw it to buffer immediately
         laserBeam = new LaserBeam(p);
         laserBeam.drawToBuffer(laserBeamBuffer);
+        
+        // Now that laserBeam is defined, create the fragment pool
+        fragmentPool = {
+          get: () => {
+            if (inactiveFragments.length > 0) {
+              const fragment = inactiveFragments.pop();
+              fragment.reset();
+              return fragment;
+            }
+            return new RectFragment(p, laserBeam);
+          },
+          recycle: (fragment) => {
+            fragment.active = false;
+            inactiveFragments.push(fragment);
+          }
+        };
         
         // Initialize empty stars array
         stars = [];
@@ -245,37 +244,69 @@ const LaserBeamSketch = () => {
         // updateStaticSceneBuffer();
       };
       
-      // Add scroll listener
-      window.addEventListener('scroll', scrollHandler );
-
       p.draw = () => {
+        // Always draw a complete frame
+        drawFrame();
+        
+        // If not initialized, continue with progressive building
+        if (!isInitComplete) {
+          buildProgressiveStage();
+        }
+      };
+
+      // Create a comprehensive drawFrame function that always draws a complete frame
+      const drawFrame = () => {
         p.background(0);
         
-        // Always draw the laser beam buffer
+        // Always draw the laser beam
         p.image(laserBeamBuffer, 0, 0);
         
         if (isInitComplete) {
-          // Draw static elements from buffer
+          // If initialization is complete, draw from static buffer
           p.image(staticSceneBuffer, 0, 0);
-          
-          // Draw dynamic elements
           drawDynamicElements();
-          return;
+        } else {
+          // Otherwise, draw current state of stars/galaxies/constellations
+          drawCurrentState();
         }
-        
-        // Always call buildProgressiveStage, but it will handle throttling internally
-        buildProgressiveStage();
       };
 
-      // Modify buildProgressiveStage to handle throttling internally
+      // Create a separate function to draw the current state
+      const drawCurrentState = () => {
+        // Draw all stars created so far
+        stars.forEach(star => {
+          if (star.isVisible()) {
+            if (star.shouldTwinkle) {
+              star.twinkle();
+            }
+            star.display(p);
+          }
+        });
+       
+        // Draw all galaxies created so far
+        galaxies.forEach(galaxy => {
+          if (galaxy.isVisible()) {
+            galaxy.display(p);
+          }
+        });
+        
+        // Draw all constellations created so far
+        constellations.forEach(constellation => {
+          if (constellation.isVisible()) {
+            constellation.display(p);
+          }
+        });
+      };
+
+      // Modify buildProgressiveStage to only handle the initialization work, not drawing
       const buildProgressiveStage = () => {
-        // Skip heavy processing on mobile, but don't skip entire frames
+        // Throttle only the heavy initialization work
         if (shouldReduceEffects && skipFrame++ < 1) {
-          return;
+          return; // We already drew the current state in drawFrame
         }
         skipFrame = 0;
         
-        // Progressive star initialization
+        // Do progressive star initialization
         if (starInitIndex < TOTAL_STARS) {
           const batchSize = Math.min(STAR_BATCH_SIZE, TOTAL_STARS - starInitIndex);
           for (let i = 0; i < batchSize; i++) {
@@ -288,39 +319,13 @@ const LaserBeamSketch = () => {
             }
             starInitIndex++;
           }
-
-          // Create the buffer ONCE when all stars are initialized
+          
+          // Take snapshot once initialization is complete
           if (starInitIndex >= TOTAL_STARS && !isInitComplete) {
             updateStaticSceneBuffer();
             isInitComplete = true;
           }
         }
-        // During initialization, directly draw what we have so far
-        stars.forEach(star => {
-          if(star.isVisible()){
-            if (!star.shouldTwinkle) {
-              star.display(p);
-            }
-            else {
-              star.twinkle();
-              star.display(p);
-            }
-          }
-        });
-       
-        galaxies.forEach(galaxy => {
-          if (galaxy.isVisible()) {
-            galaxy.display(p);
-          }
-        });
-        
-        constellations.forEach(constellation => {
-          if (constellation.isVisible()) {
-            // Consider using a dedicated drawStatic(ctx) method that matches
-            // the buffer appearance exactly
-            constellation.display(p);
-          }
-        });
       };
 
       const drawDynamicElements = () => {
@@ -345,7 +350,7 @@ const LaserBeamSketch = () => {
           avatarOpacity = Math.min(avatarOpacity + avatarFadeSpeed, 255);
         }
 
-        // Draw the avatar with breathing effect
+        // Draw the avatar with breathing effect and mobile size adjustment
         const avatarSizeMultiplier = isMobile ? 7 : 10; // Smaller on mobile
         const avatarSize = laserBeam.thickness * avatarSizeMultiplier;
         const avatarPos = laserBeam.getAvatarPosition();
@@ -369,54 +374,23 @@ const LaserBeamSketch = () => {
         }
         p.pop();
 
-        // Rectangle creation code using object pool
-        if (isInitComplete && p.frameCount % (isMobile ? 4 : 3) === 0 && rectangles.filter(r => r.active).length < (isMobile ? 7 : 30)) {
-          const rect = rectPool.get();
-          rect.width = p.random(50, 100);
-          rect.height = p.random(25, 65);
-          rect.opacity = p.random(40, 205);
-          rect.speed = p.random(2, 5);
-          
-          const isAbove = p.random() > 0.5;
-          rect.offset = isAbove ? p.random(60, 90) : p.random(-90, -60);
-          rect.x = laserBeam.startX;
-          rect.y = laserBeam.startY + rect.offset;
-
-          rectangles.push(rect);
+        // Fragment creation code using object pool
+        if (isInitComplete && p.frameCount % (isMobile ? 4 : 3) === 0 && 
+            fragments.filter(f => f.active).length < (isMobile ? 7 : 30)) {
+          fragments.push(fragmentPool.get());
         }
 
-        // Update and draw rectangles
-        for (let i = rectangles.length - 1; i >= 0; i--) {
-          const rect = rectangles[i];
-          if (!rect.active) continue;
-
-          // Check visibility
-          const isVisible = (
-            rect.x > -rect.width && 
-            rect.x < p.width + rect.width && 
-            rect.y > -rect.height && 
-            rect.y < p.height + rect.height
-          );
-
-          if (!isVisible) {
-            rectPool.recycle(rect);
-            rectangles.splice(i, 1);
-            continue;
+        // Update and draw fragments
+        for (let i = fragments.length - 1; i >= 0; i--) {
+          const fragment = fragments[i];
+          fragment.update();
+          
+          if (!fragment.active) {
+            fragments.splice(i, 1);
+            fragmentPool.recycle(fragment);
+          } else {
+            fragment.display(p);
           }
-
-          // Update rectangle position
-          rect.x += rect.speed;
-          rect.y = laserBeam.startY + rect.offset + ((rect.x / p.width) * (laserBeam.endY - laserBeam.startY));
-
-          // Draw rectangle
-          p.push();
-          p.translate(rect.x, rect.y);
-          p.rotate(laserBeam.angle);
-          p.fill(128, 0, 128, rect.opacity);
-          p.noStroke();
-          p.rectMode(p.CENTER);
-          p.rect(0, 0, rect.width, rect.height);
-          p.pop();
         }
       };
 
@@ -471,8 +445,8 @@ const LaserBeamSketch = () => {
 
     // Cleanup function to remove the p5 instance when the component unmounts
     return () => {
-      window.removeEventListener('scroll', scrollHandler);
       myP5.remove();
+      window.removeEventListener('scroll', scrollHandler);
     };
   }, []);
 
