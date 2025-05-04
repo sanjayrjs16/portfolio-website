@@ -106,6 +106,10 @@ const LaserBeamSketch = () => {
       let isInitComplete = false;
       let laserBeam; // Instance of our LaserBeam class
       
+      // Add this variable near the top with your other animation variables
+      let avatarOpacity = 0; // For fade-in effect
+      const avatarFadeSpeed = 5; // Speed of fade-in
+
       const setupBuffers = () => {
         // Always use full-size buffers, no scaling
         staticSceneBuffer = p.createGraphics(p.width, p.height);
@@ -247,27 +251,30 @@ const LaserBeamSketch = () => {
       p.draw = () => {
         p.background(0);
         
+        // Always draw the laser beam buffer
+        p.image(laserBeamBuffer, 0, 0);
+        
         if (isInitComplete) {
+          // Draw static elements from buffer
           p.image(staticSceneBuffer, 0, 0);
-          p.image(laserBeamBuffer, 0, 0);
+          
+          // Draw dynamic elements
           drawDynamicElements();
           return;
         }
-        // Always draw the laser beam buffer, even during initialization
-        p.image(laserBeamBuffer, 0, 0);
         
-       
-        
-        // Throttle initialization on mobile but don't skip drawing laser beam
+        // Always call buildProgressiveStage, but it will handle throttling internally
+        buildProgressiveStage();
+      };
+
+      // Modify buildProgressiveStage to handle throttling internally
+      const buildProgressiveStage = () => {
+        // Skip heavy processing on mobile, but don't skip entire frames
         if (shouldReduceEffects && skipFrame++ < 1) {
           return;
         }
         skipFrame = 0;
-        buildProgressiveStage();
-      };
-
-      // Clear phase functions for better readability
-      const buildProgressiveStage = () => {
+        
         // Progressive star initialization
         if (starInitIndex < TOTAL_STARS) {
           const batchSize = Math.min(STAR_BATCH_SIZE, TOTAL_STARS - starInitIndex);
@@ -288,7 +295,7 @@ const LaserBeamSketch = () => {
             isInitComplete = true;
           }
         }
- // During initialization, directly draw what we have so far
+        // During initialization, directly draw what we have so far
         stars.forEach(star => {
           if(star.isVisible()){
             if (!star.shouldTwinkle) {
@@ -300,7 +307,6 @@ const LaserBeamSketch = () => {
             }
           }
         });
-       
        
         galaxies.forEach(galaxy => {
           if (galaxy.isVisible()) {
@@ -324,8 +330,6 @@ const LaserBeamSketch = () => {
           star.display(p);
         });
 
-      
-
         // Draw close shooting stars
         shootingStars.forEach(star => {
           star.update();
@@ -336,8 +340,14 @@ const LaserBeamSketch = () => {
         breathePhase += breatheSpeed;
         const breatheScale = 1 + Math.sin(breathePhase) * breatheAmount;
         
+        // Fade in the avatar if needed
+        if (avatarOpacity < 255) {
+          avatarOpacity = Math.min(avatarOpacity + avatarFadeSpeed, 255);
+        }
+
         // Draw the avatar with breathing effect
-        const avatarSize = laserBeam.thickness * 10;
+        const avatarSizeMultiplier = isMobile ? 7 : 10; // Smaller on mobile
+        const avatarSize = laserBeam.thickness * avatarSizeMultiplier;
         const avatarPos = laserBeam.getAvatarPosition();
         
         p.push();
@@ -351,14 +361,16 @@ const LaserBeamSketch = () => {
           p.rotate(p.radians(breatheRotation));
           p.scale(breatheScale);
           
-          // Draw the avatar
+          // Draw the avatar with fade-in effect
+          p.tint(255, avatarOpacity);
           p.image(p.avatarImg, 0, 0, avatarSize, avatarSize);
+          p.noTint();
           p.pop();
         }
         p.pop();
 
         // Rectangle creation code using object pool
-        if (p.frameCount % (isMobile ? 4 : 3) === 0 && rectangles.filter(r => r.active).length < (isMobile ? 7 : 30)) {
+        if (isInitComplete && p.frameCount % (isMobile ? 4 : 3) === 0 && rectangles.filter(r => r.active).length < (isMobile ? 7 : 30)) {
           const rect = rectPool.get();
           rect.width = p.random(50, 100);
           rect.height = p.random(25, 65);
