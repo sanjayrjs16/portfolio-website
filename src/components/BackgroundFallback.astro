@@ -4,6 +4,7 @@
     <div class="ripple"></div>
     <div class="ripple"></div>
     <img src="/avatar-2.png" alt="Background image" class="loader-image" />
+    <div class="loading-text">Loading<span class="dots">...</span></div>
   </div>
 </div>
 
@@ -110,6 +111,39 @@
 
   /* Will be added by JS when canvas is ready */
   .background-fallback.hidden img {
+    opacity: 0;
+  }
+
+  .loading-text {
+    position: absolute;
+    bottom: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.6rem;
+    letter-spacing: 1px;
+    font-family: monospace;
+    white-space: nowrap;
+  }
+
+  .dots {
+    display: inline-block;
+    animation: dotFade 1.4s infinite;
+    opacity: 0;
+  }
+
+  @keyframes dotFade {
+    0%, 100% {
+      opacity: 0;
+    }
+    50% {
+      opacity: 1;
+    }
+  }
+
+  /* Update hidden state to include text */
+  .background-fallback.hidden .loader-image,
+  .background-fallback.hidden .loading-text {
     opacity: 0;
   }
 </style> 
