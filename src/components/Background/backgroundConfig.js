@@ -17,7 +17,7 @@ export const STAR_CONFIG = {
   BATCH_SIZE: 50,
   get TOTAL_STARS() {
     const { shouldReduceEffects } = getDeviceConfig();
-    return shouldReduceEffects ? 1200 : 2000;
+    return shouldReduceEffects ? 800 : 2000;
   },
   LARGE_PERCENT: 0.015,    // First 1.5% of stars are large
   MEDIUM_PERCENT: 0.075    // Next 6% of stars are medium
