@@ -86,41 +86,45 @@ const StarryBackgroundSketch = () => {
         
         setupBuffers();
         
-        // Initialize empty stars array
-        stars = [];
-
         // Create galaxy clusters
         for (let i = 0; i < GALAXY_CONFIG.COUNT; i++) {
-          galaxies.push(new GalaxyCluster(p));
+          const galaxy = new GalaxyCluster(p);
+          galaxies.push(galaxy);
+          if (galaxy.isVisible()) {
+            galaxy.drawToBuffer(staticSceneBuffer);
+          }
         }
 
-        // Add shooting stars
+        // New constellation placement logic
+        const patterns = [...Object.entries(CONSTELLATION_PATTERNS)];
+        const desired = shouldReduceEffects ? 1 : 2.5;
+        let tries = 0;
+
+        while (constellations.length < desired && tries < 100) {
+          const x = p.random(0, p.width);
+          const y = p.random(0, p.height);
+          
+          if (isAreaEmpty(x, y)) {
+            if (patterns.length > 0) {
+              const randomIndex = Math.floor(p.random(patterns.length));
+              const [_, pattern] = patterns.splice(randomIndex, 1)[0];
+              const constellation = new Constellation(p, x, y, pattern);
+              constellations.push(constellation);
+              // Draw to buffer immediately
+              if (constellation.isVisible()) {
+                constellation.drawToBuffer(staticSceneBuffer);
+              }
+            }
+          }
+          tries++;
+        }
+
+        // Initialize shooting stars
         for (let i = 0; i < SHOOTING_STAR_CONFIG.CLOSE_COUNT; i++) {
           shootingStars.push(new ShootingStar(p, false));
         }
         for (let i = 0; i < SHOOTING_STAR_CONFIG.FAR_COUNT; i++) {
           farShootingStars.push(new ShootingStar(p, true));
-        }
-
-        // New constellation placement logic
-        constellations = [];
-        const patterns = [...Object.entries(CONSTELLATION_PATTERNS)];
-        const desired = shouldReduceEffects ? 3 : 5; // At least 3 on mobile, 5 on desktop
-        let tries = 0;
-
-        while (constellations.length < desired && tries < 50) {
-          const x = p.random(0, p.width);
-          const y = p.random(0, p.height);
-          
-          if (isAreaEmpty(x, y)) {
-            // Pick a random unused pattern
-            if (patterns.length > 0) {
-              const randomIndex = Math.floor(p.random(patterns.length));
-              const [_, pattern] = patterns.splice(randomIndex, 1)[0];
-              constellations.push(new Constellation(p, x, y, pattern));
-            }
-          }
-          tries++;
         }
       };
       
@@ -217,25 +221,34 @@ const StarryBackgroundSketch = () => {
       // Handle window resizing
       p.windowResized = () => {
         p.resizeCanvas(p.windowWidth, p.windowHeight);
-        
-        // Always recreate the buffers at the new size
         setupBuffers();
         
-        // If initialization is complete, re-snapshot everything
-        if (isInitComplete) {
-          updateStaticSceneBuffer();
-        }
+        // Redraw ALL static elements into the fresh buffer
+        galaxies.forEach(galaxy => {
+          if (galaxy.isVisible()) {
+            galaxy.drawToBuffer(staticSceneBuffer);
+          }
+        });
+        
+        constellations.forEach(constellation => {
+          if (constellation.isVisible()) {
+            constellation.drawToBuffer(staticSceneBuffer);
+          }
+        });
+        
+        stars.forEach(star => {
+          if (star.isVisible()) {
+            star.drawToBuffer(staticSceneBuffer);
+          }
+        });
       };
 
-      // Update isAreaEmpty to be more precise about constellation spacing
       function isAreaEmpty(x, y) {
-        // Check distance from other constellations
-        const minConstellationDistance = 200;
-        const tooCloseToOthers = constellations.some(c => 
-          p.dist(x, y, c.centerX, c.centerY) < minConstellationDistance
+        // Simplified spacing check - just check distance from other constellations
+        const minDistance = 200;
+        return !constellations.some(c => 
+          p.dist(x, y, c.centerX, c.centerY) < minDistance
         );
-        
-        return !tooCloseToOthers;
       }
     };
 

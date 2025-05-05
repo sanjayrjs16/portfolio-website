@@ -94,56 +94,26 @@ const LaserBeamSketch = () => {
           }
         }
 
-        constellations = [];
-        const midX = p.width / 2;
-        const midY = p.height / 2;
+        const patterns = [...Object.entries(CONSTELLATION_PATTERNS)];
+        const desired = shouldReduceEffects ? 1 : 2.5;
+        let tries = 0;
 
-        const patterns = Object.entries(CONSTELLATION_PATTERNS);
-        const numConstellations = p.random([3, 4]);
-        const usedPatterns = new Set();
-
-        const getRandomPattern = () => {
-          const availablePatterns = patterns.filter(p => !usedPatterns.has(p));
-          const pattern = p.random(availablePatterns);
-          usedPatterns.add(pattern);
-          return pattern;
-        };
-
-        const topRightX = p.random(midX + midX * 0.2, p.width * 0.85);
-        const topRightY = p.random(p.height * 0.1, p.height * 0.25);
-        if (isAreaEmpty(topRightX, topRightY)) {
-          constellations.push(new Constellation(p, topRightX, topRightY, getRandomPattern()[1], 'large'));
-        }
-
-        const bottomLeftRegions = [
-          {
-            x: p.random(midX * 0.3, midX * 0.6),
-            y: p.random(midY + midY * 0.2, p.height * 0.8)
-          },
-          {
-            x: p.random(midX * 0.2, midX * 0.4),
-            y: p.random(midY + midY * 0.3, p.height * 0.85)
-          },
-          {
-            x: p.random(midX * 0.25, midX * 0.5),
-            y: p.random(midY + midY * 0.1, midY + midY * 0.3)
+        while (constellations.length < desired && tries < 100) {
+          const x = p.random(0, p.width);
+          const y = p.random(0, p.height);
+          
+          if (isAreaEmpty(x, y)) {
+            if (patterns.length > 0) {
+              const randomIndex = Math.floor(p.random(patterns.length));
+              const [_, pattern] = patterns.splice(randomIndex, 1)[0];
+              const constellation = new Constellation(p, x, y, pattern);
+              constellations.push(constellation);
+              if (constellation.isVisible()) {
+                constellation.drawToBuffer(staticSceneBuffer);
+              }
+            }
           }
-        ];
-
-        p.shuffle(bottomLeftRegions).slice(0, 2).forEach(pos => {
-          if (isAreaEmpty(pos.x, pos.y)) {
-            constellations.push(new Constellation(p, pos.x, pos.y, getRandomPattern()[1]));
-          }
-        });
-
-        if (numConstellations === 4) {
-          const extraPos = {
-            x: p.random(midX * 0.4, midX * 0.7),
-            y: p.random(midY + midY * 0.15, p.height * 0.75)
-          };
-          if (isAreaEmpty(extraPos.x, extraPos.y)) {
-            constellations.push(new Constellation(p, extraPos.x, extraPos.y, getRandomPattern()[1]));
-          }
+          tries++;
         }
 
         for (let i = 0; i < SHOOTING_STAR_CONFIG.CLOSE_COUNT; i++) {
@@ -152,13 +122,6 @@ const LaserBeamSketch = () => {
         for (let i = 0; i < SHOOTING_STAR_CONFIG.FAR_COUNT; i++) {
           farShootingStars.push(new ShootingStar(p, true));
         }
-
-        // After creating constellations, draw them to buffer
-        constellations.forEach(constellation => {
-          if (constellation.isVisible()) {
-            constellation.drawToBuffer(staticSceneBuffer);
-          }
-        });
       };
       
       p.draw = () => {
@@ -306,16 +269,12 @@ const LaserBeamSketch = () => {
         const laserY = laserStartY + laserSlope * x;
         const laserDistance = Math.abs(y - laserY);
         
-        const nameAreaX = p.width * 0.7;
-        const nameAreaY = p.height * 0.6;
-        const nameDistance = p.dist(x, y, nameAreaX, nameAreaY);
-        
         const minConstellationDistance = 200;
         const tooCloseToOthers = constellations.some(c => 
           p.dist(x, y, c.centerX, c.centerY) < minConstellationDistance
         );
         
-        return laserDistance > 200 && nameDistance > 300 && !tooCloseToOthers;
+        return laserDistance > 200 && !tooCloseToOthers;
       }
     };
 
