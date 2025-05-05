@@ -62,17 +62,17 @@ const description = "Frontend engineer crafting immersive digital experiences th
 							</label>
 							<div class="quote-content">
 								<div class="bg-purple">
-									<p class="fun-text">👨🏻‍💻 Notable works:</p>
+									<p class="fun-text" >👨🏻‍💻 Major works -</p>
 									
 									<!-- Special styling for the movie item -->
-									<div class="movie-text link-container">
+									<div class="movie-text ">
 										
 										<span class="description">
 											🎬
-										Aadujeevitham: The Goat Life (2024) - the official movie <a href="https://thegoatlifefilm.com/" target="_blank" rel="noopener noreferrer" class="link">
+										Aadujeevitham: The Goat Life (2024), official movie <a href="https://thegoatlifefilm.com/" target="_blank" rel="noopener noreferrer" class="link">
 											Website
 										</a> launched by 
-											<a href="https://timesofindia.indiatimes.com/entertainment/malayalam/movies/news/director-blessy-on-aadujeevitham-website-launch/articleshow/108015198.cms" target="_blank" rel="noopener noreferrer" class="link">A R Rahman</a> ✨
+											<a href="https://timesofindia.indiatimes.com/entertainment/malayalam/movies/news/director-blessy-on-aadujeevitham-website-launch/articleshow/108015198.cms" target="_blank" rel="noopener noreferrer" class="link">A R Rahman✨</a> 
 										</span>
 									</div>
 							
@@ -198,7 +198,7 @@ const description = "Frontend engineer crafting immersive digital experiences th
 		top: 2%;
 		left: 2%;
 		z-index: 20; /* Increased z-index to be higher than hero-content-left */
-		max-width: 500px;
+		max-width: 40vw;
 		text-align: left;
 	}
 
@@ -223,40 +223,53 @@ const description = "Frontend engineer crafting immersive digital experiences th
 		letter-spacing: -0.02em;
 		transform: skew(-5deg);
 		display: block;
-		color: #892be23b;
+		
+		background-image: linear-gradient(
+			-225deg,
+			#c17ce9 0%,
+			#fff9fe 29%,
+			#e35bf1 67%,
+			#c17ce9 100%
+		);
+		background-size: 200% auto;
+		background-clip: text;
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+		animation: textclip 5s linear infinite;
 	}
 
-	/* Base layer - solid color */
+	/* Remove or adjust these pseudo-elements if they're covering the animation */
 	.title-line::before {
 		content: attr(data-text);
 		position: absolute;
 		left: 0;
 		top: 0;
-		background: linear-gradient(45deg, #ffffff 30%, #fff9fe);
+		z-index: -1;  /* Move it behind */
+		background: linear-gradient(45deg, #c17ce9 30%, #fff9fe);
 		-webkit-background-clip: text;
 		background-clip: text;
 		color: transparent;
-		text-shadow: 
-			0 0 20px rgba(227, 219, 227, 0.124),
-			0 0 40px rgba(226, 91, 241, 0.483);
+		text-shadow: 0 0 20px rgba(227, 219, 227, 0.124),
+					 0 0 40px rgba(226, 91, 241, 0.483);
 	}
 
-	/* Shine layer - masked by text */
 	.title-line::after {
 		content: attr(data-text);
 		position: absolute;
 		left: 0;
 		top: 0;
-		background: linear-gradient(
-			90deg,
-			transparent,
-			#f8eafb,
-			transparent
-		);
+		z-index: -1;  /* Move it behind */
+		background: linear-gradient(90deg, transparent, #f8eafb, transparent);
 		-webkit-background-clip: text;
 		background-clip: text;
 		color: transparent;
 		animation: shine 3s infinite;
+	}
+
+	@keyframes textclip {
+		0% { background-position: 0 50%; }
+		50% { background-position: 100% 50%; }
+		100% { background-position: 0% 50%; }
 	}
 
 	@keyframes shine {
@@ -590,7 +603,7 @@ const description = "Frontend engineer crafting immersive digital experiences th
 		grid-template-columns: 10% 30% 60%; /* Proportional columns as requested */
 		align-items: center;
 		font-family: 'Space Grotesk', sans-serif;
-		font-size: clamp(0.8rem, 1.25vw, 1.4rem);
+		font-size: clamp(0.6rem, 1vw, 1.2rem);
 		color: rgba(255, 255, 255, 0.8);
 		margin: 0.55rem 0;
 	}
@@ -610,11 +623,14 @@ const description = "Frontend engineer crafting immersive digital experiences th
 		font-weight: 500;
 		transition: all 0.3s ease;
 		white-space: nowrap;
+		border-bottom: 1px solid rgba(255, 215, 0, 0.6); 
+		margin-right: 0.35rem;
 	}
 
 	.link:hover {
 		color: #dcbffa;
 		text-shadow: 0 0 8px rgba(138, 43, 226, 0.5);
+		border-bottom-color: rgba(255, 215, 0, 0.9); /* Brighter yellow on hover */
 	}
 
 	.link::after {
@@ -743,7 +759,7 @@ const description = "Frontend engineer crafting immersive digital experiences th
 		gap: 0.5rem;
 		margin-bottom: 0.75rem;
 		font-family: 'Space Grotesk', sans-serif;
-		font-size: clamp(0.8rem, 1.25vw, 1.4rem);
+		font-size: clamp(0.7rem, 1vw, 1.25rem);
 		color: rgba(255, 255, 255, 0.8);
 	}
 	

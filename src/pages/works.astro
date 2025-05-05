@@ -1,0 +1,12 @@
+---
+import Layout from '../layouts/Layout.astro';
+import StarryBackgroundSketch from "../components/Background/StarryBackgroundSketch"
+     
+// SEO metadata
+const title = "Sanjay Rajesh - Frontend Engineer";
+const description = "Frontend engineer crafting immersive digital experiences through code & creativity. Specializing in web development and interactive experiences.";
+---
+
+<Layout title={title} description={description}>
+    <StarryBackgroundSketch client:only="react" />
+</Layout>
