@@ -102,58 +102,25 @@ const StarryBackgroundSketch = () => {
           farShootingStars.push(new ShootingStar(p, true));
         }
 
+        // New constellation placement logic
         constellations = [];
-        const midX = p.width / 2;
-        const midY = p.height / 2;
+        const patterns = [...Object.entries(CONSTELLATION_PATTERNS)];
+        const desired = shouldReduceEffects ? 3 : 5; // At least 3 on mobile, 5 on desktop
+        let tries = 0;
 
-        // Create 5-8 constellations distributed around the canvas
-        const patterns = Object.entries(CONSTELLATION_PATTERNS);
-        const numConstellations = p.floor(p.random(5, 9));
-        const usedPatterns = new Set();
-
-        // Helper function to get random pattern
-        const getRandomPattern = () => {
-          const availablePatterns = patterns.filter(p => !usedPatterns.has(p[0]));
-          if (availablePatterns.length === 0) {
-            // Reset if we've used all patterns
-            usedPatterns.clear();
-            return p.random(patterns);
-          }
-          const pattern = p.random(availablePatterns);
-          usedPatterns.add(pattern[0]);
-          return pattern;
-        };
-
-        // Define regions across the entire canvas
-        const regions = [
-          // Top regions
-          { x: p.width * 0.25, y: p.height * 0.25 },
-          { x: p.width * 0.5, y: p.height * 0.2 },
-          { x: p.width * 0.75, y: p.height * 0.25 },
-          
-          // Middle regions
-          { x: p.width * 0.15, y: p.height * 0.5 },
-          { x: p.width * 0.85, y: p.height * 0.5 },
-          
-          // Bottom regions
-          { x: p.width * 0.25, y: p.height * 0.75 },
-          { x: p.width * 0.5, y: p.height * 0.8 },
-          { x: p.width * 0.75, y: p.height * 0.75 },
-        ];
-
-        // Shuffle regions
-        p.shuffle(regions);
-        
-        // Place constellations in regions
-        for (let i = 0; i < Math.min(numConstellations, regions.length); i++) {
-          const region = regions[i];
-          const x = region.x + p.random(-50, 50);
-          const y = region.y + p.random(-50, 50);
+        while (constellations.length < desired && tries < 50) {
+          const x = p.random(0, p.width);
+          const y = p.random(0, p.height);
           
           if (isAreaEmpty(x, y)) {
-            const patternData = getRandomPattern()[1];
-            constellations.push(new Constellation(p, x, y, patternData, p.random(['small', 'medium', 'large'])));
+            // Pick a random unused pattern
+            if (patterns.length > 0) {
+              const randomIndex = Math.floor(p.random(patterns.length));
+              const [_, pattern] = patterns.splice(randomIndex, 1)[0];
+              constellations.push(new Constellation(p, x, y, pattern));
+            }
           }
+          tries++;
         }
       };
       

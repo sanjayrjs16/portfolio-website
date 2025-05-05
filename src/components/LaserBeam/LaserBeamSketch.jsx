@@ -6,8 +6,13 @@ import { Constellation } from './Constellation';
 import { ShootingStar } from './ShootingStar';
 import { LaserBeam } from './LaserBeam';
 import { RectFragment } from './RectFragment';
-
-
+import { 
+  getDeviceConfig,
+  STAR_CONFIG,
+  SHOOTING_STAR_CONFIG,
+  GALAXY_CONFIG,
+  CONSTELLATION_PATTERNS
+} from "../Background/backgroundConfig";
 
 const LaserBeamSketch = () => {
   const sketchRef = useRef();
@@ -18,9 +23,7 @@ const LaserBeamSketch = () => {
     window.addEventListener('scroll', scrollHandler);
 
     const sketch = (p) => {
-      // Add simple device check
-      const isMobile = /Android|webOS|iPhone|iPad/i.test(navigator.userAgent);
-      const shouldReduceEffects = isMobile || window.devicePixelRatio < 1.5;
+      const { isMobile, shouldReduceEffects } = getDeviceConfig();
       let skipFrame = 0;
       
       let fragments = [];
@@ -31,43 +34,6 @@ const LaserBeamSketch = () => {
       let constellations = [];
       let shootingStars = [];
       let farShootingStars = [];
-
-      // First, let's define our constellation patterns
-      const CONSTELLATION_PATTERNS = {
-        ursa_major: { // Big Dipper/Great Bear
-          name: "Ursa Major",
-          pattern: [
-            [0.2, 0.3], [0.3, 0.35], [0.4, 0.4], [0.5, 0.45], 
-            [0.6, 0.4], [0.7, 0.35], [0.75, 0.25]
-          ],
-          connections: [[0,1], [1,2], [2,3], [3,4], [4,5], [5,6]]
-        },
-        orion: {
-          name: "Orion",
-          pattern: [
-            [0.5, 0.2], [0.45, 0.3], [0.55, 0.3], // Belt
-            [0.4, 0.1], [0.6, 0.1], // Shoulders
-            [0.35, 0.4], [0.65, 0.4], // Feet
-            [0.5, 0.15], // Head
-          ],
-          connections: [[0,1], [1,2], [3,1], [4,2], [1,5], [2,6], [3,7], [4,7]]
-        },
-        cassiopeia: {
-          name: "Cassiopeia",
-          pattern: [
-            [0.3, 0.3], [0.4, 0.2], [0.5, 0.3], [0.6, 0.2], [0.7, 0.3]
-          ],
-          connections: [[0,1], [1,2], [2,3], [3,4]]
-        },
-        scorpius: {
-          name: "Scorpius",
-          pattern: [
-            [0.3, 0.2], [0.35, 0.3], [0.4, 0.4], [0.45, 0.5],
-            [0.5, 0.6], [0.55, 0.7], [0.6, 0.75], [0.65, 0.73]
-          ],
-          connections: [[0,1], [1,2], [2,3], [3,4], [4,5], [5,6], [6,7]]
-        }
-      };
 
       // Add at top with other variables
       let breathePhase = 0;
@@ -169,15 +135,15 @@ const LaserBeamSketch = () => {
         stars = [];
 
         // Create galaxy clusters
-        for (let i = 0; i < (isMobile ? 4 : 6); i++) {
+        for (let i = 0; i < GALAXY_CONFIG.COUNT; i++) {
           galaxies.push(new GalaxyCluster(p));
         }
 
         // Add shooting stars
-        for (let i = 0; i < 3; i++) {
+        for (let i = 0; i < SHOOTING_STAR_CONFIG.CLOSE_COUNT; i++) {
           shootingStars.push(new ShootingStar(p, false));
         }
-        for (let i = 0; i < 5; i++) {
+        for (let i = 0; i < SHOOTING_STAR_CONFIG.FAR_COUNT; i++) {
           farShootingStars.push(new ShootingStar(p, true));
         }
 

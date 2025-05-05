@@ -107,11 +107,26 @@ export const CONSTELLATION_PATTERNS = {
   }
 };
 
-// Avatar configuration (used in LaserBeamSketch)
+// Laser beam related configurations
+export const LASER_CONFIG = {
+  RECT_OVER_THRESHOLD: 0.7,
+  get FRAGMENT_SPAWN_RATE() {
+    const { isMobile } = getDeviceConfig();
+    return isMobile ? 4 : 3;
+  },
+  get MAX_FRAGMENTS() {
+    const { isMobile } = getDeviceConfig();
+    return isMobile ? 7 : 30;
+  }
+};
+
+// Avatar related configurations
 export const AVATAR_CONFIG = {
   FADE_SPEED: 5,
   get SIZE_MULTIPLIER() {
     const { isMobile } = getDeviceConfig();
     return isMobile ? 7 : 10;
-  }
+  },
+  BREATHE_SPEED: 0.019,
+  BREATHE_AMOUNT: 0.05
 }; 
