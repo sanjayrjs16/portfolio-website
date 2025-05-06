@@ -1,0 +1,89 @@
+---
+interface Props {
+    currentSection: string;
+}
+
+const { currentSection } = Astro.props;
+
+const menuItems = [
+    { id: 'notable-work', label: 'Notable Work', icon: '🏆' },
+    { id: 'personal-projects', label: 'Personal Projects', icon: '🛠️' },
+    { id: 'professional', label: 'Professional Experience', icon: '💼' },
+    { id: 'videos', label: 'Videos', icon: '🎥' },
+];
+---
+
+<nav class="works-menu">
+    <ul>
+        {menuItems.map(item => (
+            <li>
+                <a 
+                    href={`#${item.id}`} 
+                    class:list={['menu-item', { active: currentSection === item.id }]}
+                    data-section={item.id}
+                >
+                    <span class="icon">{item.icon}</span>
+                    {item.label}
+                </a>
+            </li>
+        ))}
+    </ul>
+</nav>
+
+<style>
+    .works-menu {
+        width: 250px;
+        height: 100vh;
+        position: fixed;
+        left: 0;
+        top: 0;
+        background: rgba(0, 0, 0, 0.3);
+        backdrop-filter: blur(10px);
+        border-right: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 6rem 1rem 2rem;
+        transition: transform 0.3s ease;
+    }
+
+    ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .menu-item {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.75rem 1rem;
+        color: rgba(255, 255, 255, 0.7);
+        text-decoration: none;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+        font-family: 'Space Grotesk', sans-serif;
+    }
+
+    .menu-item:hover {
+        background: rgba(255, 255, 255, 0.1);
+        color: white;
+    }
+
+    .menu-item.active {
+        background: rgba(255, 255, 255, 0.15);
+        color: white;
+    }
+
+    .icon {
+        font-size: 1.2em;
+    }
+
+    @media (max-width: 768px) {
+        .works-menu {
+            transform: translateX(-100%);
+            z-index: 90;
+        }
+
+        .works-menu.open {
+            transform: translateX(0);
+        }
+    }
+</style> 

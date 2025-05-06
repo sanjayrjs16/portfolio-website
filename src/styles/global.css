@@ -1,0 +1,62 @@
+/* Typography */
+.title-text {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(1.2rem, 2vw, 1.8rem);
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.highlight-text {
+  color: #c42ae3;
+  font-weight: 500;
+}
+
+.description-text {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(0.8rem, 1.5vw, 1rem);
+  color: rgba(255, 255, 255, 0.8);
+}
+
+/* Links */
+.highlight-link {
+  color: #d859f2;
+  text-decoration: none;
+  position: relative;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  border-bottom: 1px solid rgba(255, 215, 0, 0.6);
+}
+
+.highlight-link:hover {
+  color: #dcbffa;
+  text-shadow: 0 0 8px rgba(138, 43, 226, 0.5);
+  border-bottom-color: rgba(255, 215, 0, 0.9);
+}
+
+/* Cards */
+.glass-card {
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { 
+    opacity: 0;
+    transform: translateY(10px); 
+  }
+  to { 
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+} 

@@ -1,0 +1,128 @@
+---
+import Layout from './Layout.astro';
+import StarryBackgroundSketch from "../components/Background/StarryBackgroundSketch"
+import BackgroundFallback from '../components/BackgroundFallback.astro';
+
+interface Props {
+    title: string;
+    description: string;
+}
+
+const { title, description } = Astro.props;
+---
+
+<Layout title={title} description={description}>
+    <BackgroundFallback />
+    <StarryBackgroundSketch client:only="react" />
+    <slot />
+</Layout>
+
+<style>
+    /* Base layout styles */
+    :global(body) {
+        position: relative;
+    }
+
+    :global(canvas) {
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 0;
+    }
+
+    slot {
+        position: relative;
+        z-index: 1;
+    }
+
+    /* Fallback styles */
+    .background-fallback {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        z-index: 0;
+        transition: opacity 0.3s ease-out;
+    }
+
+    .loading-container {
+        position: relative;
+        width: 100%;
+        height: 100%;
+    }
+
+    .fallback-bg {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        aspect-ratio: 16/9;
+        border-radius: 0; /* Remove border radius to prevent stretching */
+    }
+
+    .loading-text {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: white;
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: clamp(1rem, 2vw, 1.5rem);
+        background: rgba(0, 0, 0, 0.5);
+        padding: 0.5rem 1rem;
+        border-radius: 4px;
+        animation: pulse 1.5s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+        0%, 100% {
+            opacity: 1;
+        }
+        50% {
+            opacity: 0.5;
+        }
+    }
+
+    /* Hide fallback when canvas is mounted */
+    .background-fallback.hidden {
+        opacity: 0;
+        pointer-events: none;
+    }
+
+    /* Mobile optimizations */
+    @media (max-width: 768px) {
+        .fallback-bg {
+            object-position: center; /* Ensure image is centered on mobile */
+        }
+
+        .loading-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    }
+</style>
+
+<script>
+    // Handle fallback visibility
+    function handleCanvasMount() {
+        const canvas = document.querySelector('canvas');
+        const fallback = document.querySelector('.background-fallback');
+        
+        if (canvas && fallback) {
+            fallback.classList.add('hidden');
+            // Remove fallback after transition
+            setTimeout(() => {
+                fallback.remove();
+            }, 300);
+        }
+    }
+
+    // Check periodically until canvas is mounted
+    const checkInterval = setInterval(() => {
+        if (document.querySelector('canvas')) {
+            handleCanvasMount();
+            clearInterval(checkInterval);
+        }
+    }, 100);
+</script> 

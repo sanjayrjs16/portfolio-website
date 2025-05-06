@@ -19,8 +19,8 @@ export const STAR_CONFIG = {
     const { shouldReduceEffects } = getDeviceConfig();
     return shouldReduceEffects ? 500 : 2000;
   },
-  LARGE_PERCENT: 0.15,    // First 1.5% of stars are large
-  MEDIUM_PERCENT: 0.075    // Next 6% of stars are medium
+  LARGE_PERCENT: 0.04,    // First 1.5% of stars are large
+  MEDIUM_PERCENT: 0.095    // Next 6% of stars are medium
 };
 
 // Breathing effect config (used for avatar in LaserBeamSketch)
