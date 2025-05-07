@@ -2,7 +2,7 @@
 const navItems = [
   // { path: '/works', label: 'Work' },
   { path: '/', label: 'Bio' },
-  // { path: '/posts', label: 'Posts' },
+  { path: '/posts', label: 'Posts' },
   // { path: '/contact', label: 'Contact' }
 ];
 
@@ -82,6 +82,10 @@ const showTitle = currentPath !== '/'; // Only show title when not on home/bio p
     opacity: 0;
     animation: fadeIn 1s ease-out forwards;
     z-index: 200;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(3.5px);
+    border-radius: 4px;
   }
 
   .title-line {

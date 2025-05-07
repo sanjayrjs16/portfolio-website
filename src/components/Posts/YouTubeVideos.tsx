@@ -9,25 +9,38 @@ interface Video {
 
 const videos: Video[] = [
     {
-        id: "kqiPfj5C0ig",
-        title: "Building a Decentralized Film Funding Platform | Chainlink Hackathon",
-        thumbnail: `https://img.youtube.com/vi/kqiPfj5C0ig/maxresdefault.jpg`
+        id: "bjwnLa83Aj0",
+        title: "We built the official website for The Goatlife",
+        thumbnail: `https://img.youtube.com/vi/bjwnLa83Aj0/maxresdefault.jpg`
     },
     {
         id: "GZDLoeSsAm8",
-        title: "Building a Solana Faucet with Next.js",
+        title: "CASH-IN on CACHING as a frontend developer | Part 1 | Browser cache",
         thumbnail: `https://img.youtube.com/vi/GZDLoeSsAm8/maxresdefault.jpg`
     },
     {
         id: "8mGO_Cp-GmM",
-        title: "Blockchain Basics: Understanding Proof of Stake",
+        title: "How a SINGLE piece of code TOOK DOWN MySpace.",
         thumbnail: `https://img.youtube.com/vi/8mGO_Cp-GmM/maxresdefault.jpg`
     },
     {
         id: "BX0dTsmU5f4",
-        title: "Frontend Caching Strategies Explained",
+        title: "Why are frontend frameworks going REACTIVE ?",
         thumbnail: `https://img.youtube.com/vi/BX0dTsmU5f4/maxresdefault.jpg`
-    }
+    },
+    {
+        id: "kqiPfj5C0ig",
+        title: "Animating Michael Scott's Parkour Flip on Scroll with React",
+        thumbnail: `https://img.youtube.com/vi/kqiPfj5C0ig/maxresdefault.jpg`
+    },
+    {
+        id: "Rk-xkF9ge9Q",
+        title: "REACT 70% FASTER?!? | Million.js explained",
+        thumbnail: `https://img.youtube.com/vi/Rk-xkF9ge9Q/maxresdefault.jpg`
+    },
+    
+    
+    
 ];
 
 export default function YouTubeVideos() {
