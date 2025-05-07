@@ -7,6 +7,12 @@ interface Video {
     thumbnail: string;
 }
 
+interface CustomEvent extends Event {
+    detail: {
+        videoId: string;
+    };
+}
+
 const videos: Video[] = [
     {
         id: "bjwnLa83Aj0",
@@ -56,6 +62,7 @@ export default function YouTubeVideos() {
     const handleCloseModal = () => setSelectedVideo(null);
 
     return (
+        <>
         <div className="youtubeSection">
             <h2>Videos</h2>
             <div className="videosGrid">
@@ -80,7 +87,9 @@ export default function YouTubeVideos() {
                 ))}
             </div>
 
-            {selectedVideo && (
+        </div>
+
+        {selectedVideo && (
                 <div 
                     className="modalOverlay" 
                     onClick={handleCloseModal}
@@ -107,6 +116,6 @@ export default function YouTubeVideos() {
                     </div>
                 </div>
             )}
-        </div>
+            </>
     );
 } 
