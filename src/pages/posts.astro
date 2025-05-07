@@ -1,0 +1,88 @@
+---
+import StarryLayout from '../layouts/StarryLayout.astro';
+import YouTubeVideos from '../components/Posts/YouTubeVideos';
+
+const blogPosts = [
+    {
+        title: "Cashing In on Caching as a Frontend Engineer",
+        link: "https://medium.com/better-programming/cashing-in-on-caching-as-a-frontend-engineer-611a7c57f6b5",
+        platform: "Medium"
+    },
+    {
+        title: "Is Proof of Stake (PoS) a game changer and what it means for blockchains and web3?",
+        link: "https://dev.to/sanjayrjs16/the-gist-of-proof-of-stake-pos-39h2",
+        platform: "Dev.to"
+    },
+    {
+        title: "Build a custom Solana faucet",
+        link: "https://sanjayrajesh.hashnode.dev/custom-solana-faucet-using-nextjs-part-1",
+        platform: "Hashnode"
+    }
+];
+---
+
+<StarryLayout title="Posts" description="A collection of my posts and videos">
+    <div class="posts-container">
+        <h1>Posts</h1>
+        <div class="posts-list">
+            {blogPosts.map(post => (
+                <a href={post.link} target="_blank" rel="noopener noreferrer" class="post-link">
+                    {post.title}
+                    <span class="platform">{post.platform}</span>
+                </a>
+            ))}
+        </div>
+        
+        <YouTubeVideos client:load />
+    </div>
+</StarryLayout>
+
+<style>
+    .posts-container {
+        padding: 2rem;
+        margin: 0 2rem;
+        color: white;
+    }
+
+    h1 {
+        font-size: 2rem;
+        margin-bottom: 2rem;
+    }
+
+    .posts-list {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        max-width: 800px;
+    }
+
+    .post-link {
+        color: white;
+        text-decoration: none;
+        padding: 1rem;
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(12px);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        transition: all 0.3s ease;
+    }
+
+    .post-link:hover {
+        background: rgba(255, 255, 255, 0.1);
+        transform: translateY(-2px);
+    }
+
+    .platform {
+        font-size: 0.9rem;
+        opacity: 0.7;
+    }
+
+    @media (max-width: 768px) {
+        .posts-container {
+            margin: 0 1rem;
+            padding: 1rem;
+        }
+    }
+</style> 

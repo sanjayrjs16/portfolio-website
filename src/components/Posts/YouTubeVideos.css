@@ -1,0 +1,123 @@
+.youtubeSection {
+    margin-top: 4rem;
+    position: relative;
+    z-index: 2;
+    padding: 0 1rem;
+}
+
+.youtubeSection h2 {
+    color: white;
+    font-family: 'Space Grotesk', sans-serif;
+    margin-bottom: 1.5rem;
+}
+
+.videosGrid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    padding: 0 1rem;
+}
+
+.videoCard {
+    flex: 0 0 calc(33.333% - 1.334rem); /* For 3 cards per row with gap consideration */
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.videoCard:hover {
+    transform: translateY(-5px);
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.videoThumbnail {
+    width: 100%;
+    aspect-ratio: 16/9;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.3s ease;
+}
+
+.videoCard:hover .videoThumbnail {
+    transform: scale(1.05);
+}
+
+.videoTitle {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 2.5rem 1rem 1rem;
+    margin: 0;
+    font-size: 0.9rem;
+    color: white;
+    line-height: 1.4;
+    background: linear-gradient(to top, 
+        rgba(0, 0, 0, 0.9) 0%,
+        rgba(0, 0, 0, 0.7) 50%,
+        rgba(0, 0, 0, 0) 100%
+    );
+}
+
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.95);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modalContent {
+    position: relative;
+    width: 90%;
+    max-width: 1000px;
+    aspect-ratio: 16/9;
+}
+
+.closeButton {
+    position: absolute;
+    top: -40px;
+    right: 0;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 2rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    line-height: 1;
+    transition: opacity 0.3s ease;
+}
+
+.closeButton:hover {
+    opacity: 0.8;
+}
+
+@media (max-width: 1200px) {
+    .videoCard {
+        flex: 0 0 calc(50% - 1rem); /* 2 cards per row */
+    }
+}
+
+@media (max-width: 768px) {
+    .videoCard {
+        flex: 0 0 100%; /* 1 card per row */
+    }
+
+    .modalContent {
+        width: 95%;
+    }
+
+    .youtubeSection {
+        padding: 0 0.5rem;
+    }
+}
+
+/* ... rest of your styles ... */ 

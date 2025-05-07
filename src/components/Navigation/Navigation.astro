@@ -1,13 +1,21 @@
 ---
 const navItems = [
-//   { path: '/works', label: 'Work' },
+  // { path: '/works', label: 'Work' },
   { path: '/', label: 'Bio' },
-//   { path: '/posts', label: 'Posts' },
-//   { path: '/contact', label: 'Contact' }
+  // { path: '/posts', label: 'Posts' },
+  // { path: '/contact', label: 'Contact' }
 ];
 
 const currentPath = Astro.url.pathname;
+const showTitle = currentPath !== '/'; // Only show title when not on home/bio page
 ---
+
+{showTitle && (
+  <a href="/" class="brand-title">
+    <span class="title-line" data-text="SANJAY">SANJAY</span>
+    <span class="title-line" data-text="RAJESH">RAJESH</span>
+  </a>
+)}
 
 <nav class="navigation">
   {navItems.map(item => (
@@ -21,11 +29,13 @@ const currentPath = Astro.url.pathname;
 </nav>
 
 <style>
+  @import url('https://fonts.googleapis.com/css2?family=Syncopate:wght@700&display=swap');
+
   .navigation {
     position: fixed;
     top: 2rem;
     left: 50%;
-    transform: translateX(0);
+    transform: translateX(-50%);
     display: flex;
     gap: 2rem;
     z-index: 100;
@@ -33,7 +43,6 @@ const currentPath = Astro.url.pathname;
     padding: 0.5rem;
     border-radius: 8px;
     backdrop-filter: blur(10px);
-    margin-right: 2rem;
   }
 
   .nav-item {
@@ -60,6 +69,59 @@ const currentPath = Astro.url.pathname;
     color: white;
   }
 
+  .brand-title {
+    position: fixed;
+    top: 2rem;
+    left: 2rem;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+    z-index: 100;
+    line-height: 0.9;
+    opacity: 0;
+    animation: fadeIn 1s ease-out forwards;
+    z-index: 200;
+  }
+
+  .title-line {
+    font-family: 'Syncopate', sans-serif;
+    font-size: clamp(1rem, 1.6vw, 2rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    transform: skew(-5deg);
+    background-image: linear-gradient(
+      -225deg,
+      #c17ce9 0%,
+      #fff9fe 29%,
+      #e35bf1 67%,
+      #c17ce9 100%
+    );
+    background-size: 200% auto;
+    color: #fff;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: textclip 3s linear infinite;
+  }
+
+  @keyframes textclip {
+    to {
+      background-position: 200% center;
+    }
+  }
+
+  @keyframes fadeIn {
+    from { 
+      opacity: 0;
+      transform: translateY(-10px); 
+    }
+    to { 
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
   @media (max-width: 768px) {
     .navigation {
       top: 0;
@@ -78,6 +140,15 @@ const currentPath = Astro.url.pathname;
     .nav-item {
       padding: 0.4rem 0.8rem;
       font-size: 0.65rem;
+    }
+
+    .brand-title {
+      top: 1rem;
+      left: 1rem;
+    }
+
+    .title-line {
+      font-size: 0.7rem;
     }
   }
 </style> 
