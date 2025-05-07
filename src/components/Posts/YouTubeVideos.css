@@ -1,8 +1,14 @@
 .youtubeSection {
-    margin-top: 4rem;
+    margin-top: 1rem;
     position: relative;
     z-index: 2;
-    padding: 0 1rem;
+    padding: 0 2rem;
+    opacity: 0;
+    animation: fadeIn 0.6s ease-out forwards 0.3s;
+    width: 100%; /* Increased width */
+    max-width: 1600px; /* Added max-width for very large screens */
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .youtubeSection h2 {
@@ -15,17 +21,18 @@
     display: flex;
     flex-wrap: wrap;
     gap: 2rem;
-    padding: 0 1rem;
 }
 
 .videoCard {
-    flex: 0 0 calc(33.333% - 1.334rem); /* For 3 cards per row with gap consideration */
+    flex: 0 0 calc(20.333% - 0.334rem); /* Ensures 3 cards per row */
+    min-width: 300px; /* Minimum width for each card */
     background: rgba(255, 255, 255, 0.05);
     border-radius: 12px;
     overflow: hidden;
     cursor: pointer;
     transition: all 0.3s ease;
     position: relative;
+    border: 1px solid transparent;
 }
 
 .videoCard:hover {
@@ -60,6 +67,7 @@
         rgba(0, 0, 0, 0.7) 50%,
         rgba(0, 0, 0, 0) 100%
     );
+    font-family: 'Space Grotesk', sans-serif;
 }
 
 .modalOverlay {
@@ -102,21 +110,22 @@
 
 @media (max-width: 1200px) {
     .videoCard {
-        flex: 0 0 calc(50% - 1rem); /* 2 cards per row */
+        flex: 0 0 calc(50% - 1rem);
     }
 }
 
 @media (max-width: 768px) {
+    .youtubeSection {
+        padding: 0 1rem;
+        width: 100%;
+    }
+    
     .videoCard {
-        flex: 0 0 100%; /* 1 card per row */
+        flex: 0 0 100%;
     }
 
     .modalContent {
         width: 95%;
-    }
-
-    .youtubeSection {
-        padding: 0 0.5rem;
     }
 }
 

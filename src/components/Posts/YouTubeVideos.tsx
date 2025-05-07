@@ -46,19 +46,33 @@ const videos: Video[] = [
 export default function YouTubeVideos() {
     const [selectedVideo, setSelectedVideo] = useState<string | null>(null);
 
+    const handleKeyPress = (e: React.KeyboardEvent, videoId: string) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            setSelectedVideo(videoId);
+        }
+    };
+
+    const handleCloseModal = () => setSelectedVideo(null);
+
     return (
-        <div className="youtubeSection" style={{ position: 'relative', zIndex: 2 }}>
+        <div className="youtubeSection">
             <h2>Videos</h2>
             <div className="videosGrid">
-                {videos.map((video) => (
+                {videos.map((video, index) => (
                     <div 
                         key={video.id} 
                         className="videoCard"
                         onClick={() => setSelectedVideo(video.id)}
+                        onKeyDown={(e) => handleKeyPress(e, video.id)}
+                        tabIndex={0}
+                        role="button"
+                        aria-label={`Play ${video.title}`}
+                        style={{ '--index': index } as React.CSSProperties}
                     >
                         <img 
                             src={video.thumbnail} 
-                            alt={video.title}
+                            alt={`Thumbnail for ${video.title}`}
                             className="videoThumbnail"
                         />
                         <h3 className="videoTitle">{video.title}</h3>
@@ -67,11 +81,17 @@ export default function YouTubeVideos() {
             </div>
 
             {selectedVideo && (
-                <div className="modalOverlay" onClick={() => setSelectedVideo(null)}>
+                <div 
+                    className="modalOverlay" 
+                    onClick={handleCloseModal}
+                    role="dialog"
+                    aria-label="Video player"
+                >
                     <div className="modalContent" onClick={e => e.stopPropagation()}>
                         <button 
                             className="closeButton"
-                            onClick={() => setSelectedVideo(null)}
+                            onClick={handleCloseModal}
+                            aria-label="Close video"
                         >
                             ×
                         </button>
