@@ -10,6 +10,7 @@ interface WorkItem {
     launchedBy?: string;
     awards?: string[];
     size?: 'large' | 'medium' | 'small';
+    mediaLinks?: { title: string; url: string }[];
 }
 
 interface Props {
@@ -22,13 +23,25 @@ const { currentSection } = Astro.props;
 const sectionContent: Record<string, WorkItem[]> = {
     'notable-work': [
         {
-            type: 'featured',
-            title: 'Aadujeevitham: The Goat Life',
-            description: 'Official movie website',
+            type: 'project',
+            title: 'Aadujeevitham: The Goat Life (2024) - Official Movie Website',
+            description: 'Official movie website for the epic survival drama starring Prithviraj Sukumaran. The website features a dynamic day/night experience that changes based on user\'s local time, with custom animations and transitions.',
             image: 'https://thegoatlifefilm.com/_astro/every_breath_desktop.r_dlPKcE_Z16Fwf7.webp',
-            link: '/works/goatlife',
+            link: 'https://thegoatlifefilm.com',
             launchedBy: 'A R Rahman',
-            size: 'large'
+            // techStack: ['Astro', 'React', 'TypeScript', 'Three.js', 'GSAP', 'Tailwind CSS'],
+            size: 'large',
+            mediaLinks: [
+                {
+                    title: 'The Hindu - A R Rahman launches Aadujeevitham website',
+                    url: 'https://www.thehindu.com/entertainment/movies/ar-rahman-launches-website-of-prithviraj-sukumarans-aadujeevitham/article67679145.ece'
+                },
+                {
+                    title: 'Manorama Online - Immersive website experience',
+                    url: 'https://www.manoramaonline.com/movies/movie-news/2023/12/21/ar-rahman-launches-aadujeevitham-movie-website.html'
+                }
+            ],
+            // awards: ['Featured on Awwwards', 'Site of the Day - CSS Design Awards'],
         },
         {
             type: 'project',
@@ -60,28 +73,49 @@ const sectionContent: Record<string, WorkItem[]> = {
 
 <div class="works-content">
     <div class="left-column">
-        {sectionContent[currentSection]?.filter(item => item.type === 'featured' ).map(item => (
-            <div class={item.size}>
-               
-                    <a href={item.link} class="project-card glass-card">
-                        <div class="card-image">
-                            <img src={item.image} alt={item.title} />
+        {sectionContent[currentSection]?.filter(item => item.size === 'large').map(item => (
+            <div class="project-card glass-card compact">
+                <div class="card-image">
+                    <img src={item.image} alt={item.title} />
+                    <div class="image-overlay">
+                        <h2 class="title-text">{item.title}</h2>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <p class="description-text">{item.description}</p>
+                    
+                    <div class="media-links">
+                        <a class="highlight-link" href="https://indianexpress.com/article/entertainment/malayalam/ar-rahman-prithviraj-sukumaran-upcoming-film-aadujeevitham-malayalam-lawrence-of-arabia-9183502/" target="_blank" rel="noopener noreferrer">Indian Express</a>
+                        <a class="highlight-link" href="https://www.mathrubhumi.com/movies-music/news/aadujeevitham-website-launch-1.9357830" target="_blank" rel="noopener noreferrer">Mathrubhumi</a>
+                        <a class="highlight-link" href="https://www.manoramaonline.com/music/music-news/2024/02/26/aadujeevitham-website-opening.html" target="_blank" rel="noopener noreferrer">Manorama Online</a>
+                        <a class="highlight-link" href="https://timesofindia.indiatimes.com/entertainment/malayalam/movies/news/director-blessy-on-aadujeevitham-website-launch/articleshow/108015198.cms" target="_blank" rel="noopener noreferrer">Times of India</a>
+                        <a class="highlight-link" href="https://en.wikipedia.org/wiki/The_Goat_Life#Marketing:~:text=An%20official%20website,Revenant%20(2015)" target="_blank" rel="noopener noreferrer">Wikipedia</a>
+                    </div>
+
+                    {item.awards && (
+                        <div class="awards">
+                            {item.awards.map(award => (
+                                <span class="award-tag">🏆 {award}</span>
+                            ))}
                         </div>
-                        <div class="card-content">
-                            <h2 class="title-text">{item.title}</h2>
-                            <p class="description-text">
-                                {item.description}
-                                {item.launchedBy && 
-                                    <span>
-                                        Launched by <span class="highlight-text">{item.launchedBy}</span>
-                                    </span>
-                                }
-                            </p>
+                    )}
+
+                    <div class="card-links">
+                        <a href={item.link} class="highlight-link" target="_blank" rel="noopener noreferrer">
+                            Visit Website →
+                        </a>
+                    </div>
+
+                    {item.techStack && (
+                        <div class="tech-stack">
+                            {item.techStack.map(tech => <span class="tech-tag">{tech}</span>)}
                         </div>
-                    </a>
-              
+                    )}
+                </div>
             </div>
         ))}
+        
+       
     </div>
     
     <div class="right-column">
@@ -229,8 +263,8 @@ const sectionContent: Record<string, WorkItem[]> = {
     }
 
     .featured-card, .project-card {
-        background: rgba(255, 255, 255, 0.05);
-        backdrop-filter: blur(12px);
+        background: rgba(255, 255, 255, 0.019);
+        backdrop-filter: blur(2px);
         border: 1px solid rgba(255, 255, 255, 0.1);
         box-shadow: 
             0 4px 30px rgba(0, 0, 0, 0.1),
@@ -245,13 +279,7 @@ const sectionContent: Record<string, WorkItem[]> = {
         transition: all 0.3s ease;
     }
 
-    .featured-card:hover, .project-card:hover {
-        background: rgba(255, 255, 255, 0.08);
-        transform: translateY(-5px);
-        box-shadow: 
-            0 8px 40px rgba(0, 0, 0, 0.2),
-            inset 0 0 0 1px rgba(255, 255, 255, 0.1);
-    }
+ 
 
     .card-image img {
         width: 100%;
@@ -389,5 +417,104 @@ const sectionContent: Record<string, WorkItem[]> = {
         .small {
             min-height: 160px;
         }
+    }
+
+    .compact {
+        padding: 1rem;
+        margin-bottom: 1rem;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .media-links {
+        display: flex;
+        /* flex-direction: column; */
+        gap: 0.6rem;
+        margin: 0.75rem 0;
+    }
+
+    .media-link {
+        color: rgba(255, 255, 255, 0.9);
+        text-decoration: none;
+        font-size: 0.9rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.4rem 0.8rem;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 4px;
+        transition: all 0.3s ease;
+    }
+
+    .media-link:hover {
+        background: rgba(255, 255, 255, 0.1);
+        transform: translateX(5px);
+    }
+
+    .project-card {
+        overflow: hidden;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-image {
+        position: relative;
+        width: 100%;
+        height: 200px; /* Adjust height as needed */
+        overflow: hidden;
+    }
+
+    .image-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), transparent);
+        display: flex;
+        align-items: flex-start;
+        justify-content: flex-start;
+        padding: 1rem;
+    }
+
+    .title-text {
+        color: white;
+        font-size: 1.5rem;
+        margin: 0;
+    }
+
+    .card-content {
+        padding: 1rem;
+    }
+
+    .description-text {
+        margin: 0.5rem 0;
+        font-size: 0.9rem;
+        line-height: 1.3;
+    }
+
+    .media-links {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        margin: 0.75rem 0;
+    }
+
+    .highlight-link {
+        color: rgba(255, 255, 255, 0.9);
+        text-decoration: none;
+        font-size: 0.9rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.4rem 0.8rem;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 4px;
+        transition: all 0.3s ease;
+    }
+
+    .highlight-link:hover {
+        background: rgba(255, 255, 255, 0.1);
+        transform: translateX(5px);
     }
 </style> 
