@@ -23,12 +23,12 @@ const currentSection = "notable-work";
 
         <!-- Content Area -->
         <main class="content-area">
-            <nav class="breadcrumb" aria-label="breadcrumb">
+            <!-- <nav class="breadcrumb" aria-label="breadcrumb">
                 <ol>
                     <li><a href="/">Home</a></li>
                     <li>Works</li>
                 </ol>
-            </nav>
+            </nav> -->
             <WorksContent currentSection={currentSection} />
         </main>
     </div>
@@ -38,12 +38,11 @@ const currentSection = "notable-work";
     .works-container {
         display: flex;
         min-height: 100vh;
-        padding-top: 4rem; /* Space for navigation */
+        padding-top: 4rem;
         position: relative;
     }
 
     .mobile-menu-btn {
-        display: none;
         position: fixed;
         left: 1rem;
         bottom: 2rem;
@@ -56,6 +55,7 @@ const currentSection = "notable-work";
         border: 1px solid rgba(255, 255, 255, 0.2);
         cursor: pointer;
         transition: all 0.3s ease;
+        display: block; /* Show on all screen sizes */
     }
 
     .menu-icon {
@@ -89,7 +89,7 @@ const currentSection = "notable-work";
     .content-area {
         flex: 1;
         padding: 2rem;
-        margin-left: 250px; /* Width of the menu */
+        margin-left: 0; /* Remove the permanent margin */
     }
 
     .breadcrumb {
@@ -121,27 +121,22 @@ const currentSection = "notable-work";
         color: white;
     }
 
+    /* Menu open state styles */
+    .works-container.menu-open .mobile-menu-btn .menu-icon {
+        background: transparent;
+    }
+
+    .works-container.menu-open .mobile-menu-btn .menu-icon::before {
+        transform: rotate(45deg);
+    }
+
+    .works-container.menu-open .mobile-menu-btn .menu-icon::after {
+        transform: rotate(-45deg);
+    }
+
     @media (max-width: 768px) {
-        .mobile-menu-btn {
-            display: block;
-        }
-
         .content-area {
-            margin-left: 0;
             padding: 1rem;
-        }
-
-        /* Menu open state */
-        .works-container.menu-open .mobile-menu-btn .menu-icon {
-            background: transparent;
-        }
-
-        .works-container.menu-open .mobile-menu-btn .menu-icon::before {
-            transform: rotate(45deg);
-        }
-
-        .works-container.menu-open .mobile-menu-btn .menu-icon::after {
-            transform: rotate(-45deg);
         }
     }
 </style>
