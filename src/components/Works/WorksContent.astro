@@ -462,23 +462,6 @@ const sectionContent: Record<string, WorkItem[]> = {
         border-radius: 8px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
-
-   
-
-    .image-overlay {
-        position: absolute;
-        top: 0;
-        left: -10px;
-        transform: translateX(-10px);
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), transparent);
-        display: flex;
-        align-items: flex-start;
-        justify-content: flex-start;
-        padding: 1rem;
-    }
-
  
 
     .card-content {
@@ -522,6 +505,7 @@ const sectionContent: Record<string, WorkItem[]> = {
         width: 100%;
         height: 100%; /* Make sure the image fills the card */
         overflow: hidden;
+        min-height: 400px;
     }
 
     .card-image img {
@@ -538,7 +522,7 @@ const sectionContent: Record<string, WorkItem[]> = {
         height: 100%;
         display: flex;
         flex-direction: column;
-        justify-content: space-between;
+        justify-content: flexstart;
         padding: 1rem;
         background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7));
     }

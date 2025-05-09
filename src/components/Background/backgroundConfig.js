@@ -40,7 +40,7 @@ export const SHOOTING_STAR_CONFIG = {
 export const GALAXY_CONFIG = {
   get COUNT() {
     const { isMobile } = getDeviceConfig();
-    return isMobile ? 4 : 6;
+    return isMobile ? 6 : 8;
   }
 };
 

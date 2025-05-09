@@ -95,7 +95,7 @@ const LaserBeamSketch = () => {
         }
 
         const patterns = [...Object.entries(CONSTELLATION_PATTERNS)];
-        const desired = shouldReduceEffects ? 1 : 2.5;
+        const desired = shouldReduceEffects ? 3 : 4;
         let tries = 0;
 
         while (constellations.length < desired && tries < 100) {
