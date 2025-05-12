@@ -114,9 +114,6 @@ const sectionContent: Record<string, WorkItem[]> = {
                 </div>
             </div>
         ))}
-        
-
-    
   
         {sectionContent[currentSection]?.filter(item => item.size === 'small' || item.size === 'medium').map(item => item.size === 'small' ? (
             <div class="small">
@@ -275,10 +272,16 @@ const sectionContent: Record<string, WorkItem[]> = {
         box-shadow: 
             0 4px 30px rgba(0, 0, 0, 0.1),
             inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+            overflow: hidden;
+        border-radius: 8px;
+        /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); */
+        padding: 0.75rem;
+        color: white;
+        max-width: 33vw;
     }
 
     .featured-card {
-        width: 100vw;
+        /* width: 100vw; */
         text-decoration: none;
         color: white;
         overflow: hidden;
@@ -300,11 +303,6 @@ const sectionContent: Record<string, WorkItem[]> = {
 
     .card-content {
         padding: 0.2rem;
-    }
-
-    .project-card {
-        padding: 0.75rem;
-        color: white;
     }
 
  
@@ -405,7 +403,9 @@ const sectionContent: Record<string, WorkItem[]> = {
             padding: 0.75rem;
         }
 
-      
+      .project-card {
+        max-width: 100%;
+      }
 
    
 
@@ -457,11 +457,7 @@ const sectionContent: Record<string, WorkItem[]> = {
         transform: translateX(5px);
     }
 
-    .project-card {
-        overflow: hidden;
-        border-radius: 8px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
+
  
 
     .card-content {
