@@ -2,7 +2,6 @@
 import StarryLayout from '../layouts/StarryLayout.astro';
 import WorksMenu from '../components/Works/WorksMenu.astro';
 import WorksContent from '../components/Works/WorksContent.astro';
-     
 // SEO metadata
 const title = "Works - Sanjay Rajesh";
 const description = "Portfolio of works and projects by Sanjay Rajesh - Including The Goat Life official website, personal projects, and professional experience.";
@@ -14,22 +13,80 @@ const currentSection = "notable-work";
 <StarryLayout title={title} description={description}>
     <div class="works-container">
         <!-- Mobile Menu Button -->
-        <button class="mobile-menu-btn" aria-label="Toggle menu">
+        <!-- <button class="mobile-menu-btn" aria-label="Toggle menu">
             <span class="menu-icon"></span>
-        </button>
+        </button> -->
 
         <!-- Left Menu -->
-        <WorksMenu currentSection={currentSection} />
+        <!-- <WorksMenu currentSection={currentSection} /> -->
 
         <!-- Content Area -->
         <main class="content-area">
-            <!-- <nav class="breadcrumb" aria-label="breadcrumb">
-                <ol>
-                    <li><a href="/">Home</a></li>
-                    <li>Works</li>
-                </ol>
-            </nav> -->
-            <WorksContent currentSection={currentSection} />
+            <section class="notable-work">
+                <h2 class="section-title">Notable Work</h2>
+                <div class="cards-grid">
+                    <WorksContent currentSection={currentSection} />
+                </div>
+            </section>
+
+            <section class="professional-experience">
+                <h2 class="section-title">Professional Journey</h2>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <div class="timeline-header">
+                                <h3>Senior Frontend Developer</h3>
+                                <span class="company">Fingent</span>
+                                <span class="duration">2022 - Present</span>
+                            </div>
+                            <p>
+                                Leading frontend development for <span class="highlight-text">CBN Superbook</span> — a multilingual, gamified Bible-learning platform with <span class="highlight-text">3M+ users</span> across web and mobile. 
+                                <br/><br/>
+                                As frontend lead, I manage a team of 5 developers and collaborate closely with clients, stakeholders, PMs, architects, mobile and backend teams.</p>
+                            
+                            <div class="tech-stack-icons">
+                                <span class="tech-tag">React</span>
+                                <span class="tech-tag">Redux</span>
+                                <span class="tech-tag">Tailwind CSS</span>
+                                <span class="tech-tag">Apollo Client</span>
+                                <span class="tech-tag">WunderGraph</span>
+                                <span class="tech-tag">Drupal 9</span>
+                                <span class="tech-tag">Azure</span>
+                                <span class="tech-tag">i18n</span>
+                                <span class="tech-tag">Bitbucket</span>
+                                <span class="tech-tag">Pantheon</span>
+                                <span class="tech-tag">Jira</span>
+                                <span class="tech-tag">Figma</span>
+                            </div>
+                             </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <div class="timeline-header">
+                                <h3>Frontend Developer</h3>
+                                <span class="company">Engarti</span>
+                                <span class="duration">2021 - 2022</span>
+                            </div>
+                            <p>Developed and maintained multiple web applications using React and TypeScript. Collaborated with design and backend teams to implement responsive and accessible user interfaces. Contributed to the development of internal component libraries.</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <div class="timeline-header">
+                                <h3>Associate Software Engineer</h3>
+                                <span class="company">TCS</span>
+                                <span class="duration">2019 - 2021</span>
+                            </div>
+                            <p>Started my professional journey as a full-stack developer, working on enterprise applications. Gained experience in Java, Spring Boot, and frontend technologies. Participated in multiple client projects and internal initiatives.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
         </main>
     </div>
 </StarryLayout>
@@ -37,7 +94,6 @@ const currentSection = "notable-work";
 <style>
     .works-container {
         display: flex;
-        /* max-height: 100vh; */
         padding-top: 4rem;
         position: relative;
     }
@@ -55,7 +111,7 @@ const currentSection = "notable-work";
         border: 1px solid rgba(255, 255, 255, 0.2);
         cursor: pointer;
         transition: all 0.3s ease;
-        display: block; /* Show on all screen sizes */
+        display: block;
     }
 
     .menu-icon {
@@ -89,37 +145,122 @@ const currentSection = "notable-work";
     .content-area {
         flex: 1;
         padding: 2rem;
-        margin-left: 0; /* Remove the permanent margin */
+        margin-left: 0;
         display: flex;
+        flex-direction: column;
+        gap: 4rem;
     }
 
-    .breadcrumb {
-        margin-bottom: 2rem;
-    }
-
-    .breadcrumb ol {
-        list-style: none;
-        padding: 0;
-        display: flex;
-        gap: 0.5rem;
-        color: rgba(255, 255, 255, 0.7);
+    .section-title {
         font-family: 'Space Grotesk', sans-serif;
-    }
-
-    .breadcrumb li:not(:last-child)::after {
-        content: '>';
-        margin-left: 0.5rem;
-        color: rgba(255, 255, 255, 0.4);
-    }
-
-    .breadcrumb a {
-        color: rgba(255, 255, 255, 0.7);
-        text-decoration: none;
-        transition: color 0.3s ease;
-    }
-
-    .breadcrumb a:hover {
+        font-size: 2rem;
         color: white;
+        margin-bottom: 2rem;
+        position: relative;
+        display: inline-block;
+    }
+
+    .section-title::after {
+        content: '';
+        position: absolute;
+        bottom: -0.5rem;
+        left: 0;
+        width: 60px;
+        height: 2px;
+        background: rgba(255, 255, 255, 0.3);
+    }
+
+    .cards-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+    }
+
+    /* Timeline Styles */
+    .timeline {
+        position: relative;
+        padding: 2rem 0;
+    }
+
+    .timeline::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 2px;
+        background: rgba(255, 255, 255, 0.1);
+    }
+
+    .timeline-item {
+        position: relative;
+        padding-left: 2rem;
+        margin-bottom: 3rem;
+    }
+
+    .timeline-dot {
+        position: absolute;
+        left: -4px;
+        top: 0;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: white;
+        box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.1);
+    }
+
+    .timeline-content {
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(10px);
+        border-radius: 12px;
+        padding: 1.5rem;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .timeline-header {
+        margin-bottom: 1rem;
+    }
+
+    .timeline-header h3 {
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: 1.25rem;
+        color: white;
+        margin: 0 0 0.5rem 0;
+    }
+
+    .company {
+        display: inline-block;
+        font-size: 1rem;
+        color: rgba(255, 255, 255, 0.8);
+        margin-right: 1rem;
+    }
+    .tech-stack-icons {
+    margin-top: 0.75rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.tech-tag {
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 0.3rem 0.75rem;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.85);
+    font-weight: 500;
+}
+
+    .duration {
+        display: inline-block;
+        font-size: 0.9rem;
+        color: rgba(255, 255, 255, 0.6);
+    }
+
+    .timeline-content p {
+        color: rgba(255, 255, 255, 0.8);
+        line-height: 1.6;
+        margin: 0;
     }
 
     /* Menu open state styles */
@@ -138,8 +279,31 @@ const currentSection = "notable-work";
     @media (max-width: 768px) {
         .content-area {
             padding: 1rem;
+            gap: 3rem;
+        }
+
+        .section-title {
+            font-size: 1.75rem;
+        }
+
+        .cards-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .timeline-content {
+            padding: 1.25rem;
+        }
+
+        .timeline-header h3 {
+            font-size: 1.1rem;
+        }
+
+        .company, .duration {
+            display: block;
+            margin-bottom: 0.25rem;
         }
     }
+    
 </style>
 
 <script>

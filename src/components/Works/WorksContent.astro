@@ -26,7 +26,7 @@ const sectionContent: Record<string, WorkItem[]> = {
             type: 'project',
             title: 'Aadujeevitham: The Goat Life (2024) - Official Movie Website',
             description: 'Official movie website for the epic survival drama starring Prithviraj Sukumaran. The website features a dynamic day/night experience that changes based on user\'s local time, with custom animations and transitions.',
-            image: 'https://thegoatlifefilm.com/_astro/every_breath_desktop.r_dlPKcE_Z16Fwf7.webp',
+            image: '/goat.webp',
             link: 'https://thegoatlifefilm.com',
             launchedBy: 'A R Rahman',
             // techStack: ['Astro', 'React', 'TypeScript', 'Three.js', 'GSAP', 'Tailwind CSS'],
@@ -76,18 +76,24 @@ const sectionContent: Record<string, WorkItem[]> = {
         {sectionContent[currentSection]?.filter(item => item.size === 'large').map(item => (
             <div class="project-card glass-card full-image-card">
                 <div class="card-image">
-                    <img src={item.image} alt={item.title} />
+                    <img src={item.image} alt={item.title} width="330px"/>
                     <div class="image-overlay">
                         <h2 class="title-text">{item.title}</h2>
                         <div class="card-content">
-                            <p class="description-text">{item.description}</p>
+                            <p class="description-text">
+    Official promotional website. As part of the film's core digital team, I served as the web engineer overseeing the site’s architecture, development, and launch.  The website was officially unveiled by <span class="highlight-text">A. R. Rahman</span>, <span class="highlight-text">Blessy</span>, and author <span class="highlight-text">Benjamin</span> as part of the global marketing rollout. 
+</p>
+
                             
                             <div class="media-links">
+                                <a href={item.link} class="highlight-link" target="_blank" rel="noopener noreferrer">
+                                    Visit Website →
+                                </a>
+                                <a class="highlight-link" href="https://timesofindia.indiatimes.com/entertainment/malayalam/movies/news/director-blessy-on-aadujeevitham-website-launch/articleshow/108015198.cms" target="_blank" rel="noopener noreferrer">Times of India</a>
                                 <a class="highlight-link" href="https://indianexpress.com/article/entertainment/malayalam/ar-rahman-prithviraj-sukumaran-upcoming-film-aadujeevitham-malayalam-lawrence-of-arabia-9183502/" target="_blank" rel="noopener noreferrer">Indian Express</a>
+                                <a class="highlight-link" href="https://en.wikipedia.org/wiki/The_Goat_Life#Marketing:~:text=An%20official%20website,Revenant%20(2015)" target="_blank" rel="noopener noreferrer">Wikipedia</a>
                                 <a class="highlight-link" href="https://www.mathrubhumi.com/movies-music/news/aadujeevitham-website-launch-1.9357830" target="_blank" rel="noopener noreferrer">Mathrubhumi</a>
                                 <a class="highlight-link" href="https://www.manoramaonline.com/music/music-news/2024/02/26/aadujeevitham-website-opening.html" target="_blank" rel="noopener noreferrer">Manorama Online</a>
-                                <a class="highlight-link" href="https://timesofindia.indiatimes.com/entertainment/malayalam/movies/news/director-blessy-on-aadujeevitham-website-launch/articleshow/108015198.cms" target="_blank" rel="noopener noreferrer">Times of India</a>
-                                <a class="highlight-link" href="https://en.wikipedia.org/wiki/The_Goat_Life#Marketing:~:text=An%20official%20website,Revenant%20(2015)" target="_blank" rel="noopener noreferrer">Wikipedia</a>
                             </div>
 
                             {item.awards && (
@@ -99,9 +105,7 @@ const sectionContent: Record<string, WorkItem[]> = {
                             )}
 
                             <div class="card-links">
-                                <a href={item.link} class="highlight-link" target="_blank" rel="noopener noreferrer">
-                                    Visit Website →
-                                </a>
+                               
                             </div>
 
                             {item.techStack && (
@@ -116,7 +120,7 @@ const sectionContent: Record<string, WorkItem[]> = {
         ))}
   
         {sectionContent[currentSection]?.filter(item => item.size === 'small' || item.size === 'medium').map(item => item.size === 'small' ? (
-            <div class="small">
+        
                 
                 <div class="project-card glass-card">
                     
@@ -160,7 +164,7 @@ const sectionContent: Record<string, WorkItem[]> = {
                         </div>
                     )}
                 </div>
-            </div>
+        
         ):( <div class="project-card glass-card">
                         <div style="display: flex; width: 100%; gap: 0.5rem; align-items: center; justify-content: space-between">
                             <div class="card-header"> <h2 class="title-text">{item.title}</h2></div>
@@ -221,6 +225,8 @@ const sectionContent: Record<string, WorkItem[]> = {
 	}
     .works-content {
         display: flex;
+        /* flex: 0 0 33.33%; */
+        /* flex-wrap: wrap; */
         /* grid-template-columns: 2fr 1fr; */
         align-items: stretch;
         gap: 1rem;
@@ -500,14 +506,16 @@ const sectionContent: Record<string, WorkItem[]> = {
         position: relative;
         width: 100%;
         height: 100%; /* Make sure the image fills the card */
-        overflow: hidden;
+        /* overflow: hidden; */
         min-height: 400px;
+        height: auto; 
     }
 
     .card-image img {
         width: 100%;
         height: 100%;
         object-fit: cover;
+        
     }
 
     .image-overlay {
@@ -518,7 +526,9 @@ const sectionContent: Record<string, WorkItem[]> = {
         height: 100%;
         display: flex;
         flex-direction: column;
-        justify-content: flexstart;
+        justify-content: flex-start;
+        overflow-y: auto;
+        padding-bottom: 1rem;
         padding: 1rem;
         background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7));
     }
