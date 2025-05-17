@@ -15,7 +15,7 @@ export class LaserBeam {
     
     // Avatar position (center of beam)
     this.avatarPosX = this.startX + (this.beamLength / 2) * p.cos(this.angle);
-    this.avatarPosY = this.startY + (this.beamLength / 2) * p.sin(this.angle);
+    this.avatarPosY = this.startY + (this.beamLength / 2.5) * p.sin(this.angle);
     
     // Optional: Store the buffer within the class
     this.buffer = null;

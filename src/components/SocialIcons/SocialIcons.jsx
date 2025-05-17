@@ -114,7 +114,7 @@ const SocialIcons = () => {
           display: flex;
           flex-wrap: wrap;
           gap: 0.35rem;
-          max-width: 500px;
+          max-width: 90vw;
           justify-content: flex-start;
           align-items: center;
         }

@@ -195,7 +195,7 @@ const LaserBeamSketch = () => {
           .filter(fragment => fragment.active && fragment.opacity/255 <= RECT_OVER_THRESHOLD)
           .forEach(fragment => fragment.display(p));
         
-        const avatarSizeMultiplier = isMobile ? 4.5 : 8.5; 
+        const avatarSizeMultiplier = isMobile ? 6.5 : 9; 
         const avatarSize = laserBeam.thickness * avatarSizeMultiplier;
         const avatarPos = laserBeam.getAvatarPosition();
         
