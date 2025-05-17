@@ -7,7 +7,7 @@ export class LaserBeam {
     this.startY = options.startY || p.height / 2;
     this.endX = options.endX || p.width;
     this.endY = options.endY || p.height / 3;
-    this.thickness = options.thickness || 55;
+    this.thickness = options.thickness || 50;
     
     // Calculate beam angle and properties
     this.angle = p.atan2(this.endY - this.startY, this.endX - this.startX);

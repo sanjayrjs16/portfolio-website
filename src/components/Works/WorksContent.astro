@@ -61,7 +61,7 @@ const sectionContent: Record<string, WorkItem[]> = {
             image: 'https://sanjayrjs.vercel.app/picturama.png',
             techStack: ['Next.js', 'Express.js', 'MongoDB', 'Solidity', 'IPFS',  'Web3.js', 'Chainlink', 'Filecoin'],
             link: 'https://www.youtube.com/watch?v=mnrl5tAp7eE&t=160s',
-            awards: ['Chainlink Fall 2021 Hackathon – Filecoin Prize Winner'],
+            awards: ['Filecoin Prize Winner - Chainlink 2021 Hackathon'],
             size: 'small'
         }
     ],
@@ -85,7 +85,7 @@ const sectionContent: Record<string, WorkItem[]> = {
 </p>
 
                             
-                            <div class="media-links">
+                            <div class="card-links">
                                 <a href={item.link} class="highlight-link" target="_blank" rel="noopener noreferrer">
                                     Visit Website →
                                 </a>
@@ -124,7 +124,7 @@ const sectionContent: Record<string, WorkItem[]> = {
                 
                 <div class="project-card glass-card">
                     
-                    <div style="display: flex;  gap: 0.5rem; align-items: center; justify-content: flex-start;">
+                    <div style="display: flex; width: 100%; gap: 0.5rem; align-items: center; justify-content: space-between">
                    
                         <div class="card-header">
                         <h2 class="title-text">{item.title}</h2>
@@ -268,6 +268,7 @@ const sectionContent: Record<string, WorkItem[]> = {
     .project-image img {
         max-height: 100%;
         /* width: auto; */
+        border-radius: 4rem;
         object-fit: cover;
     }
 
@@ -319,18 +320,18 @@ const sectionContent: Record<string, WorkItem[]> = {
         text-transform:uppercase;
         line-height: 1;
         margin-bottom: 0.5rem;
+        font-family: 'Audiowide', sans-serif;
     }
 
-    .card-links {
+
+    .card-links  {
         margin: 0.5rem 0;
         display: flex;
-        gap: 0.5rem;
-    }
-
-    .card-links .highlight-link {
-        display: flex;
+        flex-wrap: wrap;
+        flex: 1 0 100%;
         align-items: center;
         gap: 0.5rem;
+        font-family: 'Space Grotesk', sans-serif;
     }
 
     .github-icon {
@@ -338,7 +339,7 @@ const sectionContent: Record<string, WorkItem[]> = {
         transition: opacity 0.3s ease;
     }
 
-    .highlight-link:hover .github-icon {
+    .github-icon {
         opacity: 1;
     }
 
@@ -354,7 +355,8 @@ const sectionContent: Record<string, WorkItem[]> = {
         color: rgba(255, 255, 255, 0.9);
         padding: 0.2rem 0.6rem;
         border-radius: 4px;
-        font-size: 0.8rem;
+        font-size: 0.75rem;
+        font-family: 'Space Grotesk', sans-serif;
         border: 1px solid rgba(138, 43, 226, 0.2);
     }
 
@@ -368,25 +370,29 @@ const sectionContent: Record<string, WorkItem[]> = {
         color: rgba(255, 215, 0, 0.9);
         padding: 0.3rem 0.8rem;
         border-radius: 4px;
-        font-size: 0.85rem;
+        font-size: 0.65rem;
+        text-transform: uppercase;
         font-weight: 500;
         display: flex;
         align-items: center;
         gap: 0.3rem;
         border: 1px solid rgba(255, 215, 0, 0.2);
+        font-family: 'Syncopate', sans-serif;
     }
 
     .badge {
         display: inline-flex;
+        text-transform: uppercase;
         align-items: center;
         gap: 0.5rem;
         background: rgba(46, 204, 113, 0.1);
         color: rgba(46, 204, 113, 0.9);
         padding: 0.3rem 0.8rem;
         border-radius: 4px;
-        font-size: 0.85rem;
+        font-size: 0.65rem;
         border: 1px solid rgba(46, 204, 113, 0.2);
         margin-bottom: 1rem;
+        font-family: 'Syncopate', sans-serif;
     }
 
     .description-text {

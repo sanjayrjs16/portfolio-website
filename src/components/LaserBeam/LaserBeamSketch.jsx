@@ -95,7 +95,7 @@ const LaserBeamSketch = () => {
         }
 
         const patterns = [...Object.entries(CONSTELLATION_PATTERNS)];
-        const desired = shouldReduceEffects ? 3 : 4;
+        const desired = shouldReduceEffects ? 4 : 6;
         let tries = 0;
 
         while (constellations.length < desired && tries < 100) {
@@ -195,7 +195,7 @@ const LaserBeamSketch = () => {
           .filter(fragment => fragment.active && fragment.opacity/255 <= RECT_OVER_THRESHOLD)
           .forEach(fragment => fragment.display(p));
         
-        const avatarSizeMultiplier = isMobile ? 7 : 10; 
+        const avatarSizeMultiplier = isMobile ? 4.5 : 8.5; 
         const avatarSize = laserBeam.thickness * avatarSizeMultiplier;
         const avatarPos = laserBeam.getAvatarPosition();
         
