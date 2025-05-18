@@ -1,6 +1,7 @@
 ---
 import StarryLayout from '../layouts/StarryLayout.astro';
 import YouTubeVideos from '../components/Posts/YouTubeVideos';
+import '../components/Posts/YouTubeVideos.css';
 
 const blogPosts = [
     {
@@ -9,7 +10,7 @@ const blogPosts = [
         platform: "Medium"
     },
     {
-        title: "Is Proof of Stake (PoS) a game changer and what it means for blockchains and web3?",
+        title: "Is Proof of Stake (PoS) a game changer & what it means for blockchains & web3?",
         link: "https://dev.to/sanjayrjs16/the-gist-of-proof-of-stake-pos-39h2",
         platform: "Dev.to"
     },
@@ -47,6 +48,11 @@ const blogPosts = [
         padding: 2rem;
         margin: 6rem 2rem 2rem 2rem;
         color: white;
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+        align-items: center;
+        justify-items: center;
     }
 
     h1 {
@@ -92,6 +98,7 @@ const blogPosts = [
         font-size: 0.9rem;
         opacity: 0.7;
         font-family: 'Space Grotesk', sans-serif;
+        padding-left: 1rem;
     }
 
     @keyframes fadeIn {

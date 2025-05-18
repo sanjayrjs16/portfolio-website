@@ -64,7 +64,7 @@ export default function YouTubeVideos() {
     return (
         <>
         <div className="youtubeSection">
-            <h2>Videos</h2>
+        <h2 className="section-title">Videos</h2>
             <div className="videosGrid">
                 {videos.map((video, index) => (
                     <div 
