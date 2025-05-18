@@ -170,9 +170,8 @@ const SocialIcons = () => {
         .copied-alert {
           position: absolute;
           top: -40px;
-          left: 50%;
+          left: 0%;
           font-family: 'Space Grotesk', sans-serif;
-          transform: translateX(-50%);
           background: rgba(138, 43, 226, 0.9);
           color: white;
           padding: 0.5rem 1rem;

@@ -29,23 +29,38 @@ const videos: Video[] = [
         title: "How a SINGLE piece of code TOOK DOWN MySpace.",
         thumbnail: `https://img.youtube.com/vi/8mGO_Cp-GmM/maxresdefault.jpg`
     },
-    {
-        id: "BX0dTsmU5f4",
-        title: "Why are frontend frameworks going REACTIVE ?",
-        thumbnail: `https://img.youtube.com/vi/BX0dTsmU5f4/maxresdefault.jpg`
-    },
+   
     {
         id: "kqiPfj5C0ig",
         title: "Animating Michael Scott's Parkour Flip on Scroll with React",
         thumbnail: `https://img.youtube.com/vi/kqiPfj5C0ig/maxresdefault.jpg`
     },
     {
+        id: "Iq5MoWmuxlI",
+        title: "Animating Sukuna full screen loader on the web",
+        thumbnail: `https://img.youtube.com/vi/Iq5MoWmuxlI/maxresdefault.jpg`
+    },
+    {
+        id: "BX0dTsmU5f4",
+        title: "Why are frontend frameworks going REACTIVE ?",
+        thumbnail: `https://img.youtube.com/vi/BX0dTsmU5f4/maxresdefault.jpg`
+    },
+    {
         id: "Rk-xkF9ge9Q",
         title: "REACT 70% FASTER?!? | Million.js explained",
         thumbnail: `https://img.youtube.com/vi/Rk-xkF9ge9Q/maxresdefault.jpg`
     },
+    // 
+        {
+            id: "G2IjpyryO2U",
+            title: "Naruto Shadow Clone Notification system using React",
+            thumbnail: `https://img.youtube.com/vi/G2IjpyryO2U/maxresdefault.jpg`
+        },
+    // Iq5MoWmuxlI
+   
     
     
+
     
 ];
 
