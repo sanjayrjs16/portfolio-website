@@ -406,7 +406,7 @@ const description = "Frontend focused web engineer building performant, scalable
 		color: white;
 		transition: all 0.3s ease;
 		opacity: 0;
-		animation: socialFadeIn 0.5s ease-out forwards, iconFloat 4s ease-in-out infinite;
+		animation: fadeIn 0.5s ease-out forwards, iconFloat 4s ease-in-out infinite;
 		animation-delay: calc(var(--delay, 0s) + 1.5s), calc(var(--delay, 0s) + 1s);
 	}
 
@@ -694,20 +694,11 @@ const description = "Frontend focused web engineer building performant, scalable
 	/* Override the existing social icon animation to include the fade-in */
 	:global(.social-icon) {
 		opacity: 0;
-		animation: socialFadeIn 0.5s ease-out forwards, iconFloat 4s ease-in-out infinite;
-		animation-delay: calc(var(--delay, 0s) + 2.5s), calc(var(--delay, 0s) + 3s);
+		animation: fadeIn 0.5s ease-out forwards, iconFloat 4s ease-in-out infinite;
+		animation-delay: calc(var(--delay, 0s) + 1.5s), calc(var(--delay, 0s) + 2s);
 	}
 
-	@keyframes socialFadeIn {
-		from {
-			opacity: 0;
-			transform: translateX(-10px);
-		}
-		to {
-			opacity: 1;
-			transform: translateX(0);
-		}
-	}
+
 
 	/* Existing iconFloat animation will now start after the fade-in */
 	@keyframes iconFloat {

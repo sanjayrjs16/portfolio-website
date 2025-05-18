@@ -24,7 +24,7 @@ const sectionContent: Record<string, WorkItem[]> = {
     'notable-work': [
         {
             type: 'project',
-            title: 'Aadujeevitham: The Goat Life (2024) - Official Movie Website',
+            title: 'Aadujeevitham: The Goat Life Official Movie Website (2024)',
             description: 'Official movie website for the epic survival drama starring Prithviraj Sukumaran. The website features a dynamic day/night experience that changes based on user\'s local time, with custom animations and transitions.',
             image: '/goat.webp',
             link: 'https://thegoatlifefilm.com',
@@ -74,14 +74,16 @@ const sectionContent: Record<string, WorkItem[]> = {
 <div class="works-content">
  
         {sectionContent[currentSection]?.filter(item => item.size === 'large').map(item => (
-            <div class="project-card glass-card full-image-card">
+            <div class="project-card glass-card full-image-card" style="--delay: 0.1s">
                 <div class="card-image">
                     <img src={item.image} alt={item.title} width="330px"/>
                     <div class="image-overlay">
+                        <div class="card-header">
                         <h2 class="title-text">{item.title}</h2>
+                        </div>
                         <div class="card-content">
                             <p class="description-text">
-    Official promotional website. As part of the film's core digital team, I served as the web engineer overseeing the site’s architecture, development, and launch.  The website was officially unveiled by <span class="highlight-text">A. R. Rahman</span>, <span class="highlight-text">Blessy</span>, and author <span class="highlight-text">Benjamin</span> as part of the global marketing rollout. 
+     As part of the film's core digital team, I served as the web engineer overseeing the site’s architecture, development, and launch of the official movie promotional website.  The website was officially launched by <span class="highlight-text">A. R. Rahman</span>, <span class="highlight-text">Blessy</span>, and author <span class="highlight-text">Benjamin</span> as part of the global marketing rollout. 
 </p>
 
                             
@@ -122,7 +124,7 @@ const sectionContent: Record<string, WorkItem[]> = {
         {sectionContent[currentSection]?.filter(item => item.size === 'small' || item.size === 'medium').map(item => item.size === 'small' ? (
         
                 
-                <div class="project-card glass-card">
+                <div class="project-card glass-card" style="--delay: 0.3s">
                     
                     <div style="display: flex; width: 100%; gap: 0.5rem; align-items: center; justify-content: space-between">
                    
@@ -165,7 +167,7 @@ const sectionContent: Record<string, WorkItem[]> = {
                     )}
                 </div>
         
-        ):( <div class="project-card glass-card">
+        ):( <div class="project-card glass-card" style="--delay: 0.2s">
                         <div style="display: flex; width: 100%; gap: 0.5rem; align-items: center; justify-content: space-between">
                             <div class="card-header"> <h2 class="title-text">{item.title}</h2></div>
                         {item.image && (
@@ -222,6 +224,10 @@ const sectionContent: Record<string, WorkItem[]> = {
 		margin: 0.15rem 0;
 		font-weight: 600;
 		text-wrap: nowrap;
+      
+        animation: fadeIn 0.5s ease-out forwards;
+        animation-delay: calc(var(--index) * 0.1s);
+        animation-fill-mode: forwards;
 	}
     .works-content {
         display: flex;
@@ -285,20 +291,17 @@ const sectionContent: Record<string, WorkItem[]> = {
         padding: 0.75rem;
         color: white;
         max-width: 33vw;
+        opacity: 0;
+        animation: fadeIn 0.6s ease forwards;
+        animation-delay: var(--delay, 0s);
     }
 
-    .featured-card {
-        /* width: 100vw; */
-        text-decoration: none;
-        color: white;
-        overflow: hidden;
-        transition: all 0.3s ease;
-    }
+    
 
  
 
     .card-image img {
-        width: 100%;
+        width: fit-content;
         height: 100%;
         object-fit: cover;
         transition: transform 0.3s ease;
@@ -308,22 +311,33 @@ const sectionContent: Record<string, WorkItem[]> = {
         transform: scale(1.05);
     }
 
-    .card-content {
-        padding: 0.2rem;
-    }
+
 
  
     .card-header .title-text {
         font-size: clamp(1rem, 1.5vw, 1.3rem);
+        font-family: 'Space Grotesk', sans-serif;
         text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
         text-align: left;
-        text-transform:uppercase;
+        text-transform: uppercase;
         line-height: 1;
         margin-bottom: 0.5rem;
-        font-family: 'Audiowide', sans-serif;
+        opacity: 0;
+        animation: fadeIn 0.5s ease-out forwards;
+        animation-delay: calc(var(--index) * 0.1s);
+        animation-fill-mode: forwards;
     }
 
-
+	@keyframes fadeIn {
+		from {
+			opacity: 0;
+			transform: translateY(-10px);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
     .card-links  {
         margin: 0.5rem 0;
         display: flex;
@@ -332,6 +346,9 @@ const sectionContent: Record<string, WorkItem[]> = {
         align-items: center;
         gap: 0.5rem;
         font-family: 'Space Grotesk', sans-serif;
+      
+        
+        /* animation-fill-mode: forwards; */
     }
 
     .github-icon {
@@ -468,14 +485,7 @@ const sectionContent: Record<string, WorkItem[]> = {
         background: rgba(255, 255, 255, 0.1);
         transform: translateX(5px);
     }
-
-
- 
-
-    .card-content {
-        padding: 1rem;
-    }
-
+   
     .description-text {
         margin: 0.5rem 0;
         font-size: 0.9rem;
@@ -493,6 +503,7 @@ const sectionContent: Record<string, WorkItem[]> = {
         background: rgba(255, 255, 255, 0.05);
         border-radius: 4px;
         transition: all 0.3s ease;
+       
     }
 
     .highlight-link:hover {
@@ -513,7 +524,7 @@ const sectionContent: Record<string, WorkItem[]> = {
         width: 100%;
         height: 100%; /* Make sure the image fills the card */
         /* overflow: hidden; */
-        min-height: 400px;
+        min-height: 22rem;
         height: auto; 
     }
 
@@ -527,7 +538,7 @@ const sectionContent: Record<string, WorkItem[]> = {
     .image-overlay {
         position: absolute;
         top: 0;
-        left: 0;
+        left: -10px;
         width: 100%;
         height: 100%;
         display: flex;
@@ -542,6 +553,7 @@ const sectionContent: Record<string, WorkItem[]> = {
 
     .card-content {
         color: white;
+        padding: 0.1rem;
     }
 
     .description-text {
@@ -551,7 +563,7 @@ const sectionContent: Record<string, WorkItem[]> = {
     }
 
 
-    .highlight-link {
+    /* .highlight-link {
         color: rgba(255, 255, 255, 0.9);
         text-decoration: none;
         font-size: 0.9rem;
@@ -567,5 +579,5 @@ const sectionContent: Record<string, WorkItem[]> = {
     .highlight-link:hover {
         background: rgba(255, 255, 255, 0.1);
         transform: translateX(5px);
-    }
+    } */
 </style> 

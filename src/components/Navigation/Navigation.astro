@@ -56,6 +56,7 @@ const showTitle = currentPath !== '/'; // Only show title when not on home/bio p
     background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(5px);
     white-space: nowrap;
+    animation: navFadeIn 1s ease-out forwards;
   }
 
   .nav-item:hover {
@@ -80,7 +81,7 @@ const showTitle = currentPath !== '/'; // Only show title when not on home/bio p
     z-index: 100;
     line-height: 0.9;
     opacity: 0;
-    animation: fadeIn 1s ease-out forwards;
+    animation: navFadeIn 1s ease-out forwards;
     z-index: 200;
     padding: 0.2rem;
     /* background: rgba(255, 255, 255, 0.1); */
@@ -89,7 +90,7 @@ const showTitle = currentPath !== '/'; // Only show title when not on home/bio p
   }
 
   .title-line {
-    font-family: 'Syncopate', sans-serif;
+    font-family: 'Audiowide', sans-serif;
     font-size: clamp(1rem, 1.6vw, 2rem);
     font-weight: 700;
     letter-spacing: -0.02em;
@@ -115,16 +116,17 @@ const showTitle = currentPath !== '/'; // Only show title when not on home/bio p
     }
   }
 
-  @keyframes fadeIn {
-    from { 
-      opacity: 0;
-      transform: translateY(-10px); 
-    }
-    to { 
-      opacity: 1;
-      transform: translateY(0);
-    }
+  @keyframes navFadeIn {
+  from { 
+    opacity: 0;
+    transform: translateY(-10px); 
   }
+  to { 
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 
   @media (max-width: 768px) {
     .navigation {

@@ -1,9 +1,5 @@
 /* Typography */
-.title-text {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: clamp(1.2rem, 2vw, 1.8rem);
-  color: rgba(255, 255, 255, 0.9);
-}
+
 
 .highlight-text {
   color: #c42ae3;
