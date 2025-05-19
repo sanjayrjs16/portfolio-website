@@ -4,6 +4,7 @@ import { Star } from "../LaserBeam/Star";
 import { ShootingStar } from "../LaserBeam/ShootingStar";
 import { GalaxyCluster } from "../LaserBeam/GalaxyCluster";
 import { Constellation } from "../LaserBeam/Constellation";
+import { Planet } from "../LaserBeam/Planet";
 import { 
   getDeviceConfig,
   STAR_CONFIG,
@@ -24,6 +25,10 @@ const StarryBackgroundSketch = () => {
       let shootingStars = [];
       let farShootingStars = [];
       
+      let planetImages = [];
+      let planets = [];
+      let planetPositions = [];
+      
       // Initialization variables
       let skipFrame = 0;
       const { isMobile, shouldReduceEffects } = getDeviceConfig();
@@ -32,6 +37,7 @@ const StarryBackgroundSketch = () => {
       let starInitIndex = 0;
       const STAR_BATCH_SIZE = STAR_CONFIG.BATCH_SIZE;
       const TOTAL_STARS = STAR_CONFIG.TOTAL_STARS;
+      const PLANET_COUNT = shouldReduceEffects ? 2 : 4; // Adjust as you like
       let isStarfieldReady = false;
       
       // Buffer for optimization
@@ -48,8 +54,14 @@ const StarryBackgroundSketch = () => {
       // Update the static buffer with all background elements
       const updateStaticSceneBuffer = () => {
         staticSceneBuffer.clear();
-        
-        // Draw all stars to buffer (twinkling and non-twinkling)
+             // Draw planets to buffer
+        planets.forEach(planet => {
+          if (planet.isVisible()) {
+            planet.drawToBuffer(staticSceneBuffer);
+          }
+        });
+
+        // Draw all stars to buffer
         stars.forEach(star => {
           if (star.isVisible()) {
             star.drawToBuffer(staticSceneBuffer);
@@ -66,6 +78,8 @@ const StarryBackgroundSketch = () => {
             }
           }
         });
+        
+   
         
         // Draw constellations to buffer
         constellations.forEach(constellation => {
@@ -85,6 +99,20 @@ const StarryBackgroundSketch = () => {
         p.angleMode(p.DEGREES);
         
         setupBuffers();
+           // Shuffle the images so the selection is random each time
+           shuffleArray(planetImages);
+
+           // Decide how many planets you want (no more than planetImages.length)
+           const numPlanets = Math.min(PLANET_COUNT, planetImages.length);
+           
+           for (let i = 0; i < numPlanets; i++) {
+             const planet = new Planet(p, [planetImages[i]]);
+             planets.push(planet);
+             planetPositions.push({ x: planet.x, y: planet.y, r: planet.radius });
+             if (planet.isVisible()) {
+               planet.drawToBuffer(staticSceneBuffer);
+             }
+           }
         
         // Create galaxy clusters
         for (let i = 0; i < GALAXY_CONFIG.COUNT; i++) {
@@ -126,6 +154,8 @@ const StarryBackgroundSketch = () => {
         for (let i = 0; i < SHOOTING_STAR_CONFIG.FAR_COUNT; i++) {
           farShootingStars.push(new ShootingStar(p, true));
         }
+
+     
       };
       
       p.draw = () => {
@@ -172,6 +202,7 @@ const StarryBackgroundSketch = () => {
             constellation.display(p);
           }
         });
+        
       };
 
       // Progressive initialization of stars
@@ -218,11 +249,29 @@ const StarryBackgroundSketch = () => {
         });
       };
 
+      p.preload = () => {
+        p.avatarImg = p.loadImage('/avatar-face.png');
+        planetImages = [
+          p.loadImage('/planets/planet-1.png'),
+          p.loadImage('/planets/planet-2.png'),
+          p.loadImage('/planets/planet-3.png'),
+          p.loadImage('/planets/planet-4.png'),
+          p.loadImage('/planets/planet-5.png'),
+          p.loadImage('/planets/planet-6.png'),
+          p.loadImage('/planets/planet-7.png'),
+          p.loadImage('/planets/planet-8.png'),
+          p.loadImage('/planets/planet-9.png'),
+        ];
+      };
       // Handle window resizing
       p.windowResized = () => {
         p.resizeCanvas(p.windowWidth, p.windowHeight);
         setupBuffers();
-        
+        planets.forEach(planet => {
+          if (planet.isVisible()) {
+            planet.drawToBuffer(staticSceneBuffer);
+          }
+        });
         // Redraw ALL static elements into the fresh buffer
         galaxies.forEach(galaxy => {
           if (galaxy.isVisible()) {
@@ -241,6 +290,7 @@ const StarryBackgroundSketch = () => {
             star.drawToBuffer(staticSceneBuffer);
           }
         });
+     
       };
 
       function isAreaEmpty(x, y) {
@@ -251,6 +301,12 @@ const StarryBackgroundSketch = () => {
         );
       }
     };
+    function shuffleArray(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+    }
 
     // Create a new p5 instance and attach it to the sketchRef
     const myP5 = new p5(sketch, sketchRef.current);
