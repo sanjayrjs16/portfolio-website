@@ -263,6 +263,7 @@ const LaserBeamSketch = () => {
           p.loadImage('/planets/planet-6.png'),
           p.loadImage('/planets/planet-7.png'),
           p.loadImage('/planets/planet-8.png'),
+          p.loadImage('/planets/planet-9.png'),
         ];
       };
 
