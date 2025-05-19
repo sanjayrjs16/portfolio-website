@@ -310,6 +310,34 @@ const currentSection = "notable-work";
     }
 
     @media (max-width: 768px) {
+        .timeline {
+    padding: 0.5rem 0;
+    width: 100vw;
+    max-width: 100vw;
+    box-sizing: border-box;
+    left: 0;
+  }
+  .timeline::before {
+    left: 12px;
+    width: 2px;
+  }
+  .timeline-item {
+    padding-left: 2.5rem;
+    margin-bottom: 2rem;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .timeline-dot {
+    left: 4px;
+    width: 12px;
+    height: 12px;
+  }
+  .timeline-content {
+    padding: 1rem;
+    width: 96%;
+    box-sizing: border-box;
+    font-size: 0.95rem;
+  }
         .content-area {
             padding: 1rem;
             gap: 3rem;
