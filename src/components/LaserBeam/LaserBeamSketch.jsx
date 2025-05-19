@@ -54,6 +54,7 @@ const LaserBeamSketch = () => {
       let laserBeamBuffer;
       let isInitComplete = false;
       let laserBeam;
+      let laserBeamDrawnToBuffer = false;
       
       let avatarOpacity = 0;
       const avatarFadeSpeed = 5;
@@ -75,7 +76,8 @@ const LaserBeamSketch = () => {
         setupBuffers();
         
         laserBeam = new LaserBeam(p);
-        laserBeam.drawToBuffer(laserBeamBuffer);
+        laserBeam.startFlicker();
+        // laserBeam.drawToBuffer(laserBeamBuffer);
         
         fragmentPool = {
           get: () => {
@@ -144,17 +146,43 @@ const LaserBeamSketch = () => {
         for (let i = 0; i < SHOOTING_STAR_CONFIG.FAR_COUNT; i++) {
           farShootingStars.push(new ShootingStar(p, true));
         }
+
+       // Add safety timeout for laser beam
+        setTimeout(() => {
+          if (!laserBeam.hasFlickerCompleted) {
+            laserBeam.isStatic = true;
+            laserBeam.isVisible = true;
+        
+            if (!laserBeamDrawnToBuffer) {
+              laserBeam.drawToBuffer(staticSceneBuffer);
+              laserBeamDrawnToBuffer = true;
+              laserBeamBuffer.clear();
+            }
+          }
+        }, 820); // 5 seconds max for flickering
+
       };
       
       p.draw = () => {
         p.background(0);
         p.image(staticSceneBuffer, 0, 0);
-        p.image(laserBeamBuffer, 0, 0);
+        
+        // Only show flickering buffer during animation
+        if (!laserBeam.isStatic) {
+          p.image(laserBeamBuffer, 0, 0);
+        }
         
         if (!isInitComplete) {
           buildProgressiveStage();
         } else {
           drawDynamicElements();
+        }
+        
+        // Safety check for static state
+        if (laserBeam.hasFlickerCompleted && !laserBeamDrawnToBuffer) {
+          laserBeam.drawToBuffer(staticSceneBuffer);
+          laserBeamDrawnToBuffer = true;
+          laserBeamBuffer.clear();
         }
       };
 
@@ -190,6 +218,18 @@ const LaserBeamSketch = () => {
           if (starInitIndex >= TOTAL_STARS) {
             isInitComplete = true;
           }
+        }
+
+        // Single point of truth for laser beam state
+        if (!laserBeam.isStatic) {
+          laserBeamBuffer.clear();
+          laserBeam.updateFlicker();
+          laserBeam.displayFlicker(laserBeamBuffer);
+        } else if (!laserBeamDrawnToBuffer) {
+          // Only draw to static buffer once when flickering is done
+          laserBeam.drawToBuffer(staticSceneBuffer);
+          laserBeamDrawnToBuffer = true;
+          laserBeamBuffer.clear();
         }
       };
 
@@ -271,9 +311,19 @@ const LaserBeamSketch = () => {
         p.resizeCanvas(p.windowWidth, p.windowHeight);
         setupBuffers();
         
+
         // Resize and redraw laser beam
+        // Reset laser beam state
+        laserBeamDrawnToBuffer = false;
         laserBeam.resize(p.width, p.height);
-        laserBeam.drawToBuffer(laserBeamBuffer);
+        // If laser beam was static, redraw it
+        if (laserBeam.isStatic) {
+          laserBeam.drawToBuffer(staticSceneBuffer);
+          laserBeamDrawnToBuffer = true;
+        } else {
+          // If it was flickering, restart the flicker
+          laserBeam.startFlicker();
+        }
         
         // Redraw ALL static elements into the fresh buffer
         galaxies.forEach(galaxy => {

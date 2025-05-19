@@ -19,6 +19,60 @@ export class LaserBeam {
     
     // Optional: Store the buffer within the class
     this.buffer = null;
+    this.flickerPhase = 1; // 1: flickering, 2: stabilizing, 3: on
+    this.flickerTimer = 0;
+    this.flickerInterval = 400; // ms, start with long interval
+    this.flickerCount = 0;
+    this.isVisible = false;
+    this.isStatic = false;
+    this.flickerStartTime = null;
+    
+  }
+  get hasFlickerCompleted() {
+    return this.isStatic && this.isVisible;
+  }
+  startFlicker() {
+    this.flickerPhase = 1;
+    this.flickerTimer = 0;
+    this.flickerInterval = 400;
+    this.flickerCount = 0;
+    this.isVisible = false;
+    this.isStatic = false;
+    this.flickerStartTime = this.p.millis();
+  }
+
+  updateFlicker() {
+    if (this.isStatic) return;
+
+    if (this.flickerStartTime === null) {
+      this.flickerStartTime = this.p.millis();
+    }
+
+    if (this.p.millis() - this.flickerTimer > this.flickerInterval) {
+      this.flickerTimer = this.p.millis();
+      this.isVisible = !this.isVisible;
+      if (!this.isVisible) {
+        this.flickerCount++;
+        if (this.flickerInterval > 80) {
+          this.flickerInterval *= 0.7;
+        }
+      }
+      if (this.flickerCount > 12) {
+        this.isVisible = true;
+        this.isStatic = true;
+      }
+    }
+  }
+
+  displayFlicker(ctx = this.p) {
+    if (this.isVisible && !this.isStatic) {
+      ctx.push();
+      // ctx.drawingContext.globalAlpha = this.p.random(0.5, 1);
+      const flickerAlpha = 0.6 + 0.4 * Math.sin(this.p.millis() / 100);
+ctx.drawingContext.globalAlpha = flickerAlpha;
+      this.display(ctx);
+      ctx.pop();
+    }
   }
   
   // Create a buffer with the static laser beam
