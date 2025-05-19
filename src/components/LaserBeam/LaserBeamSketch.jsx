@@ -6,6 +6,7 @@ import { Constellation } from './Constellation';
 import { ShootingStar } from './ShootingStar';
 import { LaserBeam } from './LaserBeam';
 import { RectFragment } from './RectFragment';
+import { Planet } from './Planet';
 import { 
   getDeviceConfig,
   STAR_CONFIG,
@@ -43,6 +44,11 @@ const LaserBeamSketch = () => {
       const STAR_BATCH_SIZE = 50;
       const TOTAL_STARS = shouldReduceEffects ? 1200 : 2000;
       
+      let planetImages = [];
+      let planets = [];
+      let planetPositions = [];
+      const PLANET_COUNT = shouldReduceEffects ? 2 : 4; // Adjust as you like
+
       let fragmentPool;
       let staticSceneBuffer;
       let laserBeamBuffer;
@@ -91,6 +97,22 @@ const LaserBeamSketch = () => {
           galaxies.push(galaxy);
           if (galaxy.isVisible()) {
             galaxy.drawToBuffer(staticSceneBuffer);
+          }
+        }
+
+        // Shuffle the images so the selection is random each time
+        shuffleArray(planetImages);
+
+        // Decide how many planets you want (no more than planetImages.length)
+        const numPlanets = Math.min(PLANET_COUNT, planetImages.length);
+
+        for (let i = 0; i < numPlanets; i++) {
+          // Pass only the image you want for this planet
+          const planet = new Planet(p, [planetImages[i]]);
+          planets.push(planet);
+          planetPositions.push({ x: planet.x, y: planet.y, r: planet.radius });
+          if (planet.isVisible()) {
+            planet.drawToBuffer(staticSceneBuffer);
           }
         }
 
@@ -232,6 +254,16 @@ const LaserBeamSketch = () => {
 
       p.preload = () => {
         p.avatarImg = p.loadImage('/avatar-face.png');
+        planetImages = [
+          p.loadImage('/planets/planet-1.png'),
+          p.loadImage('/planets/planet-2.png'),
+          p.loadImage('/planets/planet-3.png'),
+          p.loadImage('/planets/planet-4.png'),
+          p.loadImage('/planets/planet-5.png'),
+          p.loadImage('/planets/planet-6.png'),
+          p.loadImage('/planets/planet-7.png'),
+          p.loadImage('/planets/planet-8.png'),
+        ];
       };
 
       p.windowResized = () => {
@@ -260,6 +292,12 @@ const LaserBeamSketch = () => {
             star.drawToBuffer(staticSceneBuffer);
           }
         });
+
+        planets.forEach(planet => {
+          if (planet.isVisible()) {
+            planet.drawToBuffer(staticSceneBuffer);
+          }
+        });
       };
 
       function isAreaEmpty(x, y) {
@@ -275,6 +313,13 @@ const LaserBeamSketch = () => {
         );
         
         return laserDistance > 200 && !tooCloseToOthers;
+      }
+
+      function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [array[i], array[j]] = [array[j], array[i]];
+        }
       }
     };
 
