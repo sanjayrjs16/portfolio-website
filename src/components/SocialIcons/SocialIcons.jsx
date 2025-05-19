@@ -125,7 +125,7 @@ const SocialIcons = () => {
           padding: 0.1rem;
           border-radius: 50%;
           background: rgba(255, 255, 255, 0.1);
-          backdrop-filter: blur(5px);
+          backdrop-filter: blur(10px);
           position: relative;
         }
 
