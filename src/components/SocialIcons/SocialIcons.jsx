@@ -124,17 +124,14 @@ const SocialIcons = () => {
           transition: all 0.3s ease;
           padding: 0.1rem;
           border-radius: 50%;
-          background: rgba(255, 255, 255, 0.1);
+          background: rgba(255, 255, 255, 0.2);
           backdrop-filter: blur(10px);
           position: relative;
+          text-shadow: 0 0 8px var(--yellow-color);
+ 
         }
 
-        .social-icon:hover {
-          color: white;
-          transform: translateY(-2px);
-          background: rgba(255, 255, 255, 0.2);
-        }
-
+       
         .email-icon {
           cursor: pointer;
         }

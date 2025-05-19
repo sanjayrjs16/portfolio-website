@@ -107,7 +107,7 @@ const description = "Frontend focused web engineer building performant, scalable
 									</div>
 								</div>
 								
-								<p class="quote-text ">Reach me at <span class="highlight-text "> sanjayrajesh.exe@gmail.com</span></p>
+								<p class="quote-text yellow-border">Reach me at <span class="highlight-text "> sanjayrajesh.exe@gmail.com</span></p>
 								<p class="quote-text">"The Art challenges the technology & the technology inspires the art"</p>
 								<!-- <p class="quote-text ">"</p> -->
 								<p class="attribution-text">- John Lasseter</p>
@@ -393,7 +393,7 @@ const description = "Frontend focused web engineer building performant, scalable
 		width: fit-content;
 		min-width: 65vw;
 		opacity: 0;
-		animation: fadeIn 1s ease-out 2.5s forwards;
+		
 	}
 
 	:global(.social-icon) {
@@ -408,18 +408,38 @@ const description = "Frontend focused web engineer building performant, scalable
 		color: white;
 		transition: all 0.3s ease;
 		opacity: 0;
-		animation: fadeIn 0.5s ease-out forwards, iconFloat 4s ease-in-out infinite;
+		animation: fadeIn 0.5s ease-out forwards, iconFloat 4s ease-in-out infinite, glowPulse 2s infinite alternate;
 		animation-delay: calc(var(--delay, 0s) + 1.5s), calc(var(--delay, 0s) + 1s);
+		text-shadow: 0 0 8px var(--yellow-color);
+ 
 	}
-
+	@keyframes glowPulse {
+  0% {
+    box-shadow: 0 0 8px 2px #ffe066, 0 0 16px 4px #ffe06644;
+    filter: drop-shadow(0 0 8px #ffe066);
+  }
+  50% {
+    box-shadow: 0 0 24px 8px #ffe066, 0 0 48px 16px #ffe06644;
+    filter: drop-shadow(0 0 24px #ffe066);
+  }
+  100% {
+    box-shadow: 0 0 8px 2px #ffe066, 0 0 16px 4px #ffe06644;
+    filter: drop-shadow(0 0 8px #ffe066);
+  }
+}
 	:global(.social-icon:hover) {
-		background: rgba(255, 255, 255, 0.2);
+		background:  rgba(255, 255, 255, 0.4);
 		transform: translateY(-5px);
+		box-shadow: 0 0 8px 2px var(--yellow-color), 0 0 8x 2px #ffe06688;
+  filter: drop-shadow(0 0 8px #ffe066);
+
 	}
 
 	:global(.social-icon svg) {
 		width: 1.4rem;  /* Slightly smaller icons */
 		height: 1.4rem;
+		color: var(--yellow-color);
+		text-shadow: 0 0 8px var(--yellow-color);
 	}
 
 	@media (max-width: 768px) {
@@ -430,6 +450,7 @@ const description = "Frontend focused web engineer building performant, scalable
 		:global(.social-icon) {
 			width: 2.2rem;
 			height: 2.2rem;
+			backdrop-filter: blur(10px);
 		}
 
 		:global(.social-icon svg) {
@@ -502,14 +523,7 @@ const description = "Frontend focused web engineer building performant, scalable
 		margin: 0.2rem 0;
 		border: 1px solid rgba(255, 255, 255, 0.1);
 	}
-	.highlight-text {
-		font-family: 'Space Grotesk', sans-serif;
-		font-size: clamp(1rem, 1.2vw, 1.4rem);
-		color: #c42ae3;
-		margin: 0.15rem 0;
-		font-weight: 500;
-		text-wrap: nowrap;
-	}
+
 
 	.attribution-text {
 		font-family: 'Space Grotesk', sans-serif;
@@ -606,7 +620,7 @@ const description = "Frontend focused web engineer building performant, scalable
 		grid-template-columns: 10% 30% 60%; /* Proportional columns as requested */
 		align-items: center;
 		font-family: 'Space Grotesk', sans-serif;
-		font-size: clamp(0.6rem, 1vw, 1.2rem);
+		font-size: clamp(0.6vw, 1vw, 1.2vw);
 		color: rgba(255, 255, 255, 0.8);
 		margin: 0.55rem 0;
 	}
@@ -620,21 +634,21 @@ const description = "Frontend focused web engineer building performant, scalable
 	}
 
 	.link {
-		color: #d859f2;
+		color: var(--purple-color);
 		text-decoration: none;
 		position: relative;
 		font-weight: 500;
 		transition: all 0.3s ease;
 		white-space: nowrap;
-		border-bottom: 1px solid rgba(255, 215, 0, 0.6); 
+		border-bottom: 1px solid var(--yellow-color); 
 		margin-right: 0.35rem;
-		font-size: clamp(0.75rem, 1vw, 1.2rem);
+		font-size: clamp(0.8vw, 1vw, 1.5vw);
 	}
 
 	.link:hover {
-		color: #dcbffa;
-		text-shadow: 0 0 8px rgba(138, 43, 226, 0.5);
-		border-bottom-color: rgba(255, 215, 0, 0.9); /* Brighter yellow on hover */
+		color: var(--yellow-color);
+		text-shadow: 0 0 8px var(--yellow-color);
+		border-bottom: none;
 	}
 
 	.link::after {
@@ -644,7 +658,7 @@ const description = "Frontend focused web engineer building performant, scalable
 		height: 1px;
 		bottom: -2px;
 		left: 0;
-		background: #8a2be2;
+		background: var(--purple-color);
 		transform: scaleX(0);
 		transform-origin: right;
 		transition: transform 0.3s ease;
@@ -657,8 +671,17 @@ const description = "Frontend focused web engineer building performant, scalable
 
 	.description {
 		color: rgba(255, 255, 255, 0.8);
-		font-size: clamp(0.75rem, 1vw, 1.2rem);
+		font-size: clamp(0.75vw, 1vw, 1.2rem);
 		/* white-space: nowrap; */
+	}
+	.yellow-border {
+		border-bottom: 1px solid var(--yellow-color) ;
+		border-top: 1px solid var(--yellow-color);
+		border-radius: 0.5rem;
+		padding: 0.2rem;
+		text-align: center;
+		margin-top: 0.5rem;
+		
 	}
 
 	/* Make tap-label clickable and style it properly */
@@ -716,6 +739,12 @@ const description = "Frontend focused web engineer building performant, scalable
 
 	/* For mobile screens, make it stack */
 	@media (max-width: 768px) {
+		.link {
+		font-size: clamp(1.8vw, 3.2vw, 3.5vw);
+	}
+	.description {
+		font-size: clamp(1.8vw, 3.2vw, 3.5vw);
+	}
 		.link-container {
 			grid-template-columns: 15% 85%;
 			grid-template-rows: auto auto;
@@ -746,6 +775,7 @@ const description = "Frontend focused web engineer building performant, scalable
 		overflow-wrap: break-word; /* Handle long words */
 		max-width: 100%; /* Ensure it stays within its grid cell */
 	}
+	
 
 	/* Special styling for the movie entry */
 	.movie-text {

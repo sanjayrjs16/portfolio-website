@@ -1,11 +1,52 @@
 /* Typography */
-
-
-.highlight-text {
-  color: #c42ae3;
-  font-weight: 500;
+:root {
+  --yellow-color: rgba(255, 255, 0, 0.885);
+  --purple-color: #d859f2;
 }
 
+.highlight-text {
+  color: var(--purple-color);
+  font-family: 'Space Grotesk', sans-serif;
+		font-size: clamp(1rem, 1.2vw, 1.4rem);
+		color: #c42ae3;
+		margin: 0.15rem 0;
+		font-weight: 500;
+		text-wrap: nowrap;
+    animation: fadeIn 0.5s ease-out forwards;
+    animation-delay: calc(var(--index) * 0.1s);
+    animation-fill-mode: forwards;
+}
+body, html {
+  max-width: 100vw;
+  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+
+
+}
+
+@media (max-width: 768px) {
+  .works-content,
+  .content-area,
+  .cards-grid {
+    width: 100vw;
+    max-width: 100vw;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0.1rem; /* or less if you want */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* center children horizontally */
+  }
+
+  .project-card,
+  .featured-card {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    margin: 0 0 1rem 0;
+  }
+}
 .description-text {
   font-family: 'Space Grotesk', sans-serif;
   font-size: clamp(0.8rem, 1.5vw, 1rem);
