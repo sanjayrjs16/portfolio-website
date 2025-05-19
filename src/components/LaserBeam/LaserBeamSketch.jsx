@@ -159,7 +159,7 @@ const LaserBeamSketch = () => {
               laserBeamBuffer.clear();
             }
           }
-        }, 820); // 5 seconds max for flickering
+        }, 1220); // 5 seconds max for flickering
 
       };
       

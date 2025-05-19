@@ -57,7 +57,7 @@ export class LaserBeam {
           this.flickerInterval *= 0.7;
         }
       }
-      if (this.flickerCount > 12) {
+      if (this.flickerCount > 10) {
         this.isVisible = true;
         this.isStatic = true;
       }
@@ -67,9 +67,11 @@ export class LaserBeam {
   displayFlicker(ctx = this.p) {
     if (this.isVisible && !this.isStatic) {
       ctx.push();
-      // ctx.drawingContext.globalAlpha = this.p.random(0.5, 1);
-      const flickerAlpha = 0.6 + 0.4 * Math.sin(this.p.millis() / 100);
-ctx.drawingContext.globalAlpha = flickerAlpha;
+      ctx.drawingContext.globalAlpha = this.p.random(0.5, 1);
+      // Smooth sine wave
+//       const flickerAlpha = 0.6 + 0.4 * Math.sin(this.p.millis() / 100);
+// ctx.drawingContext.globalAlpha = flickerAlpha;
+
       this.display(ctx);
       ctx.pop();
     }

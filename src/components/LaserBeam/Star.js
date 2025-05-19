@@ -8,21 +8,21 @@ export class Star {
     // Different properties based on star type
     switch(type) {
       case 'large':
-        this.size = p.random(2.2, 3);
+        this.size = p.random(2.4, 3.8);
         this.twinkleSpeed = p.random(0.03, 0.06);
         this.color = this.getRandomStarColor(true);
         this.glowSize = this.size * 5;
         this.layers = 4;
         break;
       case 'medium':
-        this.size = p.random(1.2, 2.2);
+        this.size = p.random(1.4, 2.5);
         this.twinkleSpeed = p.random(0.02, 0.04);
         this.color = this.getRandomStarColor(false);
         this.glowSize = this.size * 3;
         this.layers = 3;
         break;
       default: // small stars
-        this.size = p.random(0.4, 1);
+        this.size = p.random(0.9, 1.25);
         this.twinkleSpeed = p.random(0.01, 0.03);
         this.color = p.color(255);
         this.glowSize = this.size * 2;
