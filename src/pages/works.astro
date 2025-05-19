@@ -316,6 +316,10 @@ const currentSection = "notable-work";
     max-width: 100vw;
     box-sizing: border-box;
     left: 0;
+    word-break: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
+    overflow-x: auto;
   }
   .timeline::before {
     left: 12px;
@@ -327,6 +331,16 @@ const currentSection = "notable-work";
     width: 100%;
     box-sizing: border-box;
   }
+  .timeline-content p {
+    word-break: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
+  }
+  .timeline-content a,
+  .timeline-content code {
+    word-break: break-all;
+    overflow-wrap: break-word;
+  }
   .timeline-dot {
     left: 4px;
     width: 12px;
@@ -334,7 +348,7 @@ const currentSection = "notable-work";
   }
   .timeline-content {
     padding: 1rem;
-    width: 96%;
+    width: 98.5%;
     box-sizing: border-box;
     font-size: 0.95rem;
   }
