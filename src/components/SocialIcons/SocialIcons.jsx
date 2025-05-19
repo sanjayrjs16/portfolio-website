@@ -150,7 +150,7 @@ const SocialIcons = () => {
           white-space: nowrap;
           pointer-events: none;
           backdrop-filter: blur(5px);
-          z-index: 100;
+          z-index: 900;
           box-shadow: none;
         }
 
@@ -164,6 +164,7 @@ const SocialIcons = () => {
           border-right: 5px solid transparent;
           border-bottom: 5px solid rgba(0, 0, 0, 0.8);
           box-shadow: none;
+            z-index: 900;
         }
 
         .copied-alert {
@@ -200,7 +201,8 @@ const SocialIcons = () => {
           .tooltip {
             font-size: 0.8rem;
             padding: 0.4rem 0.8rem;
-            box-shadow: none
+            box-shadow: none;
+             bottom: -90px;
           }
         }
       `}</style>
