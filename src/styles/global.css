@@ -2,6 +2,7 @@
 :root {
   --yellow-color: rgba(255, 255, 0, 0.885);
   --purple-color: #d859f2;
+  --white-color: #ffffff;
 }
 
 .highlight-text {
