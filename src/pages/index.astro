@@ -408,25 +408,26 @@ const description = "Frontend focused web engineer building performant, scalable
 		color: white;
 		transition: all 0.3s ease;
 		opacity: 0;
-		animation: fadeIn 0.5s ease-out forwards, iconFloat 4s ease-in-out infinite, glowPulse 2s infinite alternate;
-		animation-delay: calc(var(--delay, 0s) + 1.5s), calc(var(--delay, 0s) + 1s);
-		text-shadow: 0 0 8px var(--yellow-color);
+		animation: fadeIn 0.5s ease-out forwards, iconFloat 4s ease-in-out infinite, glowPulse 2s steps(40) infinite alternate;
+		animation-delay: calc(var(--delay, 3s) + 3.5s), calc(var(--delay, 4s) + 4s);
+		text-shadow: 1px 2px 15px var(--yellow-color);
  
 	}
 	@keyframes glowPulse {
   0% {
-    box-shadow: 0 0 8px 2px #ffe066, 0 0 16px 4px #ffe06644;
-    filter: drop-shadow(0 0 8px #ffe066);
+    box-shadow: 0 0 1px 1px #f0e9ca9b, 0 0 6px 2px #ffe06611;
+    filter: drop-shadow(0 0 2px #ffffff94);
   }
-  50% {
-    box-shadow: 0 0 24px 8px #ffe066, 0 0 48px 16px #ffe06644;
-    filter: drop-shadow(0 0 24px #ffe066);
-  }
+  /* 50% {
+    box-shadow: 0 0 4px 2px #fff4c844, 0 0 8px 4px #fffcef22;
+    filter: drop-shadow(0 0 4px #c2c1bb55);
+  } */
   100% {
-    box-shadow: 0 0 8px 2px #ffe066, 0 0 16px 4px #ffe06644;
-    filter: drop-shadow(0 0 8px #ffe066);
+    box-shadow: 0 0 2px 1px #ffe06622, 0 0 6px 2px #ffe06611;
+    filter: drop-shadow(0 0 2px #f4f3f133);
   }
 }
+
 	:global(.social-icon:hover) {
 		background:  rgba(255, 255, 255, 0.4);
 		transform: translateY(-5px);
@@ -693,17 +694,17 @@ const description = "Frontend focused web engineer building performant, scalable
 	/* Add fade-in animations for various elements */
 	.hero-title {
 		opacity: 0;
-		animation: fadeIn 1s ease-out 0.2s forwards;
+		animation: fadeIn 1.5s ease-out 2.8s forwards;
 	}
 
 	.social-icons {
 		opacity: 0;
-		animation: fadeIn 1s ease-out 1.5s forwards;
+		animation: fadeIn 1s ease-out 1s forwards;
 	}
 
 	.bio-container {
 		opacity: 0;
-		animation: fadeIn 1s ease-out 1s forwards;
+		animation: fadeIn 1s ease-out 4s forwards;
 	}
 
 	/* Define the fade-in animation */
@@ -717,16 +718,6 @@ const description = "Frontend focused web engineer building performant, scalable
 			transform: translateY(0);
 		}
 	}
-
-	/* Override the existing social icon animation to include the fade-in */
-	:global(.social-icon) {
-		opacity: 0;
-		animation: fadeIn 0.5s ease-out forwards, iconFloat 4s ease-in-out infinite;
-		animation-delay: calc(var(--delay, 0s) + 1.5s), calc(var(--delay, 0s) + 2s);
-	}
-
-
-
 	/* Existing iconFloat animation will now start after the fade-in */
 	@keyframes iconFloat {
 		0%, 100% {

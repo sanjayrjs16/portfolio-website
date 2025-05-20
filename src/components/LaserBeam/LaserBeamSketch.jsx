@@ -47,7 +47,7 @@ const LaserBeamSketch = () => {
       let planetImages = [];
       let planets = [];
       let planetPositions = [];
-      const PLANET_COUNT = shouldReduceEffects ? 2 : 4; // Adjust as you like
+      const PLANET_COUNT = shouldReduceEffects ? 3 : 4; // Adjust as you like
 
       let fragmentPool;
       let staticSceneBuffer;
