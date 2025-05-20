@@ -59,6 +59,11 @@ const LaserBeamSketch = () => {
       let avatarOpacity = 0;
       const avatarFadeSpeed = shouldReduceEffects ? 15 : 5;
       const RECT_OVER_THRESHOLD = 0.7;
+      
+      // Add new variables for avatar delay
+      let avatarStartTime = null;
+      const AVATAR_DELAY = 3200; // 5 seconds in milliseconds
+      let isAvatarReady = !isMobile; // Start ready on desktop, delayed on mobile
 
       const setupBuffers = () => {
         staticSceneBuffer = p.createGraphics(p.width, p.height);
@@ -234,18 +239,27 @@ const LaserBeamSketch = () => {
       };
 
       const drawDynamicElements = () => {
-        // 1. Throttle breathing animation
+        // 1. Handle avatar delay on mobile
+        if (isMobile && !isAvatarReady) {
+          if (!avatarStartTime) {
+            avatarStartTime = p.millis();
+          } else if (p.millis() - avatarStartTime >= AVATAR_DELAY) {
+            isAvatarReady = true;
+          }
+        }
+
+        // 2. Throttle breathing animation
         if (p.frameCount % (isMobile ? 3 : 2) === 0) {
           breathePhase += breatheSpeed;
         }
 
-        // 2. Precompute breathing values once per update
+        // 3. Precompute breathing values once per update
         const breatheSin = Math.sin(breathePhase);
         const breatheScale = 1 + breatheSin * breatheAmount;
         const breatheRotation = breatheSin * 2;
 
-        // 3. Faster fade-in for mobile
-        if (avatarOpacity < 255) {
+        // 4. Faster fade-in for mobile, but only if avatar is ready
+        if (isAvatarReady && avatarOpacity < 255) {
           avatarOpacity = Math.min(avatarOpacity + (isMobile ? 3 : 2), 255);
         }
 
@@ -257,8 +271,8 @@ const LaserBeamSketch = () => {
           .filter(fragment => fragment.active && fragment.opacity/255 <= RECT_OVER_THRESHOLD)
           .forEach(fragment => fragment.display(p));
         
-        // 4. Optimize avatar drawing
-        if (p.avatarImg) {
+        // 5. Optimize avatar drawing - only if ready
+        if (p.avatarImg && isAvatarReady) {
           p.push();
           p.imageMode(p.CENTER);
           const avatarSizeMultiplier = isMobile ? 6.5 : 9; 
@@ -279,7 +293,7 @@ const LaserBeamSketch = () => {
           .filter(fragment => fragment.active && fragment.opacity/255 > RECT_OVER_THRESHOLD)
           .forEach(fragment => fragment.display(p));
         
-        // 5. Optimize fragment creation
+        // 6. Optimize fragment creation
         const activeFragmentCount = fragments.filter(f => f.active).length;
         const fragmentLimit = isMobile ? 5 : 25;
 
@@ -314,7 +328,11 @@ const LaserBeamSketch = () => {
         p.resizeCanvas(p.windowWidth, p.windowHeight);
         setupBuffers();
         
-
+        // Reset avatar state
+        avatarOpacity = 0;
+        avatarStartTime = null;
+        isAvatarReady = !isMobile;
+        
         // Resize and redraw laser beam
         // Reset laser beam state
         laserBeamDrawnToBuffer = false;
