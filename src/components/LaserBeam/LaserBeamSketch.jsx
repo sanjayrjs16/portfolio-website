@@ -234,38 +234,37 @@ const LaserBeamSketch = () => {
       };
 
       const drawDynamicElements = () => {
-        farShootingStars.forEach(star => {
-          star.update();
-          star.display(p);
-        });
-
-        shootingStars.forEach(star => {
-          star.update();
-          star.display(p);
-        });
-
-        breathePhase += breatheSpeed;
-        const breatheScale = 1 + Math.sin(breathePhase) * breatheAmount;
-        
-        if (avatarOpacity < 255) {
-          avatarOpacity = Math.min(avatarOpacity + avatarFadeSpeed, 255);
+        // 1. Throttle breathing animation
+        if (p.frameCount % (isMobile ? 3 : 2) === 0) {
+          breathePhase += breatheSpeed;
         }
 
+        // 2. Precompute breathing values once per update
+        const breatheSin = Math.sin(breathePhase);
+        const breatheScale = 1 + breatheSin * breatheAmount;
+        const breatheRotation = breatheSin * 2;
+
+        // 3. Faster fade-in for mobile
+        if (avatarOpacity < 255) {
+          avatarOpacity = Math.min(avatarOpacity + (isMobile ? 3 : 2), 255);
+        }
+
+        // Update fragments
         fragments.forEach(fragment => fragment.update());
         
+        // Draw fragments below threshold
         fragments
           .filter(fragment => fragment.active && fragment.opacity/255 <= RECT_OVER_THRESHOLD)
           .forEach(fragment => fragment.display(p));
         
-        const avatarSizeMultiplier = isMobile ? 6.5 : 9; 
-        const avatarSize = laserBeam.thickness * avatarSizeMultiplier;
-        const avatarPos = laserBeam.getAvatarPosition();
-        
-        p.push();
-        p.imageMode(p.CENTER);
+        // 4. Optimize avatar drawing
         if (p.avatarImg) {
-          const breatheRotation = Math.sin(breathePhase) * 2;
           p.push();
+          p.imageMode(p.CENTER);
+          const avatarSizeMultiplier = isMobile ? 6.5 : 9; 
+          const avatarSize = laserBeam.thickness * avatarSizeMultiplier;
+          const avatarPos = laserBeam.getAvatarPosition();
+
           p.translate(avatarPos.x, avatarPos.y);
           p.rotate(p.radians(breatheRotation));
           p.scale(breatheScale);
@@ -274,21 +273,25 @@ const LaserBeamSketch = () => {
           p.noTint();
           p.pop();
         }
-        p.pop();
         
+        // Draw fragments above threshold
         fragments
           .filter(fragment => fragment.active && fragment.opacity/255 > RECT_OVER_THRESHOLD)
           .forEach(fragment => fragment.display(p));
         
+        // 5. Optimize fragment creation
+        const activeFragmentCount = fragments.filter(f => f.active).length;
+        const fragmentLimit = isMobile ? 5 : 25;
+
+        if (p.frameCount % (isMobile ? 6 : 3) === 0 && activeFragmentCount < fragmentLimit) {
+          fragments.push(fragmentPool.get());
+        }
+        
+        // Clean up inactive fragments
         for (let i = fragments.length - 1; i >= 0; i--) {
           if (!fragments[i].active) {
             fragmentPool.recycle(fragments.splice(i, 1)[0]);
           }
-        }
-        
-        if (p.frameCount % (isMobile ? 4 : 3) === 0 && 
-            fragments.filter(f => f.active).length < (isMobile ? 7 : 30)) {
-          fragments.push(fragmentPool.get());
         }
       };
 
