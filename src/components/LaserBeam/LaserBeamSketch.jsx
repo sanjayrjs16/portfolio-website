@@ -57,7 +57,7 @@ const LaserBeamSketch = () => {
       let laserBeamDrawnToBuffer = false;
       
       let avatarOpacity = 0;
-      const avatarFadeSpeed = 5;
+      const avatarFadeSpeed = shouldReduceEffects ? 15 : 5;
       const RECT_OVER_THRESHOLD = 0.7;
 
       const setupBuffers = () => {
