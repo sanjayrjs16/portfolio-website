@@ -817,11 +817,16 @@ const description = "Frontend focused web engineer building performant, scalable
 		const fallback = document.querySelector('.background-fallback');
 		
 		if (canvas && fallback) {
-			fallback.classList.add('hidden');
-			// Optional: Remove fallback after transition
-			setTimeout(() => {
+			// Add visible class to canvas
+			canvas.classList.add('visible');
+			
+			// Add fade-out class to fallback
+			fallback.classList.add('fade-out');
+			
+			// Remove fallback after transition
+			fallback.addEventListener('transitionend', () => {
 				fallback.remove();
-			}, 300);
+			}, { once: true });
 		}
 	}
 

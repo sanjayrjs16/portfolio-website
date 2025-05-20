@@ -15,15 +15,18 @@
     left: 50%;
     width: 50%;
     height: 100vh;
-    z-index: -1;
+    z-index: 10;
     transform: translate(-50%, -50%);
-    /* background-image: url('/avatar-2.png');
-    background-size: contain;
-    background-position: center;
-    background-repeat: no-repeat; */
     display: flex;
     justify-content: center;
     align-items: center;
+    transition: all 0.6s ease-in-out;
+    pointer-events: none;
+  }
+
+  .background-fallback.fade-out {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.95);
   }
 
   .loader-container {
@@ -33,6 +36,12 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    transition: transform 0.6s ease-in-out, opacity 0.6s ease-in-out;
+  }
+
+  .background-fallback.fade-out .loader-container {
+    transform: scale(0.9);
+    opacity: 0;
   }
 
   .loader-image {
