@@ -263,6 +263,17 @@ const LaserBeamSketch = () => {
           avatarOpacity = Math.min(avatarOpacity + (isMobile ? 3 : 2), 255);
         }
 
+        // Add back shooting stars
+        farShootingStars.forEach(star => {
+          star.update();
+          star.display(p);
+        });
+
+        shootingStars.forEach(star => {
+          star.update();
+          star.display(p);
+        });
+
         // Update fragments
         fragments.forEach(fragment => fragment.update());
         
