@@ -1,7 +1,7 @@
 ---
 import Navigation from '../components/Navigation/Navigation.astro';
-import NotificationProvider from '../context/NotificationContext';
-import NotificationButtonsContainer from '../components/Notification/NotificationButtonsContainer';
+// import NotificationProvider from '../context/NotificationContext';
+// import NotificationButtonsContainer from '../components/Notification/NotificationButtonsContainer';
 import '../styles/global.css';
 import '../styles/notifications.css';
 
@@ -44,10 +44,10 @@ const { title, description, image = '/stardust-avatar.png' } = Astro.props;
 	<body>
 		<Navigation />
 		<slot />
-		<NotificationProvider client:only="react">
+		<!-- <NotificationProvider client:only="react">
 			<NotificationButtonsContainer client:only="react"/>
 		</NotificationProvider>
-		<div id="notification-root"></div>
+		<div id="notification-root"></div> -->
 		<script>
 			// Reset scroll position on page load
 			window.history.scrollRestoration = 'manual';
