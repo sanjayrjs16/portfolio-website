@@ -1,7 +1,9 @@
 ---
 import Navigation from '../components/Navigation/Navigation.astro';
 import NotificationProvider from '../context/NotificationContext';
+import NotificationButtonsContainer from '../components/Notification/NotificationButtonsContainer';
 import '../styles/global.css';
+import '../styles/notifications.css';
 
 interface Props {
 	title: string;
@@ -40,16 +42,17 @@ const { title, description, image = '/stardust-avatar.png' } = Astro.props;
 		<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500&display=swap" rel="stylesheet">
 	</head>
 	<body>
+		<Navigation />
+		<slot />
 		<NotificationProvider client:only="react">
-			<Navigation />
-			<slot />
+			<NotificationButtonsContainer client:only="react"/>
+		</NotificationProvider>
 		<div id="notification-root"></div>
 		<script>
 			// Reset scroll position on page load
 			window.history.scrollRestoration = 'manual';
 				window.scrollTo(0, 0);
 			</script>
-		</NotificationProvider>
 	</body>
 </html>
 

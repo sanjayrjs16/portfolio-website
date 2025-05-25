@@ -1,12 +1,10 @@
-import React, { createContext, useState } from "react";
-import NotificationContainer from "../components/Notification/NotificationContainer";
+import React, { createContext, useState, useCallback } from "react";
 import NotificationPortal from "../components/Notification/NotificationPortal";
 
 const defaultContext = {
   notifications: [],
   addNotification: () => {},
   removeNotification: () => {},
-  setNotifications: () => {},
 };
 
 export const NotificationContext = createContext(defaultContext);
@@ -14,25 +12,29 @@ export const NotificationContext = createContext(defaultContext);
 const NotificationProvider = ({ children }) => {
   const [notifications, setNotifications] = useState([]);
 
-  const addNotification = (notification) => {
-    console.log('Adding notification:', notification);
-    setNotifications((prevNotificaitons) => {
-      const newNotifications = [...prevNotificaitons, notification];
-      console.log('New notifications state:', newNotifications);
-      return newNotifications;
-    });
-  };
+  const addNotification = useCallback((notification) => {
+    const id = Date.now();
+    const newNotification = {
+      ...notification,
+      id,
+      position: notification.position || 'top-right'
+    };
+    
+    setNotifications(prev => [...prev, newNotification]);
 
-  const removeNotification = (id) => {
-    console.log('Removing notification:', id);
-    setNotifications((prevNotifications) => {
-      const newNotifications = prevNotifications.filter((notification) => notification.id != id);
-      console.log('Notifications after removal:', newNotifications);
-      return newNotifications;
-    });
-  };
+    // Auto remove after duration
+    if (notification.duration) {
+      setTimeout(() => {
+        removeNotification(id);
+      }, notification.duration);
+    }
 
-  console.log('Current notifications:', notifications);
+    return id;
+  }, []);
+
+  const removeNotification = useCallback((id) => {
+    setNotifications(prev => prev.filter(notification => notification.id !== id));
+  }, []);
 
   return (
     <NotificationContext.Provider
@@ -40,7 +42,6 @@ const NotificationProvider = ({ children }) => {
         notifications,
         addNotification,
         removeNotification,
-        setNotifications,
       }}
     >
       {children}
@@ -57,10 +58,10 @@ const NotificationProvider = ({ children }) => {
       ].map((position) => (
         <NotificationPortal
           key={position}
+          position={position}
           notifications={notifications.filter(
             (notification) => notification.position === position
           )}
-          position={position}
           removeNotification={removeNotification}
         />
       ))}

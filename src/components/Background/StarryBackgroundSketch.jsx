@@ -54,12 +54,7 @@ const StarryBackgroundSketch = () => {
       // Update the static buffer with all background elements
       const updateStaticSceneBuffer = () => {
         staticSceneBuffer.clear();
-             // Draw planets to buffer
-        planets.forEach(planet => {
-          if (planet.isVisible()) {
-            planet.drawToBuffer(staticSceneBuffer);
-          }
-        });
+     
 
         // Draw all stars to buffer
         stars.forEach(star => {
@@ -91,6 +86,13 @@ const StarryBackgroundSketch = () => {
             }
           }
         });
+
+                // Draw planets to buffer
+                planets.forEach(planet => {
+                  if (planet.isVisible()) {
+                    planet.drawToBuffer(staticSceneBuffer);
+                  }
+                });
       };
 
       p.setup = () => {

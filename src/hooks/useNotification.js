@@ -6,10 +6,7 @@ export const useNotification = () => {
   const context = useContext(NotificationContext);
   
   if (!context) {
-    console.warn('useNotification must be used within a NotificationProvider');
-    return {
-      showNotification: () => console.warn('Notification system not initialized'),
-    };
+    throw new Error('useNotification must be used within a NotificationProvider');
   }
 
   const {

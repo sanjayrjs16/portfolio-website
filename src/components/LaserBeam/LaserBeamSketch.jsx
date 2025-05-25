@@ -107,21 +107,7 @@ const LaserBeamSketch = () => {
           }
         }
 
-        // Shuffle the images so the selection is random each time
-        shuffleArray(planetImages);
-
-        // Decide how many planets you want (no more than planetImages.length)
-        const numPlanets = Math.min(PLANET_COUNT, planetImages.length);
-
-        for (let i = 0; i < numPlanets; i++) {
-          // Pass only the image you want for this planet
-          const planet = new Planet(p, [planetImages[i]]);
-          planets.push(planet);
-          planetPositions.push({ x: planet.x, y: planet.y, r: planet.radius });
-          if (planet.isVisible()) {
-            planet.drawToBuffer(staticSceneBuffer);
-          }
-        }
+       
 
         const patterns = [...Object.entries(CONSTELLATION_PATTERNS)];
         const desired = shouldReduceEffects ? 4 : 6;
@@ -145,6 +131,22 @@ const LaserBeamSketch = () => {
           tries++;
         }
 
+         // Shuffle the images so the selection is random each time
+         shuffleArray(planetImages);
+
+         // Decide how many planets you want (no more than planetImages.length)
+         const numPlanets = Math.min(PLANET_COUNT, planetImages.length);
+ 
+         for (let i = 0; i < numPlanets; i++) {
+           // Pass only the image you want for this planet
+           const planet = new Planet(p, [planetImages[i]]);
+           planets.push(planet);
+           planetPositions.push({ x: planet.x, y: planet.y, r: planet.radius });
+           if (planet.isVisible()) {
+             planet.drawToBuffer(staticSceneBuffer);
+           }
+         }
+         
         for (let i = 0; i < SHOOTING_STAR_CONFIG.CLOSE_COUNT; i++) {
           shootingStars.push(new ShootingStar(p, false));
         }

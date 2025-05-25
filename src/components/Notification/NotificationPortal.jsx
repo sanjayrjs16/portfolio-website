@@ -10,6 +10,7 @@ const NotificationPortal = ({ position, notifications, removeNotification }) => 
     // Create portal container if it doesn't exist
     if (!portalRef.current) {
       portalRef.current = document.createElement('div');
+      portalRef.current.className = `notification-portal ${position}`;
       portalRef.current.style.position = 'fixed';
       portalRef.current.style.zIndex = '9999';
       portalRef.current.style.pointerEvents = 'none';
@@ -39,7 +40,7 @@ const NotificationPortal = ({ position, notifications, removeNotification }) => 
         portalRef.current.parentNode.removeChild(portalRef.current);
       }
     };
-  }, []);
+  }, [position]);
 
   if (!mounted || !portalRef.current) return null;
 
