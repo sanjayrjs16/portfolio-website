@@ -1,0 +1,43 @@
+---
+const youtubeID = "w-X0eu3Xjjk";
+const appLink = `youtube://watch?v=${youtubeID}`;
+const webLink = `https://www.youtube.com/watch?v=${youtubeID}`; // Corrected to a standard YouTube URL
+---
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Redirecting to YouTube</title>
+    <meta http-equiv="refresh" content={`3; url=${webLink}`} />
+    
+    <style>
+      body {
+        font-family: sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        padding: 2rem;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <p>
+      Redirecting to YouTube...<br />
+      If nothing happens, <a href={webLink}>click here</a>.
+    </p>
+  </body>
+</html>
+<script define:vars={{ appLink, webLink }}>
+  // Try to open YouTube app first, fallback to web
+  if (window) {
+    // Try to open the YouTube app
+    window.location.href = appLink;
+    
+    // Fallback to web after a short delay if app doesn't open
+    setTimeout(() => {
+      window.location.href = webLink;
+    }, 1000);
+  }
+</script>
