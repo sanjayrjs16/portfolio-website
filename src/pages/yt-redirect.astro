@@ -59,14 +59,14 @@ const thumbnailUrl = `https://img.youtube.com/vi/${youtubeID}/maxresdefault.jpg`
         line-height: 1.4;
       }
       
-      .device-info {
+      /* .device-info {
         font-size: 0.9rem;
         color: #888;
         margin-bottom: 1.5rem;
         padding: 0.5rem;
         background: rgba(255, 255, 255, 0.05);
         border-radius: 8px;
-      }
+      } */
       
       .watch-button {
         background: linear-gradient(135deg, #ff0000, #cc0000);
@@ -120,16 +120,16 @@ const thumbnailUrl = `https://img.youtube.com/vi/${youtubeID}/maxresdefault.jpg`
       <img src={thumbnailUrl} alt="Video thumbnail" class="thumbnail" />
       <h1 class="title">{videoTitle}</h1>
       
-      <div class="device-info" id="device-info">
+      <!-- <div class="device-info" id="device-info">
         Detecting your device...
-      </div>
+      </div> -->
       
       <button class="watch-button" id="watch-button">
         Watch on YouTube
       </button>
       
       <a href={webLink} class="fallback-link" target="_blank" rel="noopener noreferrer">
-        Open in browser instead
+        Having trouble? Tap here to watch in browser
       </a>
     </div>
     
@@ -146,7 +146,7 @@ const thumbnailUrl = `https://img.youtube.com/vi/${youtubeID}/maxresdefault.jpg`
   // Device detection and smart redirect
   function detectDevice() {
     const userAgent = navigator.userAgent;
-    const deviceInfo = document.getElementById('device-info');
+    // const deviceInfo = document.getElementById('device-info');
     
     let deviceType = 'Desktop';
     let platform = 'Web';
@@ -162,7 +162,7 @@ const thumbnailUrl = `https://img.youtube.com/vi/${youtubeID}/maxresdefault.jpg`
       platform = 'YouTube App';
     }
     
-    deviceInfo.textContent = `Detected: ${deviceType} - Will open in ${platform}`;
+    // deviceInfo.textContent = `Detected: ${deviceType} - Will open in ${platform}`;
     
     return { deviceType, platform };
   }
