@@ -1,43 +1,215 @@
 ---
 const youtubeID = "w-X0eu3Xjjk";
+const videoTitle = "The EASY Way to Make Popups & Modals (No JS!) ft. Popover API + Dialog"; // Update this with your actual video title
 const appLink = `youtube://watch?v=${youtubeID}`;
-const webLink = `https://www.youtube.com/watch?v=${youtubeID}`; // Corrected to a standard YouTube URL
+const webLink = `https://www.youtube.com/watch?v=${youtubeID}`;
+const androidIntent = `intent://www.youtube.com/watch?v=${youtubeID}#Intent;scheme=https;package=com.google.android.youtube;end`;
+const thumbnailUrl = `https://img.youtube.com/vi/${youtubeID}/maxresdefault.jpg`;
 ---
 
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>Redirecting to YouTube</title>
-    <meta http-equiv="refresh" content={`3; url=${webLink}`} />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Watch on YouTube</title>
     
     <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      
       body {
-        font-family: sans-serif;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        background: #000000;
+        color: #ffffff;
+        min-height: 100vh;
         display: flex;
         justify-content: center;
         align-items: center;
-        height: 100vh;
-        padding: 2rem;
+        padding: 1rem;
+      }
+      
+      .container {
+        max-width: 400px;
+        width: 100%;
         text-align: center;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 16px;
+        padding: 2rem;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      }
+      
+      .thumbnail {
+        width: 100%;
+        height: 200px;
+        border-radius: 12px;
+        object-fit: cover;
+        margin-bottom: 1.5rem;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+      }
+      
+      .title {
+        font-size: 1.25rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+        line-height: 1.4;
+      }
+      
+      .device-info {
+        font-size: 0.9rem;
+        color: #888;
+        margin-bottom: 1.5rem;
+        padding: 0.5rem;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 8px;
+      }
+      
+      .watch-button {
+        background: linear-gradient(135deg, #ff0000, #cc0000);
+        color: white;
+        border: none;
+        padding: 1rem 2rem;
+        border-radius: 50px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        width: 100%;
+        margin-bottom: 1rem;
+        box-shadow: 0 4px 15px rgba(255, 0, 0, 0.3);
+      }
+      
+      .watch-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(255, 0, 0, 0.4);
+      }
+      
+      .fallback-link {
+        color: #888;
+        text-decoration: none;
+        font-size: 0.9rem;
+        transition: color 0.3s ease;
+      }
+      
+      .fallback-link:hover {
+        color: #fff;
+      }
+      
+      .loading {
+        opacity: 0.7;
+        pointer-events: none;
+      }
+      
+      @media (max-width: 480px) {
+        .container {
+          padding: 1.5rem;
+        }
+        
+        .title {
+          font-size: 1.1rem;
+        }
       }
     </style>
   </head>
   <body>
-    <p>
-      Redirecting to YouTube...<br />
-      If nothing happens, <a href={webLink}>click here</a>.
-    </p>
+    <div class="container">
+      <img src={thumbnailUrl} alt="Video thumbnail" class="thumbnail" />
+      <h1 class="title">{videoTitle}</h1>
+      
+      <div class="device-info" id="device-info">
+        Detecting your device...
+      </div>
+      
+      <button class="watch-button" id="watch-button">
+        Watch on YouTube
+      </button>
+      
+      <a href={webLink} class="fallback-link" target="_blank" rel="noopener noreferrer">
+        Open in browser instead
+      </a>
+    </div>
+    
+    <!-- Hidden iframe for app detection -->
+    <iframe id="app-detector" style="display: none;"></iframe>
   </body>
 </html>
-<script define:vars={{ appLink, webLink }}>
-  // Try to open YouTube app first, fallback to web
-  if (window) {
-    // Try to open the YouTube app
-    window.location.href = appLink;
+
+<script define:vars={{ appLink, webLink, androidIntent }}>
+  // Constants
+  const REDIRECT_DELAY = 1000;
+  const BUTTON_RESET_DELAY = 2000;
+  
+  // Device detection and smart redirect
+  function detectDevice() {
+    const userAgent = navigator.userAgent;
+    const deviceInfo = document.getElementById('device-info');
     
-    // Fallback to web after a short delay if app doesn't open
-    setTimeout(() => {
-      window.location.href = webLink;
-    }, 1000);
+    let deviceType = 'Desktop';
+    let platform = 'Web';
+    
+    if (/Android/i.test(userAgent)) {
+      deviceType = 'Android';
+      platform = 'YouTube App';
+    } else if (/iPhone|iPad|iPod/i.test(userAgent)) {
+      deviceType = 'iOS';
+      platform = 'YouTube App';
+    } else if (/Mobile|Tablet/i.test(userAgent)) {
+      deviceType = 'Mobile';
+      platform = 'YouTube App';
+    }
+    
+    deviceInfo.textContent = `Detected: ${deviceType} - Will open in ${platform}`;
+    
+    return { deviceType, platform };
   }
+  
+  // Smart redirect function
+  function openYouTube() {
+    const { deviceType } = detectDevice();
+    const watchButton = document.getElementById('watch-button');
+    
+    // Add loading state
+    watchButton.classList.add('loading');
+    watchButton.textContent = 'Opening...';
+    
+    try {
+      if (deviceType === 'Android') {
+        // Android: Use direct location.href for cleaner redirect
+        window.location.href = androidIntent;
+        setTimeout(() => {
+          window.open(webLink, '_blank');
+        }, REDIRECT_DELAY);
+      } else if (deviceType === 'iOS') {
+        // iOS: Use direct location.href instead of iframe (more reliable)
+        window.location.href = appLink;
+        setTimeout(() => {
+          window.open(webLink, '_blank');
+        }, REDIRECT_DELAY);
+      } else {
+        // Desktop - open directly in new tab
+        window.open(webLink, '_blank');
+      }
+    } catch (error) {
+      // Fallback to web
+      window.open(webLink, '_blank');
+    }
+    
+    // Reset button after a delay
+    setTimeout(() => {
+      watchButton.classList.remove('loading');
+      watchButton.textContent = 'Watch on YouTube';
+    }, BUTTON_RESET_DELAY);
+  }
+  
+  // Initialize when DOM is ready
+  window.addEventListener('DOMContentLoaded', () => {
+    detectDevice();
+    
+    // Add click handler
+    document.getElementById('watch-button').addEventListener('click', openYouTube);
+  });
 </script>
