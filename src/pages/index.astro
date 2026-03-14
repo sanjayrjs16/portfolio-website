@@ -46,12 +46,16 @@ const description = "Frontend focused web engineer building performant, scalable
 			<div class="hero-content">
 				<div class="hero-content-right">
 					<div class="bio-container">
-						<div class="bio-block yellow-border">
+						<div class="bio-block">
 							<p class="fun-text bio-intro">
-								Hey, I build stuff on the web for a living. <a href="/works/" class="link">check out all my works here</a>
+								Hey, <br/> 
+								<span>I build stuff on the web for a living. <br/>Building <a href="https://www.sunroad.io" target="_blank" rel="noopener noreferrer" class="link">Sun Road</a> rn.</span>
+								 See all of <a href="/works/" rel="noopener noreferrer" class="link">my works.</a>
 							</p>
+							<div class="yellow-border">
 							<p class="quote-text">"The Art challenges the technology & the technology inspires the art"</p>
 							<p class="attribution-text">- John Lasseter</p>
+						</div>
 							<p class="bio-credit">* <a href="https://www.instagram.com/p/CBL86c5DbZV/" target="_blank" rel="noopener noreferrer" class="link">site based on art i made</a></p>
 						</div>
 					</div>
@@ -427,7 +431,8 @@ const description = "Frontend focused web engineer building performant, scalable
 		backdrop-filter: blur(10px);
 		padding: 1rem;
 		border-radius: 8px;
-		border: 1px solid rgba(255, 255, 255, 0.1);
+		border: 1px solid var(--purple-color);
+		box-shadow: 0 0 12px rgba(193, 124, 233, 0.25);
 		opacity: 0;
 		/* animation: fadeIn 1s ease-out 2s forwards; */
 		position: relative;
@@ -498,6 +503,8 @@ const description = "Frontend focused web engineer building performant, scalable
 	/* Bio card — mobile typography and spacing only (compact) */
 	@media (max-width: 768px) {
 		.bio-container {
+			width: 90vw;
+			max-width: 90vw;
 			padding: 0.75rem 0.85rem;
 			border-radius: 10px;
 		}
@@ -613,7 +620,7 @@ const description = "Frontend focused web engineer building performant, scalable
 
 	.yellow-border {
 		border-bottom: 1px solid var(--yellow-color);
-		border-top: 1px solid var(--yellow-color);
+		/* border-top: 1px solid var(--yellow-color); */
 		border-radius: 0.5rem;
 		padding: 0.5rem 0.5rem 0.4rem;
 		margin: 0;
