@@ -120,11 +120,11 @@ const SocialIcons = () => {
         }
 
         .social-icon {
-          color: rgba(255, 255, 255, 0.8);
+          color: rgba(254, 254, 254, 0.8);
           transition: all 0.3s ease;
           padding: 0.1rem;
           border-radius: 50%;
-          background: rgba(255, 255, 255, 0.2);
+          background: rgba(0, 0, 0, 0.9);
           backdrop-filter: blur(10px);
           position: relative;
           text-shadow: 0 0 8px var(--yellow-color);
