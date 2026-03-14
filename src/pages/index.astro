@@ -53,19 +53,21 @@ const description = "Frontend focused web engineer building performant, scalable
 See all of <a href="/works/" rel="noopener noreferrer" class="link">my works.</a> <br/>
 YouTube Channel: <a href="https://www.youtube.com/@letthedevscook/featured" target="_blank" rel="noopener noreferrer" class="link">Let The Devs Cook.</a> 
 							</p>
-							<div class="yellow-border">
+							
 							<p class="quote-text">"The Art challenges the technology & the technology inspires the art"</p>
 							<p class="attribution-text">- John Lasseter</p>
-						</div>
+						
 							<p class="bio-credit">* <a href="https://www.instagram.com/p/CBL86c5DbZV/" target="_blank" rel="noopener noreferrer" class="link">site based on art i made</a></p>
 						</div>
 					</div>
 				</div>
 				<div class="hero-content-left">
-					<h1 class="hero-title">
-						<span class="title-line" data-text="SANJAY">SANJAY</span>
-						<span class="title-line" data-text="RAJESH">RAJESH</span>
-					</h1>
+					
+						<h1 class="hero-title hero-title-box">
+							<span class="title-line" data-text="SANJAY">SANJAY</span>
+							<span class="title-line" data-text="RAJESH">RAJESH</span>
+						</h1>
+					
 					<div class="social-icons">
 						<SocialIcons client:load />
 					</div>
@@ -132,6 +134,17 @@ YouTube Channel: <a href="https://www.youtube.com/@letthedevscook/featured" targ
 		z-index: 20; /* Increased z-index to be higher than hero-content-left */
 		max-width: 38vw;
 		text-align: left;
+	}
+
+	.hero-title-box {
+		background: rgba(0, 0, 0, 0.85);
+		backdrop-filter: blur(10px);
+		padding: 1rem 1.25rem;
+		border-radius: 8px;
+		border-bottom: 1px solid var(--yellow-color);
+		border-top: 1px solid var(--yellow-color);
+		box-shadow: 0 0 12px rgba(193, 124, 233, 0.25);
+		display: inline-block;
 	}
 
 	.hero-title {
@@ -431,8 +444,8 @@ YouTube Channel: <a href="https://www.youtube.com/@letthedevscook/featured" targ
 		background: rgba(0, 0, 0, 0.85);
 		backdrop-filter: blur(10px);
 		padding: 1rem;
-		border-radius: 8px;
-		border: 1px solid var(--purple-color);
+		border-radius: 8px;	border-bottom: 1px solid var(--yellow-color);
+		border-top: 1px solid var(--yellow-color);
 		box-shadow: 0 0 12px rgba(193, 124, 233, 0.25);
 		opacity: 0;
 		/* animation: fadeIn 1s ease-out 2s forwards; */
