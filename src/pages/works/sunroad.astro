@@ -1,0 +1,153 @@
+---
+import CaseStudyShell from '../../components/Works/CaseStudyShell.astro';
+
+const title = 'Sun Road Co. — Case Study | Sanjay Rajesh';
+const description =
+    'Lead fullstack product engineer on the founding team: 0→1 Next.js + Supabase platform, discovery, billing, and secure backend systems.';
+
+const overview =
+    'Sun Road is a search platform for locals to find creatives and for creatives to showcase work. I joined as founding fullstack engineer and owned the path from a legacy cPanel-era stack to a shipped product on the modern web.';
+
+const workedOn = [
+    'Solo 0→1 build: Next.js App Router frontend, Supabase-backed APIs, and a secure PostgreSQL layer with RLS, RPC-style access patterns, and triggers where they belonged.',
+    'Product systems end-to-end: geo-aware discovery, Stripe billing, Edge Functions, transactional email, and the observability habits (ISR, on-demand revalidation, SWR, rate limiting, PostHog) that keep the experience fast and dependable.'
+];
+
+const stack = [
+    'Next.js',
+    'Supabase',
+    'PostgreSQL',
+    'RLS',
+    'Stripe',
+    'Edge Functions',
+    'SWR',
+    'PostHog',
+    'TypeScript'
+];
+
+const links = [
+    { label: 'Live product', url: 'https://sunroad.co' },
+    { label: 'Works overview', url: '/works' }
+];
+---
+
+<CaseStudyShell title={title} description={description} breadcrumbCurrent="Sun Road Co.">
+    <header class="light-panel light-panel--accent hero">
+        <p class="eyebrow">Case study</p>
+        <h1 class="hero-title">Sun Road Co.</h1>
+        <p class="hero-role">Lead Fullstack Product Engineer · Founding team</p>
+        <p class="panel-text lede">{overview}</p>
+    </header>
+
+    <section class="light-panel" aria-labelledby="work-heading">
+        <h2 id="work-heading" class="panel-title">What I worked on</h2>
+        <ul class="bullet-list">
+            {workedOn.map((line) => (
+                <li>{line}</li>
+            ))}
+        </ul>
+    </section>
+
+    <section class="light-panel" aria-labelledby="stack-heading">
+        <h2 id="stack-heading" class="panel-title">Stack & tools</h2>
+        <ul class="tag-list">
+            {stack.map((t) => (
+                <li>{t}</li>
+            ))}
+        </ul>
+    </section>
+
+    <section class="light-panel" aria-labelledby="links-heading">
+        <h2 id="links-heading" class="panel-title">Links</h2>
+        <div class="link-row">
+            {
+                links.map((l) =>
+                    l.url.startsWith('http') ? (
+                        <a class="work-link" href={l.url} target="_blank" rel="noopener noreferrer">
+                            {l.label}
+                        </a>
+                    ) : (
+                        <a class="work-link" href={l.url}>
+                            {l.label}
+                        </a>
+                    )
+                )
+            }
+        </div>
+    </section>
+</CaseStudyShell>
+
+<style>
+    .hero {
+        display: flex;
+        flex-direction: column;
+        gap: 0.6rem;
+        align-items: flex-start;
+    }
+
+    .eyebrow {
+        margin: 0;
+        font-size: 0.68rem;
+        text-transform: uppercase;
+        letter-spacing: 0.14em;
+        color: rgba(91, 33, 182, 0.85);
+    }
+
+    .hero-title {
+        margin: 0;
+        font-family: 'Audiowide', sans-serif;
+        font-size: clamp(1.2rem, 4vw, 1.85rem);
+        color: #1c1917;
+    }
+
+    .hero-role {
+        margin: 0;
+        font-size: 0.72rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.07em;
+        color: rgba(80, 72, 64, 0.72);
+    }
+
+    .lede {
+        margin-top: 0.35rem !important;
+        max-width: 62ch;
+    }
+
+    .bullet-list {
+        margin: 0.5rem 0 0;
+        padding-left: 1.1rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.55rem;
+        font-size: 0.9rem;
+        line-height: 1.55;
+        color: rgba(40, 36, 33, 0.88);
+    }
+
+    .tag-list {
+        margin: 0.5rem 0 0;
+        padding: 0;
+        list-style: none;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.4rem;
+    }
+
+    .tag-list li {
+        font-size: 0.72rem;
+        font-weight: 500;
+        padding: 0.18rem 0.5rem;
+        border-radius: 8px;
+        background: rgba(139, 92, 246, 0.1);
+        border: 1px solid rgba(124, 58, 237, 0.22);
+        color: rgba(76, 29, 149, 0.9);
+    }
+
+    .link-row {
+        margin-top: 0.5rem;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem 1rem;
+    }
+</style>

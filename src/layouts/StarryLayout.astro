@@ -15,7 +15,10 @@ const { title, description } = Astro.props;
 <Layout title={title} description={description}>
     <BackgroundFallback />
     <StarryBackgroundSketch client:only="react" />
-    <slot />
+    <!-- Real DOM wrapper: Astro <slot /> has no element, so z-index on `slot {}` never applied -->
+    <div class="starry-foreground">
+        <slot />
+    </div>
     <div id="notification-root"></div>
 </Layout>
 
@@ -32,11 +35,13 @@ const { title, description } = Astro.props;
         top: 0;
         left: 0;
         z-index: 0;
+        pointer-events: none;
     }
 
-    slot {
+    .starry-foreground {
         position: relative;
-        z-index: 1;
+        z-index: 2;
+        isolation: isolate;
     }
 
     /* Fallback styles */

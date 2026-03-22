@@ -1,0 +1,392 @@
+---
+import CaseStudyShell from '../../components/Works/CaseStudyShell.astro';
+
+const title = 'The Goat Life — Case Study | Sanjay Rajesh';
+const description =
+    'Official website for Aadujeevitham / The Goat Life: engineering, launch, and press. Web engineer — Astro, TypeScript, Decap CMS, Framer Motion.';
+
+const year = '2023–2024';
+const liveUrl = 'https://thegoatlifefilm.com';
+const launchVideoId = '-8Aummsmpqs';
+
+const pressLinks: { label: string; outlet: string; url: string }[] = [
+    {
+        outlet: 'The Hindu',
+        label: 'A. R. Rahman launches Aadujeevitham website',
+        url: 'https://www.thehindu.com/entertainment/movies/ar-rahman-launches-website-of-prithviraj-sukumaran-aadujeevitham/article67679145.ece'
+    },
+    {
+        outlet: 'Times of India',
+        label: 'Director Blessy on Aadujeevitham website launch',
+        url: 'https://timesofindia.indiatimes.com/entertainment/malayalam/movies/news/director-blessy-on-aadujeevitham-website-launch/articleshow/108015198.cms'
+    },
+    {
+        outlet: 'Indian Express',
+        label: 'A. R. Rahman, Prithviraj, and the film’s digital footprint',
+        url: 'https://indianexpress.com/article/entertainment/malayalam/ar-rahman-prithviraj-sukumaran-upcoming-film-aadujeevitham-malayalam-lawrence-of-arabia-9183502/'
+    },
+    {
+        outlet: 'Wikipedia',
+        label: 'The Goat Life — marketing & official website',
+        url: 'https://en.wikipedia.org/wiki/The_Goat_Life#Marketing'
+    },
+    {
+        outlet: 'Mathrubhumi',
+        label: 'Aadujeevitham website launch coverage',
+        url: 'https://www.mathrubhumi.com/movies-music/news/aadujeevitham-website-launch-1.9357830'
+    },
+    {
+        outlet: 'Manorama Online',
+        label: 'Aadujeevitham website opening',
+        url: 'https://www.manoramaonline.com/music/music-news/2024/02/26/aadujeevitham-website-opening.html'
+    },
+    {
+        outlet: 'Manorama Online',
+        label: 'Immersive website experience (earlier coverage)',
+        url: 'https://www.manoramaonline.com/movies/movie-news/2023/12/21/ar-rahman-launches-aadujeevitham-movie-website.html'
+    }
+];
+
+const stack = ['Astro', 'TypeScript', 'Decap CMS', 'Framer Motion'];
+
+const workedOn = [
+    'End-to-end web engineering for the official film site — structure, interactions, performance, and launch readiness alongside the campaign team.',
+    'A day/night experience driven by the visitor’s local time, with motion and layout tuned for a cinematic first impression on desktop and mobile.',
+    'Content workflow with Decap CMS so marketing could iterate copy and assets without blocking engineering for every small change.',
+    'Shipping a fast, accessible baseline: semantic markup, careful image and animation choices, and a calm visual language that matched the film’s scale.'
+];
+---
+
+<CaseStudyShell title={title} description={description} breadcrumbCurrent="Goat Life">
+    <section class="light-panel light-panel--accent intro-launch" aria-labelledby="goat-life-heading">
+        <div class="intro-launch__grid">
+            <div class="intro-launch__copy">
+                <p class="hero__eyebrow">Case study</p>
+                <h1 id="goat-life-heading" class="hero__title">The Goat Life</h1>
+                <p class="hero__subtitle">Aadujeevitham — official movie website</p>
+                <div class="hero__meta">
+                    <span class="meta-chip">Web Engineer</span>
+                    <span class="meta-chip meta-chip--muted">{year}</span>
+                </div>
+                <p class="panel-text intro-launch__lede">
+                    Official campaign surface for one of Malayalam cinema’s most anticipated releases — engineered for clarity, atmosphere, and speed. The short
+                    captures the rollout alongside the physical launch and talent presence.
+                </p>
+                <a class="work-link" href={liveUrl} target="_blank" rel="noopener noreferrer">Visit live site</a>
+            </div>
+            <div class="intro-launch__media">
+                <p class="intro-launch__video-label">Launch video</p>
+                <div class="intro-launch__video-frame">
+                    <iframe
+                        title="The Goat Life — launch video (YouTube Shorts)"
+                        src={`https://www.youtube.com/embed/${launchVideoId}`}
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allowfullscreen
+                        loading="eager"></iframe>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="split">
+        <section class="light-panel" aria-labelledby="overview-heading">
+            <h2 id="overview-heading" class="panel-title">Project overview</h2>
+            <ul class="facts">
+                <li><strong>Film</strong> — Aadujeevitham / <em>The Goat Life</em> (epic survival drama; major theatrical and festival presence).</li>
+                <li><strong>Surface</strong> — Single canonical marketing site: story, cast, trailers, and campaign beats in one cohesive experience.</li>
+                <li><strong>Launch</strong> — Rolled out as part of a coordinated global push, with coverage across national and regional outlets.</li>
+            </ul>
+        </section>
+        <section class="light-panel" aria-labelledby="stack-heading">
+            <h2 id="stack-heading" class="panel-title">Stack & tools</h2>
+            <p class="panel-text">
+                Built with a static-first Astro core, typed TypeScript where it mattered, Decap CMS for editorial control, and Framer Motion for UI motion.
+            </p>
+            <ul class="stack-list">
+                {stack.map((item) => (
+                    <li>{item}</li>
+                ))}
+            </ul>
+        </section>
+    </div>
+
+    <section class="light-panel" aria-labelledby="work-heading">
+        <h2 id="work-heading" class="panel-title">What I worked on</h2>
+        <p class="panel-text emphasis">
+            I owned <strong>all website-related engineering</strong> for this project: from architecture and implementation through polish, CMS wiring, and
+            handoff for launch.
+        </p>
+        <ul class="work-list">
+            {workedOn.map((item) => (
+                <li>{item}</li>
+            ))}
+        </ul>
+    </section>
+
+    <section class="light-panel" aria-labelledby="press-heading">
+        <h2 id="press-heading" class="panel-title">Media & press</h2>
+        <p class="panel-text section-intro">Selected coverage referencing the official site and campaign — useful for launch context and credibility.</p>
+        <ul class="press-list">
+            {pressLinks.map((item) => (
+                <li class="press-item">
+                    <span class="press-item__outlet">{item.outlet}</span>
+                    <a class="press-item__link work-link" href={item.url} target="_blank" rel="noopener noreferrer">
+                        {item.label}
+                    </a>
+                </li>
+            ))}
+        </ul>
+    </section>
+
+    <section class="light-panel gallery-block" aria-labelledby="gallery-heading">
+        <h2 id="gallery-heading" class="panel-title">Gallery</h2>
+        <p class="panel-text muted">Reserved for additional stills, motion captures, and launch assets — easy to extend as the case study grows.</p>
+        <div class="gallery-placeholder" role="img" aria-label="Placeholder for future gallery images">
+            <span>More visuals soon</span>
+        </div>
+    </section>
+</CaseStudyShell>
+
+<style>
+    .intro-launch__grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        gap: clamp(0.85rem, 2.5vw, 1.35rem);
+        align-items: center;
+        min-width: 0;
+    }
+
+    .intro-launch__copy {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        align-items: flex-start;
+        min-width: 0;
+    }
+
+    .intro-launch__lede {
+        margin: 0;
+        max-width: 44ch;
+        font-size: 0.87rem;
+        line-height: 1.55;
+    }
+
+    .intro-launch__media {
+        min-width: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 0.32rem;
+        align-items: flex-end;
+    }
+
+    .intro-launch__video-label {
+        margin: 0;
+        font-size: 0.62rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: rgba(91, 33, 182, 0.88);
+    }
+
+    .intro-launch__video-frame {
+        position: relative;
+        width: 100%;
+        max-width: min(100%, 19.5rem);
+        margin-inline: 0;
+        border-radius: 12px;
+        overflow: hidden;
+        border: 1px solid rgba(124, 58, 237, 0.22);
+        box-shadow: 0 0 0 1px rgba(250, 204, 21, 0.12), 0 12px 36px rgba(20, 12, 40, 0.08);
+        aspect-ratio: 9 / 16;
+        max-height: min(68vh, 500px);
+        background: #0f0f12;
+    }
+
+    .intro-launch__video-frame iframe {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        border: 0;
+    }
+
+    .hero__eyebrow {
+        margin: 0;
+        font-size: 0.68rem;
+        text-transform: uppercase;
+        letter-spacing: 0.14em;
+        color: rgba(91, 33, 182, 0.85);
+    }
+
+    .hero__title {
+        margin: 0;
+        font-family: 'Audiowide', sans-serif;
+        font-size: clamp(1.45rem, 5vw, 2.25rem);
+        line-height: 1.1;
+        color: #1c1917;
+        text-shadow: 0 0 24px rgba(168, 85, 247, 0.12);
+    }
+
+    .hero__subtitle {
+        margin: 0;
+        font-size: 0.95rem;
+        color: rgba(55, 48, 40, 0.78);
+    }
+
+    .hero__meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.4rem;
+        margin-top: 0.15rem;
+    }
+
+    .meta-chip {
+        font-size: 0.65rem;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        padding: 0.22rem 0.55rem;
+        border-radius: 999px;
+        border: 1px solid rgba(124, 58, 237, 0.28);
+        color: rgba(76, 29, 149, 0.9);
+        background: rgba(139, 92, 246, 0.08);
+    }
+
+    .meta-chip--muted {
+        border-color: rgba(120, 110, 95, 0.35);
+        color: rgba(68, 60, 52, 0.75);
+        background: rgba(255, 255, 255, 0.5);
+    }
+
+    .section-intro {
+        max-width: 60ch;
+        margin-top: 0.35rem !important;
+    }
+
+    .section-intro:first-of-type {
+        margin-top: 0 !important;
+    }
+
+    .emphasis {
+        max-width: 62ch;
+        margin-bottom: 0.5rem !important;
+    }
+
+    .muted {
+        color: rgba(90, 80, 72, 0.75) !important;
+    }
+
+    .split {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 1rem;
+        min-width: 0;
+    }
+
+    .facts,
+    .work-list {
+        margin: 0.5rem 0 0;
+        padding-left: 1.15rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.55rem;
+        font-size: 0.88rem;
+        line-height: 1.55;
+        color: rgba(40, 36, 33, 0.88);
+    }
+
+    .stack-list {
+        margin: 0.5rem 0 0;
+        padding: 0;
+        list-style: none;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 0.4rem;
+    }
+
+    .stack-list li {
+        padding: 0.2rem 0.55rem;
+        border-radius: 8px;
+        background: rgba(139, 92, 246, 0.1);
+        border: 1px solid rgba(124, 58, 237, 0.22);
+        font-size: 0.78rem;
+        color: rgba(76, 29, 149, 0.92);
+    }
+
+    .press-list {
+        list-style: none;
+        margin: 0.5rem 0 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 0.85rem;
+    }
+
+    .press-item {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+        padding-bottom: 0.75rem;
+        border-bottom: 1px solid rgba(200, 188, 170, 0.45);
+        min-width: 0;
+    }
+
+    .press-item:last-child {
+        border-bottom: none;
+        padding-bottom: 0;
+    }
+
+    .press-item__outlet {
+        font-size: 0.65rem;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: rgba(120, 53, 15, 0.75);
+    }
+
+    .press-item__link {
+        font-size: 0.88rem;
+        align-self: flex-start;
+        max-width: 100%;
+    }
+
+    .gallery-placeholder {
+        margin-top: 0.65rem;
+        min-height: 8rem;
+        border-radius: 12px;
+        border: 1px dashed rgba(200, 188, 170, 0.55);
+        background: rgba(255, 255, 255, 0.45);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: rgba(90, 80, 72, 0.45);
+        font-size: 0.78rem;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+    }
+
+    @media (max-width: 768px) {
+        .split {
+            grid-template-columns: 1fr;
+        }
+
+        .intro-launch__grid {
+            grid-template-columns: 1fr;
+            gap: 1rem;
+            align-items: stretch;
+        }
+
+        .intro-launch__media {
+            align-items: stretch;
+        }
+
+        .intro-launch__video-label {
+            align-self: flex-start;
+        }
+
+        .intro-launch__video-frame {
+            max-width: 100%;
+            max-height: min(64vh, 480px);
+            margin-inline: auto;
+        }
+    }
+</style>

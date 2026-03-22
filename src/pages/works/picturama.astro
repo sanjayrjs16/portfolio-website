@@ -1,0 +1,136 @@
+---
+import CaseStudyShell from '../../components/Works/CaseStudyShell.astro';
+
+const title = 'Picturama DeFi — Case Study | Sanjay Rajesh';
+const description =
+    'Chainlink hackathon build — audience-backed indie film financing with IPFS, on-chain flows, and Filecoin recognition.';
+
+const overview =
+    'Picturama explored how decentralized rails could help finance independent cinema — a focused hackathon story with a real protocol narrative, not a slide deck.';
+
+const workedOn = [
+    'Frontend and integration work on a Next.js surface that connected wallet flows, IPFS assets, and Chainlink patterns into something judges could actually follow.',
+    'Collaborated on Solidity-side boundaries and demo scripting so the team could show a credible end-to-end path in a short judging window.'
+];
+
+const stack = ['Next.js', 'Solidity', 'IPFS', 'Chainlink', 'Filecoin', 'Web3'];
+
+const links = [
+    { label: 'Devpost', url: 'https://devpost.com/software/picturama-defi-financing-independent-cinema' },
+    { label: 'GitHub', url: 'https://github.com/picturama-defi' },
+    { label: 'Demo video', url: 'https://www.youtube.com/watch?v=mnrl5tAp7eE&t=160s' }
+];
+---
+
+<CaseStudyShell title={title} description={description} breadcrumbCurrent="Picturama DeFi">
+    <header class="light-panel light-panel--accent hero">
+        <p class="eyebrow">Case study</p>
+        <h1 class="hero-title">Picturama DeFi</h1>
+        <p class="hero-role">Hackathon · Chainlink</p>
+        <p class="panel-text lede">{overview}</p>
+    </header>
+
+    <section class="light-panel" aria-labelledby="work-heading">
+        <h2 id="work-heading" class="panel-title">What I worked on</h2>
+        <ul class="bullet-list">
+            {workedOn.map((line) => (
+                <li>{line}</li>
+            ))}
+        </ul>
+    </section>
+
+    <section class="light-panel" aria-labelledby="stack-heading">
+        <h2 id="stack-heading" class="panel-title">Stack & tools</h2>
+        <ul class="tag-list">
+            {stack.map((t) => (
+                <li>{t}</li>
+            ))}
+        </ul>
+    </section>
+
+    <section class="light-panel" aria-labelledby="links-heading">
+        <h2 id="links-heading" class="panel-title">Links</h2>
+        <div class="link-row">
+            {links.map((l) => (
+                <a class="work-link" href={l.url} target="_blank" rel="noopener noreferrer">
+                    {l.label}
+                </a>
+            ))}
+        </div>
+    </section>
+</CaseStudyShell>
+
+<style>
+    .hero {
+        display: flex;
+        flex-direction: column;
+        gap: 0.6rem;
+        align-items: flex-start;
+    }
+
+    .eyebrow {
+        margin: 0;
+        font-size: 0.68rem;
+        text-transform: uppercase;
+        letter-spacing: 0.14em;
+        color: rgba(91, 33, 182, 0.85);
+    }
+
+    .hero-title {
+        margin: 0;
+        font-family: 'Audiowide', sans-serif;
+        font-size: clamp(1.15rem, 4vw, 1.75rem);
+        color: #1c1917;
+    }
+
+    .hero-role {
+        margin: 0;
+        font-size: 0.72rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.07em;
+        color: rgba(80, 72, 64, 0.72);
+    }
+
+    .lede {
+        margin-top: 0.35rem !important;
+        max-width: 62ch;
+    }
+
+    .bullet-list {
+        margin: 0.5rem 0 0;
+        padding-left: 1.1rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.55rem;
+        font-size: 0.9rem;
+        line-height: 1.55;
+        color: rgba(40, 36, 33, 0.88);
+    }
+
+    .tag-list {
+        margin: 0.5rem 0 0;
+        padding: 0;
+        list-style: none;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.4rem;
+    }
+
+    .tag-list li {
+        font-size: 0.72rem;
+        font-weight: 500;
+        padding: 0.18rem 0.5rem;
+        border-radius: 8px;
+        background: rgba(139, 92, 246, 0.1);
+        border: 1px solid rgba(124, 58, 237, 0.22);
+        color: rgba(76, 29, 149, 0.9);
+    }
+
+    .link-row {
+        margin-top: 0.5rem;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem 1rem;
+    }
+</style>

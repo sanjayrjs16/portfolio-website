@@ -1,0 +1,112 @@
+---
+const channelUrl = 'https://www.youtube.com/@letthedevscook';
+---
+
+<article class="yt-channel-card" data-slug="let-the-devs-cook">
+    <div class="yt-channel-card__body">
+        <h3 class="yt-channel-card__title">Let the Devs Cook</h3>
+        <p class="yt-channel-card__summary">
+            Developer-focused YouTube channel sharing practical engineering content, breakdowns, and product/security insights.
+        </p>
+        <p class="yt-channel-card__stat">
+            <span class="yt-channel-card__stat-pill">590+ subscribers</span>
+        </p>
+        <div class="yt-channel-card__links">
+            <a class="work-link work-link--light" href={channelUrl} target="_blank" rel="noopener noreferrer">
+                YouTube channel
+            </a>
+        </div>
+    </div>
+</article>
+
+<style>
+    .yt-channel-card {
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
+        box-sizing: border-box;
+        padding: 0.85rem 1rem 0.95rem;
+        background: linear-gradient(168deg, rgba(252, 250, 246, 0.96), rgba(236, 232, 226, 0.93));
+        border: 1px solid rgba(200, 188, 170, 0.48);
+        border-radius: 14px;
+        backdrop-filter: blur(16px);
+        box-shadow:
+            0 0 0 1px rgba(168, 85, 247, 0.06),
+            0 4px 22px rgba(20, 12, 40, 0.09),
+            inset 0 1px 0 rgba(255, 255, 255, 0.65);
+        font-family: 'Space Grotesk', sans-serif;
+    }
+
+    .yt-channel-card__body {
+        display: flex;
+        flex-direction: column;
+        gap: 0.4rem;
+        min-width: 0;
+    }
+
+    .yt-channel-card__title {
+        margin: 0;
+        font-weight: 700;
+        font-size: clamp(0.84rem, 2vw, 0.96rem);
+        line-height: 1.2;
+        letter-spacing: -0.02em;
+        color: #1c1917;
+    }
+
+    .yt-channel-card__summary {
+        margin: 0;
+        font-size: 0.78rem;
+        line-height: 1.45;
+        color: rgba(55, 48, 40, 0.85);
+        overflow-wrap: anywhere;
+    }
+
+    .yt-channel-card__stat {
+        margin: 0.1rem 0 0;
+    }
+
+    .yt-channel-card__stat-pill {
+        display: inline-flex;
+        font-size: 0.62rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        padding: 0.2rem 0.48rem;
+        border-radius: 999px;
+        border: 1px solid rgba(124, 58, 237, 0.22);
+        color: rgba(91, 33, 182, 0.9);
+        background: rgba(139, 92, 246, 0.08);
+    }
+
+    .yt-channel-card__links {
+        margin-top: 0.25rem;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.35rem 0.55rem;
+    }
+
+    .work-link--light {
+        color: #6d28d9;
+        text-decoration: none;
+        position: relative;
+        font-weight: 600;
+        font-size: 0.82rem;
+        font-family: 'Space Grotesk', sans-serif;
+        white-space: normal;
+        overflow-wrap: anywhere;
+        word-break: break-word;
+        border-bottom: 1px solid rgba(202, 138, 4, 0.55);
+        padding-bottom: 1px;
+    }
+
+    .work-link--light:hover {
+        color: #5b21b6;
+        border-bottom-color: rgba(202, 138, 4, 0.85);
+    }
+
+    @media (max-width: 520px) {
+        .yt-channel-card {
+            padding: 0.78rem 0.85rem 0.88rem;
+        }
+    }
+</style>

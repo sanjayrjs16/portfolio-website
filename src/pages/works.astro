@@ -1,394 +1,671 @@
 ---
 import StarryLayout from '../layouts/StarryLayout.astro';
-import WorksMenu from '../components/Works/WorksMenu.astro';
 import WorksContent from '../components/Works/WorksContent.astro';
-// SEO metadata
-const title = "Works - Sanjay Rajesh";
-const description = "Portfolio of works and projects by Sanjay Rajesh - Including The Goat Life official website, personal projects, and professional experience.";
 
-// Current section (can be passed via props or URL params later)
-const currentSection = "notable-work";
+const title = 'Works - Sanjay Rajesh';
+const description =
+    'Selected work, engineering impact, and professional experience of Sanjay Rajesh - frontend-focused fullstack product engineer.';
+
+interface ExperienceItem {
+    role: string;
+    company: string;
+    duration: string;
+    paragraphs: string[];
+    tech: string[];
+    metric?: string;
+}
+
+interface RecognitionItem {
+    title: string;
+    detail: string;
+    year: string;
+    image?: string;
+    links?: { label: string; url: string }[];
+}
+
+const experience: ExperienceItem[] = [
+    {
+        role: 'Lead Fullstack Product Engineer',
+        company: 'Sun Road Co.',
+        duration: '2025 — Present',
+        paragraphs: [
+            'On the founding team, I owned a solo 0→1 path from a dated cPanel-era stack to a shipped product on Next.js App Router and Supabase — migration, architecture, and launch included.',
+            'I built the backbone users actually touch: geo-aware discovery, Stripe billing, secure Postgres with RLS and RPC-style access patterns, Edge Functions, transactional email, and the analytics and release habits (ISR, revalidation, SWR, rate limits) that keep the product fast and dependable in production.'
+        ],
+        tech: ['Next.js', 'Supabase', 'PostgreSQL', 'RLS', 'Stripe', 'Edge Functions', 'SWR', 'PostHog'],
+        metric: '480 users · first quarter'
+    },
+    {
+        role: 'Senior Software Engineer',
+        company: 'Fingent Global Solutions · CBN Superbook',
+        duration: '2022 — Present',
+        paragraphs: [
+            'I lead five engineers shipping React microfrontends inside a Drupal-backed platform that serves Superbook’s global audience.',
+            'The work spans federated GraphQL, parent–child account models, quest- and game-style learning flows, Azure SignalR for realtime moments, and steady delivery through Bitbucket and CircleCI — balancing product ambition with maintainability.'
+        ],
+        tech: ['React', 'GraphQL', 'Drupal', 'Apollo', 'Azure SignalR', 'Bitbucket', 'CircleCI'],
+        metric: '3M+ users touched'
+    },
+    {
+        role: 'Software Engineer',
+        company: 'Engati Technologies',
+        duration: '2021 — 2022',
+        paragraphs: [
+            'I worked on Engati’s core no-code CX and chatbot platform, focusing on frontend quality and how features scale across teams.',
+            'A major thread was modernizing surfaces such as Botstore with Next.js — better performance, clearer patterns, and a stronger base for everything built on top.'
+        ],
+        tech: ['React', 'TypeScript', 'Next.js', 'Python Flask', 'React Native', 'Jenkins']
+    },
+    {
+        role: 'Assistant Systems Engineer',
+        company: 'Tata Consultancy Services',
+        duration: '2019 — 2021',
+        paragraphs: [
+            'I delivered enterprise self-service tooling — including a GA mapping portal for Aon — and internal workflows for large financial clients.',
+            'Alongside product work, I introduced BDD-style automation and Jenkins pipelines that tightened feedback loops and helped cut recurring support load by about a quarter.'
+        ],
+        tech: ['Java', 'Node.js', 'React', 'Oracle', 'Cucumber', 'Jenkins'],
+        metric: '~25% fewer support tickets'
+    }
+];
+
+const recognition: RecognitionItem[] = [
+    {
+        title: 'Filecoin prize · Chainlink Hackathon',
+        detail: 'Picturama DeFi — audience-backed indie film financing — recognized by Protocol Labs for strong use of decentralized storage.',
+        year: '2021',
+        image: '/picturama_defi_logo.png',
+        links: [{ label: 'Devpost', url: 'https://devpost.com/software/picturama-defi-financing-independent-cinema' }]
+    },
+    {
+        title: 'Let the Devs Cook',
+        detail: 'YouTube channel focused on practical engineering breakdowns and builder-friendly walkthroughs.',
+        year: 'Ongoing'
+    }
+];
 ---
 
 <StarryLayout title={title} description={description}>
-    <div class="works-container">
-        <!-- Mobile Menu Button -->
-        <!-- <button class="mobile-menu-btn" aria-label="Toggle menu">
-            <span class="menu-icon"></span>
-        </button> -->
+    <main class="works-shell">
+        <nav class="works-subnav" aria-label="Works page sections">
+            <ul class="works-subnav__list">
+                <li>
+                    <a class="works-subnav__link" href="#featured-work" data-subnav-target="featured-work">Featured Work</a>
+                </li>
+                <li>
+                    <a class="works-subnav__link" href="#professional-journey" data-subnav-target="professional-journey">Professional Journey</a>
+                </li>
+            </ul>
+        </nav>
 
-        <!-- Left Menu -->
-        <!-- <WorksMenu currentSection={currentSection} /> -->
+        <section id="featured-work" class="works-section works-section--work works-section--first" aria-labelledby="featured-work-heading">
+            <header class="section-head">
+                <h2 id="featured-work-heading" class="section-title">Featured Work</h2>
+                <p class="section-lead">
+                    Highlights
+                </p>
+                <div class="section-rule" aria-hidden="true" />
+            </header>
+            <WorksContent />
+        </section>
 
-        <!-- Content Area -->
-        <main class="content-area">
-            <section class="notable-work">
-                <h2 class="section-title">Notable Work</h2>
-                <div class="cards-grid">
-                    <WorksContent currentSection={currentSection} />
-                </div>
-            </section>
-
-            <section class="professional-experience">
-                <h2 class="section-title">Professional Journey</h2>
-                <div class="timeline">
-                    <div class="timeline-item">
-                        <div class="timeline-dot"></div>
-                        <div class="timeline-content">
-                            <div class="timeline-header">
-                                <h3>Senior Software Engineer</h3>
-                                <span class="company">Fingent Global Solutions</span>
-                                <span class="duration">2022 - Present</span>
+        <section id="professional-journey" class="works-section works-section--experience" aria-labelledby="professional-journey-heading">
+            <header class="section-head">
+                <h2 id="professional-journey-heading" class="section-title">Professional Journey</h2>
+                <p class="section-lead">Roles in full context — scope, trade-offs, and what shipped.</p>
+                <div class="section-rule section-rule--accent" aria-hidden="true" />
+            </header>
+            <div class="journey-list">
+                {experience.map((item) => (
+                    <article class="journey-card glass-surface">
+                        <div class="journey-card__top">
+                            <div class="journey-card__titles">
+                                <h3>{item.role}</h3>
+                                <p class="company">{item.company}</p>
                             </div>
-                            <p>
-                                Leading frontend engineering for <span class="highlight-text">CBN Superbook</span>, a multilingual, gamified Bible-learning platform with over <span class="highlight-text">39 million+ global users</span>. 
-                                <span class="highlight-text">Superbook</span> is an animated series originally launched in the <span class="highlight-text">1980s</span> and revived in the <span class="highlight-text">2010s</span> by the <span class="highlight-text">Christian Broadcasting Network</span>, one of the world’s largest Christian media organizations. 
-                                The platform, based on this legacy series, is now a full-fledged <span class="highlight-text">digital ecosystem</span> available on web and mobile (<span class="highlight-text">Android & iOS</span>), offering <span class="highlight-text">interactive Bible episodes</span>, <span class="highlight-text">quests</span>, <span class="highlight-text">games</span>, and <span class="highlight-text">child-safe community features</span>.
-                              </p>
-                                 <!-- <br/><br/> -->
-                                 
-                            <div class="tech-stack-icons">
-                                <span class="tech-tag">React</span>
-                                <span class="tech-tag">GraphQL</span>
-                                <span class="tech-tag">Apollo Client</span>
-                                <span class="tech-tag">WunderGraph</span>
-                                <span class="tech-tag">Drupal 9</span>
-                                <span class="tech-tag">Tailwind CSS</span>
-                                <span class="tech-tag">Azure</span>
-                                <span class="tech-tag">i18n</span>
-                                <span class="tech-tag">Bitbucket</span>
-                                <span class="tech-tag">Pantheon</span>
-                                <span class="tech-tag">Jira</span>
-                                <span class="tech-tag">Figma</span>
+                            <div class="journey-card__meta">
+                                <span class="duration">{item.duration}</span>
+                                {item.metric && <span class="impact-chip">{item.metric}</span>}
                             </div>
-                             </div>
-                    </div>
+                        </div>
+                        <div class="journey-card__body">
+                            {item.paragraphs.map((p) => (
+                                <p>{p}</p>
+                            ))}
+                        </div>
+                        <div class="tech-row">
+                            {item.tech.map((tech) => (
+                                <span class="tech-tag">{tech}</span>
+                            ))}
+                        </div>
+                    </article>
+                ))}
+            </div>
+        </section>
 
-                    <div class="timeline-item">
-                        <div class="timeline-dot"></div>
-                        <div class="timeline-content">
-                            <div class="timeline-header">
-                                <h3>Software Engineer</h3>
-                                <span class="company">Engati Technologies</span>
-                                <span class="duration">2021 - 2022</span>
+        <section class="works-section works-section--recognition" aria-labelledby="recognition-heading">
+            <header class="section-head">
+                <h2 id="recognition-heading" class="section-title">Recognition</h2>
+                <p class="section-lead">Awards, platform highlights, and community presence — compact, linked where it helps.</p>
+                <div class="section-rule" aria-hidden="true" />
+            </header>
+            <div class="recognition-grid">
+                {recognition.map((item) => (
+                    <article
+                        class:list={['recognition-card', 'glass-surface', { 'recognition-card--text-only': !item.image }]}
+                    >
+                        {item.image && (
+                            <div class="recognition-card__visual">
+                                <img src={item.image} alt="" width={160} height={160} loading="lazy" decoding="async" />
                             </div>
-                            <p>
-                                Engati is a batteries included no-code drag and drop based chatbot creation and CX platform, simplifying CX managment,  cross channel deployments etc. Contributed to Engati’s core platform by shipping features like  <span class="highlight-text">Bot store </span> , migrated legacy code to Next.js for improved performance and SEO, and worked cross-functionally with product and marketing teams. </p>
-                                <div class="tech-stack-icons">
-                                    <span class="tech-tag">React</span>
-                                    <span class="tech-tag">TypeScript</span>
-                                    <span class="tech-tag">Next.js</span>
-                                    <span class="tech-tag">Python Flask</span>
-                                    <span class="tech-tag">React Native</span>
-                                    <span class="tech-tag">Angular</span>
-                                    <span class="tech-tag">BaseWeb UI</span>
-                                    <span class="tech-tag">Jenkins</span>
-                                    <span class="tech-tag">Gitlab</span>
-                                    <span class="tech-tag">Jira</span>
-                                    <span class="tech-tag">Figma</span>
+                        )}
+                        <div class="recognition-card__content">
+                            <span class="recognition-year">{item.year}</span>
+                            <h3 class="recognition-card__title">{item.title}</h3>
+                            <p class="recognition-detail">{item.detail}</p>
+                            {item.links && item.links.length > 0 && (
+                                <div class="recognition-links">
+                                    {item.links.map((link) => (
+                                        <a class="work-link" href={link.url} target="_blank" rel="noopener noreferrer">
+                                            {link.label}
+                                        </a>
+                                    ))}
                                 </div>
-                            </div>
-                    </div>
-
-                    <div class="timeline-item">
-                        <div class="timeline-dot"></div>
-                        <div class="timeline-content">
-                            <div class="timeline-header">
-                                <h3>Assistant Systems Engineer</h3>
-                                <span class="company">Tata Consultancy Services</span>
-                                <span class="duration">2019 - 2021</span>
-                            </div>
-                            <p>
-                                Built and integrated a GA Mapping self-service portal for <span class="highlight-text">Aon Plc</span>, reducing monthly support tickets by 25% and earning a customer appreciation award. Developed a BDD test framework with <span class="highlight-text">Jenkins CI/CD</span>, contributed to internal tools for <span class="highlight-text">US Bank Corp</span>, and created a chatbot PoC using <span class="highlight-text">RiveScript, React</span>, and <span class="highlight-text">Node.js</span> to replace outdated PDF guides.
-                              </p>
-                              <div class="tech-stack-icons">
-                                <span class="tech-tag">Java J2EE</span>
-                                <span class="tech-tag">Oracle MySQL</span>
-                                <span class="tech-tag">JSP</span>
-                                <span class="tech-tag">Node.js</span>
-                                <span class="tech-tag">React</span>
-                                <span class="tech-tag">Cucumber BDD</span>
-                                <span class="tech-tag">Jquery</span>
-                            </div>
-                            </div>
-                    </div>
-                </div>
-            </section>
-        </main>
-    </div>
+                            )}
+                        </div>
+                    </article>
+                ))}
+            </div>
+        </section>
+    </main>
 </StarryLayout>
 
+<script>
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const subnavLinks = document.querySelectorAll('.works-subnav__link[href^="#"]');
+    const sectionIds = ['featured-work', 'professional-journey'];
+
+    function getScrollOffset() {
+        return Math.min(window.innerHeight * 0.12, 120);
+    }
+
+    function updateSubnavActive() {
+        const y = window.scrollY + getScrollOffset();
+        let activeId = 'featured-work';
+        for (const id of sectionIds) {
+            const el = document.getElementById(id);
+            if (el && el.offsetTop <= y) activeId = id;
+        }
+        subnavLinks.forEach((link) => {
+            const match = link.dataset.subnavTarget === activeId;
+            link.classList.toggle('works-subnav__link--active', match);
+            if (match) link.setAttribute('aria-current', 'true');
+            else link.removeAttribute('aria-current');
+        });
+    }
+
+    subnavLinks.forEach((link) => {
+        link.addEventListener('click', (e) => {
+            const href = link.getAttribute('href');
+            if (!href || !href.startsWith('#')) return;
+            const id = href.slice(1);
+            const target = document.getElementById(id);
+            if (!target) return;
+            e.preventDefault();
+            target.scrollIntoView({ behavior: prefersReducedMotion ? 'auto' : 'smooth', block: 'start' });
+            history.pushState(null, '', href);
+            window.setTimeout(updateSubnavActive, prefersReducedMotion ? 0 : 400);
+        });
+    });
+
+    window.addEventListener('scroll', updateSubnavActive, { passive: true });
+    window.addEventListener('resize', updateSubnavActive, { passive: true });
+    window.addEventListener('hashchange', updateSubnavActive);
+    document.addEventListener('DOMContentLoaded', updateSubnavActive);
+    updateSubnavActive();
+</script>
+
+<style is:global>
+    /* Ensure works subtree never expands past viewport from padding + width */
+    .works-shell,
+    .works-shell * {
+        box-sizing: border-box;
+    }
+</style>
+
 <style>
-    .works-container {
-        display: flex;
-        padding-top: 4rem;
+    .works-shell {
         position: relative;
-    }
-
-    .mobile-menu-btn {
-        position: fixed;
-        left: 1rem;
-        bottom: 2rem;
-        z-index: 100;
-        width: 3rem;
-        height: 3rem;
-        border-radius: 50%;
-        background: rgba(255, 255, 255, 0.1);
-        backdrop-filter: blur(10px);
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        cursor: pointer;
-        transition: all 0.3s ease;
-        display: block;
-    }
-
-    .menu-icon {
-        position: relative;
-        display: block;
-        width: 1.5rem;
-        height: 2px;
-        background: white;
+        z-index: 1;
+        width: 100%;
+        max-width: min(1180px, 100%);
         margin: 0 auto;
-        transition: all 0.3s ease;
-    }
-
-    .menu-icon::before,
-    .menu-icon::after {
-        content: '';
-        position: absolute;
-        width: 1.5rem;
-        height: 2px;
-        background: white;
-        transition: all 0.3s ease;
-    }
-
-    .menu-icon::before {
-        transform: translateY(-6px);
-    }
-
-    .menu-icon::after {
-        transform: translateY(6px);
-    }
-
-    .content-area {
-        flex: 1;
-        padding: 2rem;
-        margin-left: 0;
+        padding: 5.5rem max(1rem, env(safe-area-inset-right)) 2.75rem max(1rem, env(safe-area-inset-left));
         display: flex;
         flex-direction: column;
-        gap: 4rem;
+        gap: 3.5rem;
+        overflow-x: clip;
+        font-family: 'Space Grotesk', sans-serif;
+    }
+
+    #featured-work,
+    #professional-journey {
+        scroll-margin-top: clamp(4.5rem, 12vh, 6rem);
+    }
+
+    .works-subnav {
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
+        margin: 0 0 0.25rem;
+        position: relative;
+        z-index: 1;
+    }
+
+    .works-subnav__list {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 0.45rem 0.55rem;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    .works-subnav__link {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.38rem 0.85rem;
+        border-radius: 999px;
+        font-size: 0.76rem;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        text-decoration: none;
+        color: rgba(255, 252, 248, 0.88);
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        background: rgba(12, 10, 22, 0.65);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        transition:
+            color 0.2s ease,
+            border-color 0.2s ease,
+            background 0.2s ease,
+            box-shadow 0.2s ease;
+    }
+
+    .works-subnav__link:hover {
+        color: rgba(255, 252, 248, 0.92);
+        border-color: rgba(250, 204, 21, 0.35);
+        background: rgba(255, 255, 255, 0.07);
+    }
+
+    .works-subnav__link:focus-visible {
+        outline: 2px solid rgba(168, 85, 247, 0.65);
+        outline-offset: 2px;
+    }
+
+    .works-subnav__link--active {
+        color: rgba(255, 252, 248, 0.95);
+        border-color: rgba(250, 204, 21, 0.45);
+        background: rgba(168, 85, 247, 0.14);
+        box-shadow: 0 0 0 1px rgba(168, 85, 247, 0.12), 0 4px 20px rgba(24, 10, 40, 0.2);
+    }
+
+    .works-section {
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 1.15rem;
+    }
+
+    .works-section--first {
+        padding-top: 0.15rem;
+    }
+
+    .works-section--work {
+        padding-top: 0.35rem;
+    }
+
+    .works-section--experience {
+        padding-top: 1.75rem;
+        margin-top: 0.35rem;
+        border-top: 1px solid rgba(250, 204, 21, 0.22);
+    }
+
+    .works-section--recognition {
+        padding-top: 1.5rem;
+        margin-top: 0.5rem;
+        border-top: 1px solid rgba(168, 85, 247, 0.15);
+    }
+
+    /* Light frosted surfaces for readability on starfield */
+    .glass-surface {
+        background: linear-gradient(165deg, rgba(252, 250, 246, 0.94) 0%, rgba(238, 234, 228, 0.9) 100%);
+        border: 1px solid rgba(200, 188, 170, 0.45);
+        border-radius: 14px;
+        backdrop-filter: blur(18px) saturate(1.15);
+        box-shadow:
+            0 0 0 1px rgba(168, 85, 247, 0.08),
+            0 4px 24px rgba(20, 12, 40, 0.12),
+            inset 0 1px 0 rgba(255, 255, 255, 0.65);
+    }
+
+    .section-head {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        min-width: 0;
     }
 
     .section-title {
-        font-family: 'Audiowide', sans-serif;
-        text-transform: uppercase;
-        font-size: 2rem;
-        color: white;
-        margin-bottom: 2rem;
-        margin-left: 1rem;
-        position: relative;
-        display: inline-block;
-        animation: fadeIn 0.5s ease-out forwards;
-        animation-delay: calc(var(--index) * 0.1s);
-        animation-fill-mode: forwards;
+        margin: 0;
+        color: rgba(255, 252, 248, 0.98);
+        font-family: 'Space Grotesk', sans-serif;
+        font-weight: 700;
+        font-size: clamp(1.15rem, 2.6vw, 1.5rem);
+        letter-spacing: -0.02em;
+        text-shadow: 0 0 32px rgba(168, 85, 247, 0.25);
     }
 
-    .section-title::after {
-        content: '';
-        position: absolute;
-        bottom: -0.5rem;
-        left: 0;
-        width: 60px;
-        height: 2px;
-        background: rgba(255, 255, 255, 0.3);
+    .section-lead {
+        margin: 0;
+        max-width: 62ch;
+        font-size: 0.88rem;
+        line-height: 1.55;
+        color: rgba(255, 255, 255, 0.62);
+        font-weight: 400;
     }
 
-    .cards-grid {
+    .section-rule {
+        height: 1px;
+        width: 100%;
+        max-width: 12rem;
+        background: linear-gradient(90deg, rgba(250, 204, 21, 0.55), rgba(168, 85, 247, 0.35), transparent);
+        border-radius: 1px;
+    }
+
+    .section-rule--muted {
+        background: linear-gradient(90deg, rgba(255, 255, 255, 0.2), transparent);
+        max-width: 8rem;
+    }
+
+    .section-rule--accent {
+        background: linear-gradient(90deg, rgba(168, 85, 247, 0.5), rgba(250, 204, 21, 0.35), transparent);
+    }
+
+    .journey-list {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        gap: 2rem;
+        gap: 1rem;
+        width: 100%;
+        min-width: 0;
     }
 
-    /* Timeline Styles */
-    .timeline {
-        position: relative;
-        padding: 2rem 0;
-    }
-
-    .timeline::before {
-        content: '';
-        position: absolute;
-        left: 0;
-        top: 0;
-        bottom: 0;
-        width: 2px;
-        background: rgba(255, 255, 255, 0.1);
-    }
-
-    .timeline-item {
-        position: relative;
-        padding-left: 2rem;
-        margin-bottom: 3rem;
+    .journey-card {
+        padding: 1.05rem 1.1rem;
+        display: grid;
+        gap: 0.85rem;
         font-family: 'Space Grotesk', sans-serif;
+        min-width: 0;
     }
 
-    .timeline-dot {
-        position: absolute;
-        left: -4px;
-        top: 0;
-        width: 10px;
-        height: 10px;
-        border-radius: 50%;
-        background: white;
-        box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.1);
+    .journey-card__top {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+        justify-content: space-between;
+        align-items: flex-start;
+        min-width: 0;
     }
 
-    .timeline-content {
-        background: rgba(5, 5, 5, 0.6);
-        backdrop-filter: blur(10px);
-        border-radius: 12px;
-        padding: 1.5rem;
-        border: 1px solid rgba(255, 255, 255, 0.1);
+    .journey-card__titles {
+        min-width: 0;
+        flex: 1 1 12rem;
     }
 
-    .timeline-header {
-        margin-bottom: 1rem;
-    }
-
-    .timeline-header h3 {
+    .journey-card__titles h3 {
+        margin: 0;
+        color: #1c1917;
         font-family: 'Space Grotesk', sans-serif;
-        font-size: 1.25rem;
-        color: white;
-        margin: 0 0 0.5rem 0;
+        font-weight: 700;
+        font-size: clamp(0.98rem, 2.1vw, 1.12rem);
+        line-height: 1.25;
+        letter-spacing: -0.02em;
     }
 
     .company {
-        display: inline-block;
-        font-size: 1rem;
-        color: rgba(255, 255, 255, 0.8);
-        margin-right: 1rem;
+        margin: 0.3rem 0 0;
+        color: rgba(55, 48, 40, 0.78);
+        font-size: 0.9rem;
     }
-    .tech-stack-icons {
-    margin-top: 0.75rem;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-}
 
-.tech-tag {
-    background: rgba(255, 255, 255, 0.07);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    padding: 0.3rem 0.75rem;
-    border-radius: 6px;
-    font-size: 0.8rem;
-    color: rgba(255, 255, 255, 0.85);
-    font-weight: 500;
-}
+    .journey-card__meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.45rem;
+        justify-content: flex-end;
+        align-items: center;
+    }
+
+    .duration,
+    .impact-chip,
+    .tech-tag {
+        display: inline-flex;
+        padding: 0.26rem 0.56rem;
+        border-radius: 999px;
+        font-size: 0.66rem;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        font-family: 'Space Grotesk', sans-serif;
+        max-width: 100%;
+    }
 
     .duration {
-        display: inline-block;
-        font-size: 0.9rem;
-        color: rgba(255, 255, 255, 0.6);
+        border: 1px solid rgba(120, 110, 95, 0.35);
+        color: rgba(68, 60, 52, 0.8);
+        background: rgba(255, 255, 255, 0.5);
     }
 
-    .timeline-content p {
-        color: rgba(255, 255, 255, 0.8);
-        line-height: 1.6;
+    .impact-chip {
+        border: 1px solid rgba(5, 150, 105, 0.35);
+        color: rgba(6, 95, 70, 0.95);
+        background: rgba(16, 185, 129, 0.12);
+    }
+
+    .journey-card__body {
+        display: grid;
+        gap: 0.65rem;
+        min-width: 0;
+    }
+
+    .journey-card__body p {
         margin: 0;
+        color: rgba(40, 36, 33, 0.88);
+        line-height: 1.58;
+        font-size: 0.9rem;
+        overflow-wrap: anywhere;
+        word-break: break-word;
     }
 
-    /* Menu open state styles */
-    .works-container.menu-open .mobile-menu-btn .menu-icon {
-        background: transparent;
+    .tech-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.4rem;
+        width: 100%;
+        min-width: 0;
     }
 
-    .works-container.menu-open .mobile-menu-btn .menu-icon::before {
-        transform: rotate(45deg);
+    .tech-tag {
+        border: 1px solid rgba(126, 58, 237, 0.22);
+        color: rgba(76, 29, 149, 0.9);
+        background: rgba(139, 92, 246, 0.08);
     }
 
-    .works-container.menu-open .mobile-menu-btn .menu-icon::after {
-        transform: rotate(-45deg);
+    .recognition-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 1rem;
+        width: 100%;
+        min-width: 0;
     }
 
-    @media (max-width: 768px) {
-        .timeline {
-    padding: 0.5rem 0;
-    width: 100vw;
-    max-width: 100vw;
-    box-sizing: border-box;
-    left: 0;
-    word-break: break-word;
-    overflow-wrap: break-word;
-    white-space: normal;
-    overflow-x: auto;
-  }
-  .timeline::before {
-    left: 12px;
-    width: 2px;
-  }
-  .timeline-item {
-    padding-left: 2.5rem;
-    margin-bottom: 2rem;
-    width: 100%;
-    box-sizing: border-box;
-  }
-  .timeline-content p {
-    word-break: break-word;
-    overflow-wrap: break-word;
-    white-space: normal;
-  }
-  .timeline-content a,
-  .timeline-content code {
-    word-break: break-all;
-    overflow-wrap: break-word;
-  }
-  .timeline-dot {
-    left: 4px;
-    width: 12px;
-    height: 12px;
-  }
-  .timeline-content {
-    padding: 1rem;
-    width: 98.5%;
-    box-sizing: border-box;
-    font-size: 0.95rem;
-  }
-        .content-area {
-            padding: 1rem;
-            gap: 3rem;
-        }
+    .recognition-card {
+        display: grid;
+        grid-template-columns: minmax(0, auto) minmax(0, 1fr);
+        gap: 0.85rem;
+        align-items: start;
+        padding: 0.95rem 1rem;
+        min-width: 0;
+        border-color: rgba(200, 188, 170, 0.45);
+    }
 
-        .section-title {
-            font-size: 1.75rem;
-        }
+    .recognition-card--text-only {
+        grid-template-columns: 1fr;
+    }
 
-        .cards-grid {
+    .recognition-card__visual {
+        width: 4.5rem;
+        height: 4.5rem;
+        flex-shrink: 0;
+        border-radius: 12px;
+        overflow: hidden;
+        border: 1px solid rgba(200, 188, 170, 0.45);
+        background: rgba(255, 255, 255, 0.65);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .recognition-card__visual img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+
+    .recognition-card__content {
+        min-width: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 0.35rem;
+        font-family: 'Space Grotesk', sans-serif;
+    }
+
+    .recognition-year {
+        font-size: 0.68rem;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: rgba(90, 80, 72, 0.65);
+    }
+
+    .recognition-card__title {
+        margin: 0;
+        font-family: 'Space Grotesk', sans-serif;
+        font-weight: 700;
+        font-size: clamp(0.82rem, 2vw, 0.95rem);
+        color: #1c1917;
+        line-height: 1.25;
+        letter-spacing: -0.02em;
+    }
+
+    .recognition-detail {
+        margin: 0;
+        font-size: 0.8rem;
+        line-height: 1.45;
+        color: rgba(55, 48, 40, 0.82);
+        overflow-wrap: anywhere;
+    }
+
+    .recognition-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.35rem 0.65rem;
+        margin-top: 0.25rem;
+    }
+
+    .works-shell .work-link {
+        color: #6d28d9;
+        text-decoration: none;
+        position: relative;
+        font-weight: 600;
+        font-size: 0.82rem;
+        white-space: normal;
+        overflow-wrap: anywhere;
+        word-break: break-word;
+        border-bottom: 1px solid rgba(202, 138, 4, 0.55);
+        padding-bottom: 1px;
+    }
+
+    .works-shell .work-link:hover {
+        color: #5b21b6;
+        border-bottom-color: rgba(202, 138, 4, 0.85);
+    }
+
+    .works-shell .work-link::after {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 1px;
+        bottom: -2px;
+        left: 0;
+        background: #7c3aed;
+        transform: scaleX(0);
+        transform-origin: right;
+        transition: transform 0.3s ease;
+    }
+
+    .works-shell .work-link:hover::after {
+        transform: scaleX(1);
+        transform-origin: left;
+    }
+
+    @media (max-width: 900px) {
+        .recognition-grid {
             grid-template-columns: 1fr;
         }
 
-        .timeline-content {
-            padding: 1.25rem;
-        }
-
-        .timeline-header h3 {
-            font-size: 1.1rem;
-        }
-
-        .company, .duration {
-            display: block;
-            margin-bottom: 0.25rem;
+        .recognition-card {
+            grid-template-columns: auto 1fr;
         }
     }
-    
+
+    @media (max-width: 768px) {
+        .works-shell {
+            padding: 5.5rem 0.85rem 2.25rem;
+            gap: 2.5rem;
+        }
+
+        .journey-card__meta {
+            justify-content: flex-start;
+        }
+
+        .recognition-card {
+            grid-template-columns: 1fr;
+        }
+
+        .recognition-card__visual {
+            width: 100%;
+            height: 140px;
+            max-width: 100%;
+        }
+
+        .recognition-card__visual img {
+            object-fit: contain;
+            padding: 0.5rem;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .works-shell {
+            padding: 5.25rem 0.75rem 1.85rem;
+            gap: 2.1rem;
+        }
+
+        .journey-card {
+            padding: 0.9rem 0.85rem;
+        }
+    }
 </style>
-
-<script>
-    // Mobile menu functionality
-    const menuBtn = document.querySelector('.mobile-menu-btn');
-    const container = document.querySelector('.works-container');
-    const menu = document.querySelector('.works-menu');
-
-    menuBtn?.addEventListener('click', () => {
-        container?.classList.toggle('menu-open');
-        menu?.classList.toggle('open');
-    });
-</script>
