@@ -6,11 +6,13 @@ const title = 'Works - Sanjay Rajesh';
 const description =
     'Selected work, engineering impact, and professional experience of Sanjay Rajesh - frontend-focused fullstack product engineer.';
 
-interface ExperienceItem {
-    role: string;
+/** Professional journey — reverse chronological (newest first) */
+interface JourneyEntry {
     company: string;
+    role: string;
     duration: string;
-    paragraphs: string[];
+    /** Short summary lines (displayed as bullets) */
+    summary: string[];
     tech: string[];
     metric?: string;
 }
@@ -23,12 +25,12 @@ interface RecognitionItem {
     links?: { label: string; url: string }[];
 }
 
-const experience: ExperienceItem[] = [
+const professionalJourney: JourneyEntry[] = [
     {
-        role: 'Lead Fullstack Product Engineer',
         company: 'Sun Road Co.',
-        duration: '2025 — Present',
-        paragraphs: [
+        role: 'Lead Fullstack Product Engineer',
+        duration: 'Sept 2025 – Present',
+        summary: [
             'On the founding team, I owned a solo 0→1 path from a dated cPanel-era stack to a shipped product on Next.js App Router and Supabase — migration, architecture, and launch included.',
             'I built the backbone users actually touch: geo-aware discovery, Stripe billing, secure Postgres with RLS and RPC-style access patterns, Edge Functions, transactional email, and the analytics and release habits (ISR, revalidation, SWR, rate limits) that keep the product fast and dependable in production.'
         ],
@@ -36,31 +38,31 @@ const experience: ExperienceItem[] = [
         metric: '480 users · first quarter'
     },
     {
+        company: 'Fingent',
         role: 'Senior Software Engineer',
-        company: 'Fingent Global Solutions · CBN Superbook',
-        duration: '2022 — Present',
-        paragraphs: [
-            'I lead five engineers shipping React microfrontends inside a Drupal-backed platform that serves Superbook’s global audience.',
+        duration: 'Jan 2022 – Aug 2025',
+        summary: [
+            'I led five engineers shipping React microfrontends inside a Drupal-backed platform that serves Superbook’s global audience.',
             'The work spans federated GraphQL, parent–child account models, quest- and game-style learning flows, Azure SignalR for realtime moments, and steady delivery through Bitbucket and CircleCI — balancing product ambition with maintainability.'
         ],
         tech: ['React', 'GraphQL', 'Drupal', 'Apollo', 'Azure SignalR', 'Bitbucket', 'CircleCI'],
         metric: '3M+ users touched'
     },
     {
+        company: 'Engati',
         role: 'Software Engineer',
-        company: 'Engati Technologies',
-        duration: '2021 — 2022',
-        paragraphs: [
+        duration: 'May 2021 – Dec 2021',
+        summary: [
             'I worked on Engati’s core no-code CX and chatbot platform, focusing on frontend quality and how features scale across teams.',
             'A major thread was modernizing surfaces such as Botstore with Next.js — better performance, clearer patterns, and a stronger base for everything built on top.'
         ],
         tech: ['React', 'TypeScript', 'Next.js', 'Python Flask', 'React Native', 'Jenkins']
     },
     {
+        company: 'TCS',
         role: 'Assistant Systems Engineer',
-        company: 'Tata Consultancy Services',
-        duration: '2019 — 2021',
-        paragraphs: [
+        duration: 'July 2019 – May 2021',
+        summary: [
             'I delivered enterprise self-service tooling — including a GA mapping portal for Aon — and internal workflows for large financial clients.',
             'Alongside product work, I introduced BDD-style automation and Jenkins pipelines that tightened feedback loops and helped cut recurring support load by about a quarter.'
         ],
@@ -112,35 +114,41 @@ const recognition: RecognitionItem[] = [
         <section id="professional-journey" class="works-section works-section--experience" aria-labelledby="professional-journey-heading">
             <header class="section-head">
                 <h2 id="professional-journey-heading" class="section-title">Professional Journey</h2>
-                <p class="section-lead">Roles in full context — scope, trade-offs, and what shipped.</p>
+                <p class="section-lead">Scope, stack, and outcomes — compact, newest first.</p>
                 <div class="section-rule section-rule--accent" aria-hidden="true" />
             </header>
-            <div class="journey-list">
-                {experience.map((item) => (
-                    <article class="journey-card glass-surface">
-                        <div class="journey-card__top">
-                            <div class="journey-card__titles">
-                                <h3>{item.role}</h3>
-                                <p class="company">{item.company}</p>
+            <ul class="journey-timeline">
+                {professionalJourney.map((item, index) => (
+                    <li class="journey-step">
+                        <div class="journey-step__rail" aria-hidden="true">
+                            <span class="journey-step__dot" />
+                            {index < professionalJourney.length - 1 ? <span class="journey-step__line" /> : null}
+                        </div>
+                        <article class="journey-card journey-card--compact glass-surface">
+                            <div class="journey-card__top journey-card__top--compact">
+                                <div class="journey-card__titles">
+                                    <h3>{item.company}</h3>
+                                    <p class="journey-card__role">{item.role}</p>
+                                </div>
+                                <div class="journey-card__meta">
+                                    <span class="duration">{item.duration}</span>
+                                    {item.metric ? <span class="impact-chip">{item.metric}</span> : null}
+                                </div>
                             </div>
-                            <div class="journey-card__meta">
-                                <span class="duration">{item.duration}</span>
-                                {item.metric && <span class="impact-chip">{item.metric}</span>}
+                            <div class="journey-card__body">
+                                {item.summary.map((line) => (
+                                    <p>{line}</p>
+                                ))}
                             </div>
-                        </div>
-                        <div class="journey-card__body">
-                            {item.paragraphs.map((p) => (
-                                <p>{p}</p>
-                            ))}
-                        </div>
-                        <div class="tech-row">
-                            {item.tech.map((tech) => (
-                                <span class="tech-tag">{tech}</span>
-                            ))}
-                        </div>
-                    </article>
+                            <div class="tech-row">
+                                {item.tech.map((tech) => (
+                                    <span class="tech-tag">{tech}</span>
+                                ))}
+                            </div>
+                        </article>
+                    </li>
                 ))}
-            </div>
+            </ul>
         </section>
 
         <section class="works-section works-section--recognition" aria-labelledby="recognition-heading">
@@ -197,6 +205,7 @@ const recognition: RecognitionItem[] = [
             if (el && el.offsetTop <= y) activeId = id;
         }
         subnavLinks.forEach((link) => {
+            if (!(link instanceof HTMLAnchorElement)) return;
             const match = link.dataset.subnavTarget === activeId;
             link.classList.toggle('works-subnav__link--active', match);
             if (match) link.setAttribute('aria-current', 'true');
@@ -206,6 +215,7 @@ const recognition: RecognitionItem[] = [
 
     subnavLinks.forEach((link) => {
         link.addEventListener('click', (e) => {
+            if (!(link instanceof HTMLAnchorElement)) return;
             const href = link.getAttribute('href');
             if (!href || !href.startsWith('#')) return;
             const id = href.slice(1);
@@ -397,49 +407,87 @@ const recognition: RecognitionItem[] = [
         background: linear-gradient(90deg, rgba(168, 85, 247, 0.5), rgba(250, 204, 21, 0.35), transparent);
     }
 
-    .journey-list {
-        display: grid;
-        gap: 1rem;
+    .journey-timeline {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 0;
         width: 100%;
         min-width: 0;
     }
 
-    .journey-card {
-        padding: 1.05rem 1.1rem;
+    .journey-step {
         display: grid;
-        gap: 0.85rem;
+        grid-template-columns: 1.15rem minmax(0, 1fr);
+        gap: 0.65rem 1rem;
+        align-items: stretch;
+        margin: 0;
+        padding: 0;
+    }
+
+    .journey-step + .journey-step {
+        margin-top: 0.65rem;
+    }
+
+    .journey-step__rail {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        min-height: 100%;
+        padding-top: 0.55rem;
+    }
+
+    .journey-step__dot {
+        width: 11px;
+        height: 11px;
+        border-radius: 50%;
+        flex-shrink: 0;
+        background: linear-gradient(145deg, rgba(250, 204, 21, 0.95) 0%, rgba(168, 85, 247, 0.85) 100%);
+        box-shadow:
+            0 0 0 2px rgba(252, 250, 246, 0.95),
+            0 0 12px rgba(168, 85, 247, 0.35);
+    }
+
+    .journey-step__line {
+        flex: 1;
+        width: 2px;
+        min-height: 0.85rem;
+        margin-top: 0.4rem;
+        border-radius: 1px;
+        background: linear-gradient(
+            180deg,
+            rgba(168, 85, 247, 0.4) 0%,
+            rgba(250, 204, 21, 0.28) 55%,
+            rgba(168, 85, 247, 0.2) 100%
+        );
+    }
+
+    .journey-card {
+        padding: 0.85rem 1rem;
+        display: grid;
+        gap: 0.75rem;
         font-family: 'Space Grotesk', sans-serif;
         min-width: 0;
+    }
+
+    .journey-card--compact {
+        padding: 0.85rem 0.95rem;
     }
 
     .journey-card__top {
         display: flex;
         flex-wrap: wrap;
-        gap: 0.75rem;
+        gap: 0.65rem 0.85rem;
         justify-content: space-between;
         align-items: flex-start;
         min-width: 0;
     }
 
-    .journey-card__titles {
-        min-width: 0;
-        flex: 1 1 12rem;
-    }
-
-    .journey-card__titles h3 {
-        margin: 0;
-        color: #1c1917;
-        font-family: 'Space Grotesk', sans-serif;
-        font-weight: 700;
-        font-size: clamp(0.98rem, 2.1vw, 1.12rem);
-        line-height: 1.25;
-        letter-spacing: -0.02em;
-    }
-
-    .company {
-        margin: 0.3rem 0 0;
-        color: rgba(55, 48, 40, 0.78);
-        font-size: 0.9rem;
+    .journey-card__top--compact {
+        align-items: flex-start;
+        gap: 0.55rem 1rem;
     }
 
     .journey-card__meta {
@@ -448,6 +496,31 @@ const recognition: RecognitionItem[] = [
         gap: 0.45rem;
         justify-content: flex-end;
         align-items: center;
+        align-content: flex-start;
+        min-width: 0;
+        flex: 0 1 auto;
+    }
+
+    .journey-card__titles {
+        min-width: 0;
+        flex: 1 1 10rem;
+    }
+
+    .journey-card__titles h3 {
+        margin: 0;
+        color: #1c1917;
+        font-family: 'Space Grotesk', sans-serif;
+        font-weight: 700;
+        font-size: clamp(0.95rem, 2vw, 1.08rem);
+        line-height: 1.25;
+        letter-spacing: -0.02em;
+    }
+
+    .journey-card__role {
+        margin: 0.22rem 0 0;
+        color: rgba(55, 48, 40, 0.78);
+        font-size: 0.86rem;
+        line-height: 1.4;
     }
 
     .duration,
@@ -456,17 +529,20 @@ const recognition: RecognitionItem[] = [
         display: inline-flex;
         padding: 0.26rem 0.56rem;
         border-radius: 999px;
-        font-size: 0.66rem;
-        letter-spacing: 0.04em;
+        font-size: 0.64rem;
+        letter-spacing: 0.035em;
         text-transform: uppercase;
         font-family: 'Space Grotesk', sans-serif;
         max-width: 100%;
+        overflow-wrap: anywhere;
+        word-break: break-word;
     }
 
     .duration {
         border: 1px solid rgba(120, 110, 95, 0.35);
-        color: rgba(68, 60, 52, 0.8);
-        background: rgba(255, 255, 255, 0.5);
+        color: rgba(68, 60, 52, 0.82);
+        background: rgba(255, 255, 255, 0.55);
+        text-align: center;
     }
 
     .impact-chip {
@@ -477,15 +553,15 @@ const recognition: RecognitionItem[] = [
 
     .journey-card__body {
         display: grid;
-        gap: 0.65rem;
+        gap: 0.55rem;
         min-width: 0;
     }
 
     .journey-card__body p {
         margin: 0;
         color: rgba(40, 36, 33, 0.88);
-        line-height: 1.58;
-        font-size: 0.9rem;
+        line-height: 1.55;
+        font-size: 0.86rem;
         overflow-wrap: anywhere;
         word-break: break-word;
     }
@@ -636,6 +712,11 @@ const recognition: RecognitionItem[] = [
         .works-shell {
             padding: 5.5rem 0.85rem 2.25rem;
             gap: 2.5rem;
+        }
+
+        .journey-card__top--compact {
+            flex-direction: column;
+            align-items: flex-start;
         }
 
         .journey-card__meta {
