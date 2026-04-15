@@ -15,6 +15,31 @@ interface CustomEvent extends Event {
 
 const videos: Video[] = [
     {
+        id: "1ibf5SxkMMI",
+        title: "Don't trust your AI Agents. Cursor & Supabase MCP.",
+        thumbnail: "https://i.ytimg.com/vi/1ibf5SxkMMI/hqdefault.jpg"
+    },
+    {
+        id: "BMIVkzFYBbk",
+        title: "WORST React.js Exploit Ever: React2Shell Explained in 4 Minutes.",
+        thumbnail: "https://i.ytimg.com/vi/BMIVkzFYBbk/hqdefault.jpg"
+    },
+    {
+        id: "C3C0HhhxOVk",
+        title: "NPM's Rising Malware Problem",
+        thumbnail: "https://i.ytimg.com/vi/C3C0HhhxOVk/hqdefault.jpg"
+    },
+    {
+        id: "m4SZ4ML5KJs",
+        title: "Recruiter Tries to Hack Me During an Interview",
+        thumbnail: "https://i.ytimg.com/vi/m4SZ4ML5KJs/hqdefault.jpg"
+    },
+    {
+        id: "SZIl6FPlDE4",
+        title: "Gemini's UI is just BUILT DIFFERENT",
+        thumbnail: "https://i.ytimg.com/vi/SZIl6FPlDE4/hqdefault.jpg"
+    },
+    {
         id: "bjwnLa83Aj0",
         title: "We built the official website for The Goatlife",
         thumbnail: `https://img.youtube.com/vi/bjwnLa83Aj0/maxresdefault.jpg`
@@ -23,6 +48,16 @@ const videos: Video[] = [
         id: "GZDLoeSsAm8",
         title: "CASH-IN on CACHING as a frontend developer | Part 1 | Browser cache",
         thumbnail: `https://img.youtube.com/vi/GZDLoeSsAm8/maxresdefault.jpg`
+    },
+    {
+        id: "4twWQj4XncI",
+        title: "Instagram's LIKE is a Clever Illusion",
+        thumbnail: "https://i.ytimg.com/vi/4twWQj4XncI/hqdefault.jpg"
+    },
+    {
+        id: "w-X0eu3Xjjk",
+        title: "10 lines of HTML vs 326 lines of JS | Making modals the modern way",
+        thumbnail: "https://i.ytimg.com/vi/w-X0eu3Xjjk/hqdefault.jpg"
     },
     {
         id: "8mGO_Cp-GmM",
@@ -79,29 +114,34 @@ export default function YouTubeVideos() {
     return (
         <>
         <div className="youtubeSection">
-        <h2 className="section-title">Videos</h2>
-            <div className="videosGrid">
-                {videos.map((video, index) => (
-                    <div 
-                        key={video.id} 
-                        className="videoCard"
-                        onClick={() => setSelectedVideo(video.id)}
-                        onKeyDown={(e) => handleKeyPress(e, video.id)}
-                        tabIndex={0}
-                        role="button"
-                        aria-label={`Play ${video.title}`}
-                        style={{ '--index': index } as React.CSSProperties}
-                    >
-                        <img 
-                            src={video.thumbnail} 
-                            alt={`Thumbnail for ${video.title}`}
-                            className="videoThumbnail"
-                        />
-                        <h3 className="videoTitle">{video.title}</h3>
-                    </div>
-                ))}
-            </div>
-
+            <section className="videos-card" aria-labelledby="video-posts-heading">
+                <div className="videos-card__head">
+                    <h2 id="video-posts-heading">Videos</h2>
+                    <p>Watch breakdowns, engineering notes, and product/security explainers.</p>
+                </div>
+                <div className="videosGrid">
+                    {videos.map((video, index) => (
+                        <div 
+                            key={video.id} 
+                            className="videoCard"
+                            onClick={() => setSelectedVideo(video.id)}
+                            onKeyDown={(e) => handleKeyPress(e, video.id)}
+                            tabIndex={0}
+                            role="button"
+                            aria-label={`Play ${video.title}`}
+                            style={{ '--index': index } as React.CSSProperties}
+                        >
+                            <span className="videoNumber">{index + 1}.</span>
+                            <img 
+                                src={video.thumbnail} 
+                                alt={`Thumbnail for ${video.title}`}
+                                className="videoThumbnail"
+                            />
+                            <h3 className="videoTitle">{video.title}</h3>
+                        </div>
+                    ))}
+                </div>
+            </section>
         </div>
 
         {selectedVideo && (

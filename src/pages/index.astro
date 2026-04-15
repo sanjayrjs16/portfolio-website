@@ -10,6 +10,7 @@ import Layout from '../layouts/Layout.astro';
 // import RealisticTrees from '../components/RealisticTrees.astro';
 import SocialIcons from '../components/SocialIcons/SocialIcons';
 import BackgroundFallback from '../components/BackgroundFallback.astro';
+import ArtworkInspirationModal from '../components/Bio/ArtworkInspirationModal';
 
 // Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
 // Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
@@ -49,7 +50,7 @@ const description = "Frontend focused web engineer building performant, scalable
 						<div class="bio-block">
 							<p class="fun-text bio-intro">
 								Hola, I'm Sanjay 👋<br/> 
-								<span>I build stuff on the web for a living :) <br/>Currently building <a href="https://www.sunroad.io" target="_blank" rel="noopener noreferrer" class="link">Sun Road Co.</a></span>
+								<span>Senior Product Engineer shipping real-world web apps with AI tools. <br/>Currently building <a href="https://www.sunroad.io" target="_blank" rel="noopener noreferrer" class="link">Sun Road Co.</a></span>
 See all of <a href="/works/" rel="noopener noreferrer" class="link">my works.</a> <br/>
 YouTube Channel: <a href="https://www.youtube.com/@letthedevscook/featured" target="_blank" rel="noopener noreferrer" class="link">Let The Devs Cook.</a> 
 							</p>
@@ -57,7 +58,7 @@ YouTube Channel: <a href="https://www.youtube.com/@letthedevscook/featured" targ
 							<!-- <p class="quote-text">"The Art challenges the technology & the technology inspires the art"</p>
 							<p class="attribution-text">- John Lasseter</p>
 						 -->
-							<p class="bio-credit">* <a href="https://www.instagram.com/p/CBL86c5DbZV/" target="_blank" rel="noopener noreferrer" class="link">site based on art i made</a></p>
+							<ArtworkInspirationModal client:load />
 						</div>
 					</div>
 				</div>
@@ -318,9 +319,9 @@ YouTube Channel: <a href="https://www.youtube.com/@letthedevscook/featured" targ
 		}
 
 		.hero-content-right {
-			top: 9%;
+			top: 5.1rem;
 			left: 50%;
-        transform: translate(-50%, -7%);
+        transform: translateX(-50%);
 			/* bottom: 18.5%; */
 			max-width: 98vw;
 		}
@@ -344,12 +345,12 @@ YouTube Channel: <a href="https://www.youtube.com/@letthedevscook/featured" targ
 		width: 2.8rem;  /* Slightly smaller */
 		height: 2.8rem;
 		border-radius: 50%;
-		background: rgba(255, 255, 255, 0.1);
+		background: rgba(250, 250, 248, 0.92);
 		backdrop-filter: blur(5px);
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		color: white;
+		color: rgba(28, 25, 23, 0.92);
 		transition: all 0.3s ease;
 		opacity: 0;
 		animation: fadeIn 0.5s ease-out forwards, iconFloat 4s ease-in-out infinite, glowPulse 2s steps(40) infinite alternate;
@@ -357,15 +358,12 @@ YouTube Channel: <a href="https://www.youtube.com/@letthedevscook/featured" targ
 		text-shadow: 1px 2px 15px var(--yellow-color);
  
 	}
+
 	@keyframes glowPulse {
   0% {
     box-shadow: 0 0 1px 1px #f0e9ca9b, 0 0 6px 2px #ffe06611;
     filter: drop-shadow(0 0 2px #ffffff94);
   }
-  /* 50% {
-    box-shadow: 0 0 4px 2px #fff4c844, 0 0 8px 4px #fffcef22;
-    filter: drop-shadow(0 0 4px #c2c1bb55);
-  } */
   100% {
     box-shadow: 0 0 2px 1px #ffe06622, 0 0 6px 2px #ffe06611;
     filter: drop-shadow(0 0 2px #f4f3f133);
@@ -383,7 +381,7 @@ YouTube Channel: <a href="https://www.youtube.com/@letthedevscook/featured" targ
 	:global(.social-icon svg) {
 		width: 1.4rem;  /* Slightly smaller icons */
 		height: 1.4rem;
-		color: var(--white-color);
+		color: rgba(28, 25, 23, 0.92);
 		text-shadow: 0 0 8px var(--yellow-color);
 	}
 
@@ -441,12 +439,19 @@ YouTube Channel: <a href="https://www.youtube.com/@letthedevscook/featured" targ
 
 	.bio-container {
 		pointer-events: auto; /* This enables pointer events back for the bio */
-		background: rgba(0, 0, 0, 0.85);
-		backdrop-filter: blur(10px);
-		padding: 1rem;
-		border-radius: 8px;	border-bottom: 1px solid var(--yellow-color);
-		border-top: 1px solid var(--yellow-color);
-		box-shadow: 0 0 12px rgba(193, 124, 233, 0.25);
+		background:
+			linear-gradient(145deg, rgba(236, 239, 244, 0.92) 0%, rgba(220, 226, 236, 0.88) 100%),
+			radial-gradient(circle at 12% 14%, rgba(76, 29, 149, 0.18) 0%, rgba(76, 29, 149, 0) 46%);
+		backdrop-filter: blur(18px) saturate(1.15);
+		-webkit-backdrop-filter: blur(14px);
+		padding: 1.5rem; /* p-6 */
+		border-radius: 1rem; /* rounded-2xl */
+		border: 1px solid rgba(200, 188, 170, 0.45);
+		box-shadow:
+			0 0 0 1px rgba(168, 85, 247, 0.08),
+			0 4px 24px rgba(20, 12, 40, 0.14),
+			inset 0 1px 0 rgba(255, 255, 255, 0.78),
+			inset 0 -1px 0 rgba(28, 25, 23, 0.06);
 		opacity: 0;
 		/* animation: fadeIn 1s ease-out 2s forwards; */
 		position: relative;
@@ -484,9 +489,9 @@ YouTube Channel: <a href="https://www.youtube.com/@letthedevscook/featured" targ
 
 	.bio-intro {
 		margin: 0;
-		line-height: 1.4;
-		font-size: clamp(0.8rem, 1.5vw, 1rem);
-		color: rgba(255, 255, 255, 0.8);
+		line-height: 1.6;
+		font-size: clamp(0.9rem, 1.15vw, 1.02rem);
+		color: rgba(28, 25, 23, 0.92);
 	}
 
 	.bio-intro .link {
@@ -505,7 +510,7 @@ YouTube Channel: <a href="https://www.youtube.com/@letthedevscook/featured" targ
 	.bio-credit {
 		font-family: 'Space Grotesk', sans-serif;
 		font-size: clamp(0.6rem, 1vw, 0.75rem);
-		color: rgba(255, 255, 255, 0.6);
+		color: rgba(55, 48, 40, 0.72);
 		margin: 0.4rem 0 0 auto;
 		align-self: flex-end;
 	}
@@ -519,8 +524,8 @@ YouTube Channel: <a href="https://www.youtube.com/@letthedevscook/featured" targ
 		.bio-container {
 			width: 90vw;
 			max-width: 90vw;
-			padding: 0.75rem 0.85rem;
-			border-radius: 10px;
+			padding: 1.25rem;
+			border-radius: 1rem;
 		}
 
 		.bio-block {
@@ -566,7 +571,7 @@ YouTube Channel: <a href="https://www.youtube.com/@letthedevscook/featured" targ
 
 	@media (max-width: 480px) {
 		.bio-container {
-			padding: 0.7rem 0.8rem;
+			padding: 1rem;
 		}
 
 		.bio-intro {
@@ -596,21 +601,27 @@ YouTube Channel: <a href="https://www.youtube.com/@letthedevscook/featured" targ
 		}
 	}
 
+	@media (min-width: 768px) {
+		.bio-container {
+			padding: 2rem; /* md:p-8 */
+		}
+	}
+
 	.link {
-		color: var(--purple-color);
+		color: #4c1d95;
 		text-decoration: none;
 		position: relative;
-		font-weight: 500;
+		font-weight: 600;
 		transition: all 0.3s ease;
 		white-space: nowrap;
-		border-bottom: 1px solid var(--yellow-color); 
+		border-bottom: 1px solid rgba(91, 33, 182, 0.55);
 		margin-right: 0.35rem;
 		font-size: clamp(0.8vw, 1vw, 1.5vw);
 	}
 
 	.link:hover {
-		color: var(--yellow-color);
-		text-shadow: 0 0 8px var(--yellow-color);
+		color: #5b21b6;
+		text-shadow: 0 0 8px rgba(124, 58, 237, 0.22);
 		border-bottom: none;
 	}
 
@@ -621,7 +632,7 @@ YouTube Channel: <a href="https://www.youtube.com/@letthedevscook/featured" targ
 		height: 1px;
 		bottom: -2px;
 		left: 0;
-		background: var(--purple-color);
+		background: #6d28d9;
 		transform: scaleX(0);
 		transform-origin: right;
 		transition: transform 0.3s ease;

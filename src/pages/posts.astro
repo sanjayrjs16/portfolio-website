@@ -24,20 +24,30 @@ const blogPosts = [
 
 <StarryLayout title="Posts" description="A collection of my posts and videos">
     <div class="posts-container">
-        <div class="posts-list">
-            {blogPosts.map((post, index) => (
-                <a 
-                    href={post.link} 
-                    target="_blank" 
-                    rel="noopener noreferrer" 
-                    class="post-link"
-                    style={`--index: ${index}`}
-                >
-                    {post.title}
-                    <span class="platform">{post.platform}</span>
-                </a>
-            ))}
-        </div>
+        <section class="posts-card" aria-labelledby="blog-posts-heading">
+            <div class="posts-card__head">
+                <h2 id="blog-posts-heading">Blogs</h2>
+                <p>Write-ups and engineering notes across platforms.</p>
+            </div>
+            <ul class="posts-list">
+                {blogPosts.map((post, index) => (
+                    <li class="post-item" style={`--index: ${index}`}>
+                        <a
+                            href={post.link}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="post-link"
+                        >
+                            <span class="post-title-wrap">
+                                <span class="post-number">{index + 1}.</span>
+                                <span class="post-title">{post.title}</span>
+                            </span>
+                            <span class="platform">{post.platform}</span>
+                        </a>
+                    </li>
+                ))}
+            </ul>
+        </section>
         
         <YouTubeVideos client:load />
     </div>
@@ -45,14 +55,17 @@ const blogPosts = [
 
 <style>
     .posts-container {
+        --posts-card-width: 880px;
+        width: min(920px, 100%);
         padding: 2rem;
-        margin: 6rem 2rem 2rem 2rem;
+        margin: 6rem auto 2rem;
+        min-height: calc(100dvh - 8rem);
         color: white;
         display: flex;
         flex-direction: column;
         gap: 2rem;
         align-items: center;
-        justify-items: center;
+        justify-content: center;
     }
 
     h1 {
@@ -61,45 +74,113 @@ const blogPosts = [
         font-family: 'Space Grotesk', sans-serif;
     }
 
+    .posts-card {
+        width: min(var(--posts-card-width), 100%);
+        box-sizing: border-box;
+        margin-inline: auto;
+        padding: 1.1rem 1.15rem;
+        border-radius: 16px;
+        background: linear-gradient(165deg, rgba(252, 250, 246, 0.94) 0%, rgba(238, 234, 228, 0.9) 100%);
+        border: 1px solid rgba(200, 188, 170, 0.45);
+        backdrop-filter: blur(18px) saturate(1.15);
+        box-shadow:
+            0 0 0 1px rgba(168, 85, 247, 0.08),
+            0 4px 24px rgba(20, 12, 40, 0.12),
+            inset 0 1px 0 rgba(255, 255, 255, 0.65);
+        font-family: 'Space Grotesk', sans-serif;
+    }
+
+    .posts-card__head {
+        display: grid;
+        gap: 0.2rem;
+        margin-bottom: 0.55rem;
+    }
+
+    .posts-card__head h2 {
+        margin: 0;
+        color: #1c1917;
+        font-size: clamp(1rem, 2.2vw, 1.2rem);
+        letter-spacing: -0.02em;
+    }
+
+    .posts-card__head p {
+        margin: 0;
+        color: rgba(55, 48, 40, 0.72);
+        font-size: 0.82rem;
+        line-height: 1.4;
+    }
+
     .posts-list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
         display: flex;
         flex-direction: column;
-        gap: 1rem;
-        max-width: 800px;
+        gap: 0.42rem;
+        width: 100%;
+    }
+
+    .post-item {
+        opacity: 0;
+        animation: fadeIn 0.45s ease-out forwards;
+        animation-delay: calc(var(--index) * 0.08s);
     }
 
     .post-link {
-        color: white;
+        color: #1c1917;
         text-decoration: none;
-        padding: 1.2rem;
-        border-radius: 8px;
-        background: rgba(255, 255, 255, 0.05);
-        backdrop-filter: blur(12px);
+        padding: 0.7rem 0.8rem;
+        border-radius: 10px;
+        background: rgba(255, 255, 255, 0.55);
         display: flex;
         justify-content: space-between;
         align-items: center;
+        gap: 0.6rem;
         transition: all 0.3s ease;
-        font-family: 'Inter', sans-serif;
-        border: 1px solid transparent;
-        opacity: 0;
-        animation: fadeIn 0.5s ease-out forwards;
-        animation-delay: calc(var(--index) * 0.1s);
+        border: 1px solid rgba(200, 188, 170, 0.32);
         font-family: 'Space Grotesk', sans-serif;
     }
 
     .post-link:hover,
     .post-link:focus-visible {
-        background: rgba(255, 255, 255, 0.1);
+        background: rgba(255, 255, 255, 0.8);
         transform: translateY(-2px);
-        border-color: rgba(255, 255, 255, 0.1);
+        border-color: rgba(168, 85, 247, 0.28);
         outline: none;
     }
 
+    .post-title {
+        font-size: 0.92rem;
+        color: rgba(28, 25, 23, 0.92);
+        line-height: 1.45;
+    }
+
+    .post-title-wrap {
+        display: inline-flex;
+        align-items: flex-start;
+        gap: 0.5rem;
+        min-width: 0;
+    }
+
+    .post-number {
+        font-size: 0.76rem;
+        color: rgba(76, 29, 149, 0.85);
+        font-weight: 700;
+        line-height: 1.5;
+        min-width: 1.15rem;
+    }
+
     .platform {
-        font-size: 0.9rem;
-        opacity: 0.7;
+        font-size: 0.68rem;
+        color: rgba(76, 29, 149, 0.9);
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        border: 1px solid rgba(126, 58, 237, 0.22);
+        background: rgba(139, 92, 246, 0.08);
+        border-radius: 999px;
+        padding: 0.2rem 0.5rem;
+        white-space: nowrap;
         font-family: 'Space Grotesk', sans-serif;
-        padding-left: 1rem;
     }
 
     @keyframes fadeIn {
@@ -115,8 +196,34 @@ const blogPosts = [
 
     @media (max-width: 768px) {
         .posts-container {
-            margin: 5rem 1rem 1rem 1rem;
+            margin: 5rem auto 1rem;
             padding: 1rem;
+            width: calc(100% - 2rem);
+            min-height: calc(100dvh - 6rem);
+        }
+
+        .posts-card {
+            padding: 0.95rem 0.9rem;
+        }
+
+        .post-link {
+            align-items: flex-start;
+            flex-direction: column;
+            position: relative;
+            padding: 0.85rem 0.75rem 0.58rem;
+        }
+
+        .post-title-wrap {
+            padding-right: 4.1rem;
+        }
+
+        .platform {
+            position: absolute;
+            top: 0.42rem;
+            right: 0.45rem;
+            font-size: 0.58rem;
+            padding: 0.14rem 0.4rem;
+            letter-spacing: 0.03em;
         }
     }
 </style> 
