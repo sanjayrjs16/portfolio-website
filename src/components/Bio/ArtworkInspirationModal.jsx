@@ -266,20 +266,52 @@ export default function ArtworkInspirationModal() {
         }
 
         @media (max-width: 768px) {
+          .artwork-modal-overlay {
+            padding: 1.15rem 0.85rem;
+            align-items: start;
+          }
+
           .artwork-modal-card {
-            padding: 0.85rem;
-            gap: 0.72rem;
+            width: 100%;
+            max-height: calc(100vh - 2.3rem);
+            padding: 0.72rem;
+            gap: 0.62rem;
             border-radius: 14px;
           }
 
+          .artwork-close {
+            width: 1.8rem;
+            height: 1.8rem;
+            top: 0.5rem;
+            right: 0.5rem;
+          }
+
+          .artwork-image {
+            max-height: 220px;
+            object-fit: cover;
+          }
+
+          .artwork-content {
+            gap: 0.48rem;
+          }
+
+          .artwork-title {
+            font-size: 1rem;
+          }
+
           .artwork-content p {
-            font-size: 0.85rem;
-            line-height: 1.55;
+            font-size: 0.81rem;
+            line-height: 1.46;
           }
 
           .artwork-quote {
-            font-size: 0.8rem;
-            padding: 0.55rem 0.62rem;
+            font-size: 0.77rem;
+            line-height: 1.42;
+            padding: 0.48rem 0.54rem;
+          }
+
+          .artwork-quote cite {
+            font-size: 0.64rem;
           }
 
           .eye-icon {
