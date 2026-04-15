@@ -14,7 +14,7 @@ const { title, description } = Astro.props;
 
 <Layout title={title} description={description}>
     <BackgroundFallback />
-    <StarryBackgroundSketch client:only="react" />
+    <StarryBackgroundSketch client:media="(min-width: 769px)" />
     <!-- Real DOM wrapper: Astro <slot /> has no element, so z-index on `slot {}` never applied -->
     <div class="starry-foreground">
         <slot />
@@ -158,11 +158,18 @@ const { title, description } = Astro.props;
 		}
 	}
 
+	const isMobileViewport = window.matchMedia('(max-width: 768px)').matches;
+
+	if (isMobileViewport) {
+		const fallback = document.querySelector('.background-fallback');
+		if (fallback) fallback.remove();
+	} else {
 	// Check periodically until canvas is mounted
-	const checkInterval = setInterval(() => {
-		if (document.querySelector('canvas')) {
-			handleCanvasMount();
-			clearInterval(checkInterval);
-		}
-	}, 100);
+		const checkInterval = setInterval(() => {
+			if (document.querySelector('canvas')) {
+				handleCanvasMount();
+				clearInterval(checkInterval);
+			}
+		}, 100);
+	}
 </script>
