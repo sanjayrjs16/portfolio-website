@@ -1,5 +1,4 @@
 import React, { useRef, useEffect } from "react";
-import p5 from "p5";
 import { Star } from "../LaserBeam/Star";
 import { ShootingStar } from "../LaserBeam/ShootingStar";
 import { GalaxyCluster } from "../LaserBeam/GalaxyCluster";
@@ -17,6 +16,14 @@ const StarryBackgroundSketch = () => {
   const sketchRef = useRef(null);
 
   useEffect(() => {
+    let myP5 = null;
+    let isCancelled = false;
+
+    const run = async () => {
+      const p5Module = await import("p5");
+      if (isCancelled) return;
+      const P5 = p5Module.default;
+
     const sketch = (p) => {
       // Variables for stars, galaxies, constellations, and shooting stars
       let stars = [];
@@ -311,11 +318,15 @@ const StarryBackgroundSketch = () => {
     }
 
     // Create a new p5 instance and attach it to the sketchRef
-    const myP5 = new p5(sketch, sketchRef.current);
+      myP5 = new P5(sketch, sketchRef.current);
+    };
+
+    run();
 
     // Cleanup function to remove the p5 instance when the component unmounts
     return () => {
-      myP5.remove();
+      isCancelled = true;
+      if (myP5) myP5.remove();
     };
   }, []);
 
