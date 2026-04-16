@@ -150,6 +150,24 @@ export default function ArtworkInspirationModal() {
           color: #5b21b6;
         }
 
+        :global(html[data-theme='dark']) .artwork-trigger {
+          color: rgba(225, 190, 255, 0.98) !important;
+          border-bottom-color: rgba(217, 85, 242, 0.45) !important;
+        }
+
+        :global(html[data-theme='dark']) .artwork-trigger:hover {
+          color: rgba(236, 210, 255, 1) !important;
+          border-bottom-color: rgba(217, 85, 242, 0.72) !important;
+        }
+
+        :global(html[data-theme='dark']) .eye-icon svg {
+          color: rgba(225, 190, 255, 0.98);
+        }
+
+        :global(html[data-theme='dark']) .bio-credit {
+          color: rgba(225, 190, 255, 0.92) !important;
+        }
+
         .artwork-modal-overlay {
           position: fixed;
           inset: 0;

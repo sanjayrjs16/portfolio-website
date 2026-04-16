@@ -21,7 +21,7 @@ const summaryParts = project.summary.split(/\n\n+/).map((s) => s.trim()).filter(
     {
         project.caseStudyPath && (
             <a class="featured-card__hit" href={project.caseStudyPath}>
-                <span class="sr-only">View case study: {project.title}</span>
+                <span class="sr-only">View details: {project.title}</span>
             </a>
         )
     }
@@ -41,6 +41,16 @@ const summaryParts = project.summary.split(/\n\n+/).map((s) => s.trim()).filter(
             loading="lazy"
             decoding="async"
         />
+        {
+            project.caseStudyPath && project.caseStudyCta && (
+                <a class="featured-card__cta featured-card__cta--media" href={project.caseStudyPath}>
+                    <span>{project.caseStudyCta}</span>
+                    <span class="featured-card__cta-arrow" aria-hidden="true">
+                        →
+                    </span>
+                </a>
+            )
+        }
     </div>
     <div class="featured-card__body">
         {
@@ -59,21 +69,6 @@ const summaryParts = project.summary.split(/\n\n+/).map((s) => s.trim()).filter(
                 <p class="featured-card__summary">{text}</p>
             ))}
         </div>
-        <p class="featured-card__stack">
-            {project.stack.map((tech) => (
-                <span class="stack-dot">{tech}</span>
-            ))}
-        </p>
-        {
-            project.caseStudyPath && project.caseStudyCta && (
-                <a class="featured-card__cta" href={project.caseStudyPath}>
-                    <span>{project.caseStudyCta}</span>
-                    <span class="featured-card__cta-arrow" aria-hidden="true">
-                        →
-                    </span>
-                </a>
-            )
-        }
         <div class="featured-card__links">
             {project.links.map((link) => (
                 <a class="work-link work-link--light" href={link.url} target="_blank" rel="noopener noreferrer">
@@ -81,6 +76,11 @@ const summaryParts = project.summary.split(/\n\n+/).map((s) => s.trim()).filter(
                 </a>
             ))}
         </div>
+        <p class="featured-card__stack" aria-label="Tech stack">
+            {project.stack.map((tech) => (
+                <span class="stack-pill">{tech}</span>
+            ))}
+        </p>
     </div>
     {
         project.caseStudyPath && (
@@ -187,6 +187,47 @@ const summaryParts = project.summary.split(/\n\n+/).map((s) => s.trim()).filter(
         position: relative;
         z-index: 0;
         background: linear-gradient(165deg, #ebe6e0, #e0d9d1);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 0.6rem;
+    }
+
+    /* Premium framed media (Goat Life / Sun Road / OHC) */
+    .featured-card[data-slug='goat-life'] .featured-card__media,
+    .featured-card[data-slug='sunroad'] .featured-card__media,
+    .featured-card[data-slug='ohc-network'] .featured-card__media {
+        padding: clamp(0.7rem, 2vw, 1.15rem);
+        align-items: center;
+    }
+
+    .featured-card[data-slug='goat-life'] .featured-card__img,
+    .featured-card[data-slug='sunroad'] .featured-card__img,
+    .featured-card[data-slug='ohc-network'] .featured-card__img {
+        object-fit: contain;
+        border-radius: 12px;
+        border: 1px solid rgba(200, 188, 170, 0.35);
+        background: rgba(255, 255, 255, 0.55);
+    }
+
+    /* Goat Life: wide artwork should fill the frame (slight crop) */
+    .featured-card[data-slug='goat-life'] .featured-card__img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+    }
+
+    .featured-card[data-slug='goat-life'] .featured-card__cta--media,
+    .featured-card[data-slug='sunroad'] .featured-card__cta--media,
+    .featured-card[data-slug='ohc-network'] .featured-card__cta--media {
+        align-self: center;
+        margin-top: 0.05rem;
+    }
+
+    /* Dark mode: only invert the media (image) surface */
+    :global(html[data-theme='dark'] .featured-card__media) {
+        background: linear-gradient(165deg, rgba(18, 18, 24, 0.92), rgba(30, 30, 38, 0.88));
     }
 
     .featured-card__media--sunroad-warm {
@@ -197,6 +238,12 @@ const summaryParts = project.summary.split(/\n\n+/).map((s) => s.trim()).filter(
         box-shadow: inset 0 0 0 1px rgba(200, 188, 170, 0.35);
     }
 
+    :global(html[data-theme='dark'] .featured-card__media--sunroad-warm) {
+        /* Match Sun Road case study dark surface (slightly brighter) */
+        background: linear-gradient(165deg, rgba(30, 30, 38, 0.84) 0%, rgba(18, 18, 24, 0.82) 100%);
+        box-shadow: inset 0 0 0 1px rgba(168, 85, 247, 0.18);
+    }
+
     .featured-card__media--sunroad-warm .featured-card__img {
         flex: 1;
         width: 100%;
@@ -204,7 +251,7 @@ const summaryParts = project.summary.split(/\n\n+/).map((s) => s.trim()).filter(
         max-height: 100%;
         object-fit: contain;
         object-position: center;
-        padding: clamp(0.65rem, 2vw, 1.15rem);
+        padding: 0;
     }
 
     /* Full logo visible — no cover crop (e.g. OHC Network) */
@@ -217,6 +264,11 @@ const summaryParts = project.summary.split(/\n\n+/).map((s) => s.trim()).filter(
         min-height: 200px;
         max-height: 270px;
         box-shadow: inset 0 0 0 1px rgba(200, 188, 170, 0.28);
+    }
+
+    :global(html[data-theme='dark'] .featured-card__media--logo-contain) {
+        background: linear-gradient(158deg, rgba(20, 20, 26, 0.92) 0%, rgba(28, 28, 36, 0.88) 100%);
+        box-shadow: inset 0 0 0 1px rgba(168, 85, 247, 0.16);
     }
 
     .featured-card__media--logo-contain .featured-card__img {
@@ -264,6 +316,11 @@ const summaryParts = project.summary.split(/\n\n+/).map((s) => s.trim()).filter(
             color 0.2s ease,
             border-color 0.2s ease,
             gap 0.2s ease;
+    }
+
+    .featured-card__cta--media {
+        margin-top: 0;
+        pointer-events: auto;
     }
 
     .featured-card__cta:hover {
@@ -357,19 +414,17 @@ const summaryParts = project.summary.split(/\n\n+/).map((s) => s.trim()).filter(
         margin: 0.15rem 0 0;
         display: flex;
         flex-wrap: wrap;
-        gap: 0.3rem 0.45rem;
-        font-size: 0.66rem;
+        gap: 0.25rem;
+    }
+
+    .stack-pill {
+        font-size: 0.6rem;
         font-weight: 500;
-        color: rgba(91, 33, 182, 0.85);
-    }
-
-    .stack-dot::after {
-        content: ' ·';
-        opacity: 0.45;
-    }
-
-    .stack-dot:last-child::after {
-        content: '';
+        padding: 0.14rem 0.38rem;
+        border-radius: 6px;
+        background: rgba(139, 92, 246, 0.1);
+        border: 1px solid rgba(124, 58, 237, 0.22);
+        color: rgba(76, 29, 149, 0.9);
     }
 
     .featured-card__links {

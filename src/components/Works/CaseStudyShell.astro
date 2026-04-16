@@ -91,6 +91,45 @@ const { title, description, breadcrumbCurrent } = Astro.props;
         border-bottom-color: rgba(202, 138, 4, 0.85);
     }
 
+    /* Dark mode: invert the back pill + nav container */
+    :global([data-theme='dark'] .case-light__nav) {
+        background: linear-gradient(165deg, rgba(30, 30, 38, 0.84) 0%, rgba(18, 18, 24, 0.82) 100%);
+        border-color: rgba(168, 85, 247, 0.26);
+        box-shadow:
+            0 0 0 1px rgba(168, 85, 247, 0.10),
+            0 10px 34px rgba(0, 0, 0, 0.35),
+            inset 0 1px 0 rgba(255, 255, 255, 0.06);
+    }
+
+    :global([data-theme='dark'] .case-light__back) {
+        color: rgba(217, 85, 242, 0.98);
+        border-bottom-color: rgba(217, 85, 242, 0.35);
+    }
+
+    :global([data-theme='dark'] .case-light__back:hover) {
+        color: rgba(236, 210, 255, 1);
+        border-bottom-color: rgba(217, 85, 242, 0.55);
+    }
+
+    /* Keep breadcrumb readable in dark mode */
+    :global(html[data-theme='dark'] .breadcrumb__link) {
+        color: rgba(217, 85, 242, 0.98) !important;
+        border-bottom-color: rgba(217, 85, 242, 0.35) !important;
+    }
+
+    :global(html[data-theme='dark'] .breadcrumb__link:hover) {
+        color: rgba(236, 210, 255, 1) !important;
+        border-bottom-color: rgba(217, 85, 242, 0.55) !important;
+    }
+
+    :global(html[data-theme='dark'] .breadcrumb__sep) {
+        color: rgba(255, 255, 255, 0.55) !important;
+    }
+
+    :global(html[data-theme='dark'] .breadcrumb__current) {
+        color: rgba(255, 255, 255, 0.92) !important;
+    }
+
     .breadcrumb {
         margin: 0;
         width: 100%;
@@ -112,6 +151,10 @@ const { title, description, breadcrumbCurrent } = Astro.props;
         line-height: 1.35;
         /* Readable on starfield */
         color: rgba(90, 80, 72, 0.62);
+    }
+
+    :global(html[data-theme='dark'] .breadcrumb__list) {
+        color: rgba(255, 255, 255, 0.70) !important;
     }
 
     .breadcrumb__link {
@@ -195,6 +238,96 @@ const { title, description, breadcrumbCurrent } = Astro.props;
     :global(.case-light .work-link:hover) {
         color: #5b21b6;
         border-bottom-color: rgba(202, 138, 4, 0.85);
+    }
+
+    :global([data-theme='dark'] .case-light .light-panel) {
+        background: linear-gradient(165deg, rgba(30, 30, 38, 0.84) 0%, rgba(18, 18, 24, 0.82) 100%);
+        border-color: rgba(168, 85, 247, 0.26);
+        box-shadow:
+            0 0 0 1px rgba(168, 85, 247, 0.10),
+            0 10px 34px rgba(0, 0, 0, 0.35),
+            inset 0 1px 0 rgba(255, 255, 255, 0.06);
+    }
+
+    :global([data-theme='dark'] .case-light .light-panel--accent) {
+        border-color: rgba(212, 175, 55, 0.20);
+        box-shadow:
+            0 0 0 1px rgba(168, 85, 247, 0.14),
+            0 8px 32px rgba(20, 12, 40, 0.18),
+            inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    }
+
+    :global([data-theme='dark'] .case-light .panel-title) {
+        color: rgba(255, 255, 255, 0.92);
+    }
+
+    :global([data-theme='dark'] .case-light .panel-text) {
+        color: rgba(255, 255, 255, 0.78);
+    }
+
+    :global([data-theme='dark'] .case-light .work-link) {
+        color: rgba(217, 85, 242, 0.98);
+        border-bottom-color: rgba(217, 85, 242, 0.35);
+    }
+
+    :global([data-theme='dark'] .case-light .work-link:hover) {
+        color: rgba(236, 210, 255, 1);
+        border-bottom-color: rgba(217, 85, 242, 0.55);
+    }
+
+    /* Text color pass for page-specific classes (bullet lists, chips, etc.) */
+    :global([data-theme='dark'] .case-light .hero-title),
+    :global([data-theme='dark'] .case-light .hero__title) {
+        color: rgba(255, 255, 255, 0.92);
+        text-shadow: none;
+    }
+
+    :global([data-theme='dark'] .case-light .hero-role),
+    :global([data-theme='dark'] .case-light .hero__subtitle),
+    :global([data-theme='dark'] .case-light .lede),
+    :global([data-theme='dark'] .case-light .intro-launch__lede),
+    :global([data-theme='dark'] .case-light .section-intro),
+    :global([data-theme='dark'] .case-light .panel-text.emphasis) {
+        color: rgba(255, 255, 255, 0.78);
+    }
+
+    :global([data-theme='dark'] .case-light .eyebrow),
+    :global([data-theme='dark'] .case-light .hero__eyebrow) {
+        color: rgba(195, 140, 255, 0.95);
+    }
+
+    :global([data-theme='dark'] .case-light .muted) {
+        color: rgba(255, 255, 255, 0.55) !important;
+    }
+
+    :global([data-theme='dark'] .case-light .bullet-list),
+    :global([data-theme='dark'] .case-light .metric-list),
+    :global([data-theme='dark'] .case-light .facts),
+    :global([data-theme='dark'] .case-light .work-list) {
+        color: rgba(240, 240, 246, 0.86) !important;
+    }
+
+    :global([data-theme='dark'] .case-light .tag-list li),
+    :global([data-theme='dark'] .case-light .stack-list li) {
+        background: rgba(168, 85, 247, 0.12) !important;
+        border-color: rgba(168, 85, 247, 0.28) !important;
+        color: rgba(236, 210, 255, 0.96) !important;
+    }
+
+    :global([data-theme='dark'] .case-light .meta-chip) {
+        background: rgba(168, 85, 247, 0.10) !important;
+        border-color: rgba(168, 85, 247, 0.30) !important;
+        color: rgba(236, 210, 255, 0.96) !important;
+    }
+
+    :global([data-theme='dark'] .case-light .press-item__outlet) {
+        color: rgba(255, 190, 150, 0.72) !important;
+    }
+
+    :global([data-theme='dark'] .case-light .gallery-placeholder) {
+        background: rgba(30, 30, 38, 0.55) !important;
+        border-color: rgba(168, 85, 247, 0.18) !important;
+        color: rgba(255, 255, 255, 0.45) !important;
     }
 
     @media (max-width: 768px) {

@@ -147,6 +147,11 @@ const links = [
         padding: 0.5rem 0.85rem 0.7rem;
     }
 
+    /* Dark mode: only invert the photo surface */
+    :global(html[data-theme='dark'] .sb-card__photo) {
+        background: linear-gradient(180deg, rgba(20, 20, 26, 0.92) 0%, rgba(28, 28, 36, 0.88) 100%);
+    }
+
     .sb-card__photo img {
         width: auto;
         height: auto;

@@ -131,6 +131,22 @@ const SocialIcons = () => {
  
         }
 
+        /* Theme inversion: dark mode => dark circles + light icons */
+        [data-theme='dark'] .social-icon {
+          color: rgba(255, 255, 255, 0.92);
+          background: rgba(30, 30, 38, 0.78);
+          text-shadow: 0 0 10px var(--yellow-color);
+        }
+
+        [data-theme='dark'] .social-icon:hover {
+          background: rgba(40, 40, 50, 0.86);
+        }
+
+        [data-theme='dark'] .social-icon svg {
+          color: rgba(255, 255, 255, 0.92);
+          fill: rgba(255, 255, 255, 0.92);
+        }
+
         .social-icon:hover {
           transform: translateY(-2px);
         }

@@ -296,6 +296,184 @@ const recognition: RecognitionItem[] = [
         font-family: 'Space Grotesk', sans-serif;
     }
 
+    /* Dark mode: invert panel/card surfaces + key text */
+    :global(html[data-theme='dark'] .works-panel),
+    :global(html[data-theme='dark'] .glass-surface) {
+        background: linear-gradient(165deg, rgba(30, 30, 38, 0.86) 0%, rgba(20, 20, 26, 0.82) 100%) !important;
+        border: 1px solid rgba(168, 85, 247, 0.28) !important;
+        backdrop-filter: blur(18px) saturate(1.05) !important;
+        box-shadow:
+            0 0 0 1px rgba(168, 85, 247, 0.12),
+            0 10px 34px rgba(0, 0, 0, 0.35),
+            inset 0 1px 0 rgba(255, 255, 255, 0.06),
+            inset 0 -1px 0 rgba(255, 255, 255, 0.04) !important;
+    }
+
+    :global(html[data-theme='dark'] .works-subnav__link) {
+        color: rgba(255, 252, 248, 0.88) !important;
+        border-color: rgba(168, 85, 247, 0.25) !important;
+        background: rgba(30, 30, 38, 0.75) !important;
+        backdrop-filter: blur(12px) !important;
+    }
+
+    :global(html[data-theme='dark'] .works-subnav__link:hover) {
+        color: rgba(255, 252, 248, 0.95) !important;
+        border-color: rgba(250, 204, 21, 0.35) !important;
+        background: rgba(255, 255, 255, 0.07) !important;
+    }
+
+    :global(html[data-theme='dark'] .works-subnav__link--active) {
+        color: rgba(255, 252, 248, 0.95) !important;
+        border-color: rgba(168, 85, 247, 0.35) !important;
+        background: rgba(139, 92, 246, 0.18) !important;
+        box-shadow: 0 0 0 1px rgba(168, 85, 247, 0.12), 0 4px 20px rgba(0, 0, 0, 0.35) !important;
+    }
+
+    :global(html[data-theme='dark'] .section-title) {
+        color: rgba(255, 255, 255, 0.96) !important;
+    }
+
+    :global(html[data-theme='dark'] .section-lead) {
+        color: rgba(255, 255, 255, 0.72) !important;
+    }
+
+    :global(html[data-theme='dark'] .journey-card__title-group h3) {
+        color: rgba(255, 255, 255, 0.96) !important;
+    }
+
+    :global(html[data-theme='dark'] .journey-card__designation) {
+        color: rgba(225, 190, 255, 0.78) !important;
+    }
+
+    :global(html[data-theme='dark'] .journey-card__body p) {
+        color: rgba(255, 255, 255, 0.82) !important;
+    }
+
+    :global(html[data-theme='dark'] .duration) {
+        border-color: rgba(200, 188, 170, 0.28) !important;
+        color: rgba(255, 255, 255, 0.86) !important;
+        background: rgba(30, 30, 38, 0.62) !important;
+    }
+
+    :global(html[data-theme='dark'] .impact-chip) {
+        border-color: rgba(5, 150, 105, 0.28) !important;
+        color: rgba(16, 185, 129, 0.98) !important;
+        background: rgba(16, 185, 129, 0.12) !important;
+    }
+
+    :global(html[data-theme='dark'] .tech-tag) {
+        border-color: rgba(168, 85, 247, 0.25) !important;
+        color: rgba(225, 190, 255, 0.98) !important;
+        background: rgba(139, 92, 246, 0.10) !important;
+    }
+
+    :global(html[data-theme='dark'] .recognition-year) {
+        color: rgba(255, 255, 255, 0.64) !important;
+    }
+
+    :global(html[data-theme='dark'] .recognition-card__title) {
+        color: rgba(255, 255, 255, 0.96) !important;
+    }
+
+    :global(html[data-theme='dark'] .recognition-detail) {
+        color: rgba(255, 255, 255, 0.82) !important;
+    }
+
+    :global(html[data-theme='dark'] .recognition-card__visual) {
+        border-color: rgba(200, 188, 170, 0.28) !important;
+        background: rgba(30, 30, 38, 0.62) !important;
+    }
+
+    :global(html[data-theme='dark'] .recognition-card__zoom) {
+        border-color: rgba(168, 85, 247, 0.28) !important;
+        background: rgba(30, 30, 38, 0.72) !important;
+        color: rgba(225, 190, 255, 0.96) !important;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25) !important;
+    }
+
+    :global(html[data-theme='dark'] .works-shell .work-link) {
+        color: rgba(225, 190, 255, 0.98) !important;
+        border-bottom-color: rgba(217, 85, 242, 0.45) !important;
+    }
+
+    :global(html[data-theme='dark'] .works-shell .work-link:hover) {
+        color: rgba(236, 210, 255, 1) !important;
+        border-bottom-color: rgba(217, 85, 242, 0.75) !important;
+    }
+
+    /* Bento cards (Featured Work) */
+    :global(html[data-theme='dark'] .featured-card),
+    :global(html[data-theme='dark'] .stack-card),
+    :global(html[data-theme='dark'] .yt-channel-card),
+    :global(html[data-theme='dark'] .sb-card) {
+        background: linear-gradient(165deg, rgba(30, 30, 38, 0.86) 0%, rgba(20, 20, 26, 0.82) 100%) !important;
+        border-color: rgba(168, 85, 247, 0.28) !important;
+        box-shadow:
+            0 0 0 1px rgba(168, 85, 247, 0.12),
+            0 10px 34px rgba(0, 0, 0, 0.35),
+            inset 0 1px 0 rgba(255, 255, 255, 0.06) !important;
+    }
+
+    :global(html[data-theme='dark'] .featured-card__title),
+    :global(html[data-theme='dark'] .stack-card__title),
+    :global(html[data-theme='dark'] .yt-channel-card__title),
+    :global(html[data-theme='dark'] .sb-card__title) {
+        color: rgba(255, 255, 255, 0.96) !important;
+    }
+
+    :global(html[data-theme='dark'] .featured-card__role),
+    :global(html[data-theme='dark'] .featured-card__summary),
+    :global(html[data-theme='dark'] .stack-card__summary),
+    :global(html[data-theme='dark'] .yt-channel-card__summary),
+    :global(html[data-theme='dark'] .sb-card__summary) {
+        color: rgba(255, 255, 255, 0.82) !important;
+    }
+
+    :global(html[data-theme='dark'] .meta-pill),
+    :global(html[data-theme='dark'] .yt-channel-card__stat-pill) {
+        border-color: rgba(168, 85, 247, 0.35) !important;
+        background: rgba(139, 92, 246, 0.12) !important;
+        color: rgba(225, 190, 255, 0.98) !important;
+    }
+
+    :global(html[data-theme='dark'] .featured-card__cta),
+    :global(html[data-theme='dark'] .work-link--light) {
+        color: rgba(225, 190, 255, 0.98) !important;
+        border-bottom-color: rgba(217, 85, 242, 0.45) !important;
+    }
+
+    :global(html[data-theme='dark'] .featured-card__cta:hover),
+    :global(html[data-theme='dark'] .work-link--light:hover) {
+        color: rgba(236, 210, 255, 1) !important;
+        border-bottom-color: rgba(217, 85, 242, 0.75) !important;
+    }
+
+    :global(html[data-theme='dark'] .tag),
+    :global(html[data-theme='dark'] .stack-pill) {
+        border-color: rgba(168, 85, 247, 0.25) !important;
+        background: rgba(139, 92, 246, 0.10) !important;
+        color: rgba(225, 190, 255, 0.98) !important;
+    }
+
+    :global(html[data-theme='dark'] .tag--accent) {
+        border-color: rgba(168, 85, 247, 0.25) !important;
+        background: rgba(139, 92, 246, 0.12) !important;
+        color: rgba(225, 190, 255, 0.98) !important;
+    }
+
+    :global(html[data-theme='dark'] .stack-card__visual),
+    :global(html[data-theme='dark'] .recognition-card__visual) {
+        background: rgba(30, 30, 38, 0.62) !important;
+        border-color: rgba(200, 188, 170, 0.28) !important;
+    }
+
+    :global(html[data-theme='dark'] .card-open-icon) {
+        background: rgba(30, 30, 38, 0.72) !important;
+        border-color: rgba(168, 85, 247, 0.28) !important;
+        color: rgba(225, 190, 255, 0.92) !important;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25) !important;
+    }
+
     #featured-work,
     #professional-journey {
         scroll-margin-top: clamp(4.5rem, 12vh, 6rem);
