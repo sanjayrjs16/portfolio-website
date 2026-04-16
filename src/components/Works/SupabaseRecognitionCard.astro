@@ -17,7 +17,16 @@ const links = [
 <article class="sb-card" data-slug="supabase-recognition">
     <div class="sb-card__top">
         <div class="sb-card__logo-wrap">
-            <img class="sb-card__logo" src={logoSrc} alt="" width="48" height="50" loading="lazy" decoding="async" />
+            <img
+                class="sb-card__logo"
+                src={logoSrc}
+                alt=""
+                width="48"
+                height="50"
+                loading="lazy"
+                decoding="async"
+                fetchpriority="low"
+            />
         </div>
         <div class="sb-card__copy">
             <h3 class="sb-card__title">{title}</h3>
@@ -32,7 +41,7 @@ const links = [
         </div>
     </div>
     <div class="sb-card__photo">
-        <img src={photoSrc} alt="" width={800} height={600} loading="lazy" decoding="async" />
+        <img src={photoSrc} alt="" width={800} height={600} loading="lazy" decoding="async" fetchpriority="low" />
     </div>
 </article>
 

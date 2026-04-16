@@ -21,7 +21,15 @@ const stackList = project.stack ?? [];
         )
     }
     <div class="stack-card__visual">
-        <img src={project.image} alt="" width={120} height={120} loading="lazy" decoding="async" />
+        <img
+            src={project.image}
+            alt=""
+            width={120}
+            height={120}
+            loading="lazy"
+            decoding="async"
+            fetchpriority="low"
+        />
     </div>
     <div class="stack-card__body">
         {

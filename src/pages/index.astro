@@ -49,8 +49,8 @@ const description = "Frontend focused product engineer building fast, scalable, 
 					<div class="bio-container">
 						<div class="bio-block">
 							<p class="fun-text bio-intro">
-								Hola! I'm a Product Engineer (Sanjay btw👋 ) <br/> 
-								<span>I've worked across heavy enterprise systems to lean 0→1 scalable products leveraging AI.<br/>atm building <a href="https://www.sunroad.io" target="_blank" rel="noopener noreferrer" class="link">Sun Road Co.</a> (520+ users), helping creatives showcase their works & get discovered.<br/>I break down real-world engineering on YouTube: <a href="https://www.youtube.com/@letthedevscook/featured" target="_blank" rel="noopener noreferrer" class="link">Let The Devs Cook.</a></span>
+								Hola! I'm a Product Engineer whose worked across <br/> 
+								<span> heavy enterprise systems to lean 0→1 scalable products leveraging AI.<br/>atm building <a href="https://www.sunroad.io" target="_blank" rel="noopener noreferrer" class="link">Sun Road Co.</a> (520+ users), helping creatives showcase their works & get discovered.<br/>I make real-world engineering content on YouTube: <a href="https://www.youtube.com/@letthedevscook/featured" target="_blank" rel="noopener noreferrer" class="link">Let The Devs Cook.</a></span>
 							</p>
 							
 							<!-- <p class="quote-text">"The Art challenges the technology & the technology inspires the art"</p>
@@ -311,13 +311,13 @@ const description = "Frontend focused product engineer building fast, scalable, 
 
 	@media (max-width: 768px) {
 		.hero-content-left {
-			top: 76%;
+			top: 72%;
 			left: 60%;
 			transform: translate(-60%, -55%);
 		}
 
 		.hero-content-right {
-			top: 4.5rem;
+			top: 3.8rem;
 			left: 0;
 			transform: none;
 			width: 100%;
@@ -741,6 +741,24 @@ const description = "Frontend focused product engineer building fast, scalable, 
 
 	:global(html[data-theme='dark'] .bio-credit) {
 		color: rgba(225, 190, 255, 0.92) !important;
+	}
+
+	/* Eye chip: explicit svg color in React beats inherited trigger color — force light in dark mode */
+	:global(html[data-theme='dark'] .eye-icon) {
+		border-color: rgba(220, 190, 255, 0.55) !important;
+		background: rgba(168, 85, 247, 0.22) !important;
+	}
+
+	:global(html[data-theme='dark'] .eye-icon svg) {
+		color: rgba(248, 240, 255, 1) !important;
+	}
+
+	:global(html[data-theme='dark'] .eye-icon svg path) {
+		stroke: rgba(248, 240, 255, 1) !important;
+	}
+
+	:global(html[data-theme='dark'] .eye-icon svg circle) {
+		fill: rgba(248, 240, 255, 1) !important;
 	}
 
 	/* Force dark-mode styles for portal-rendered artwork modal */

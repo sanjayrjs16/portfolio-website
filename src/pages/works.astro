@@ -149,6 +149,7 @@ const recognition: RecognitionItem[] = [
                                             height="40"
                                             loading="lazy"
                                             decoding="async"
+                                            fetchpriority="low"
                                         />
                                         <div class="journey-card__title-group">
                                             <p class="journey-card__designation">{item.role}</p>
@@ -198,6 +199,7 @@ const recognition: RecognitionItem[] = [
                                         height={160}
                                         loading="lazy"
                                         decoding="async"
+                                        fetchpriority="low"
                                     />
                                     {item.title === 'On the Spot Team Award' && (
                                         <button
@@ -244,6 +246,7 @@ const recognition: RecognitionItem[] = [
                     class="certificate-modal__image"
                     loading="lazy"
                     decoding="async"
+                    fetchpriority="low"
                 />
             </div>
         </div>

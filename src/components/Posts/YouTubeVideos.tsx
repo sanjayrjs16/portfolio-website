@@ -132,10 +132,13 @@ export default function YouTubeVideos() {
                             style={{ '--index': index } as React.CSSProperties}
                         >
                             <span className="videoNumber">{index + 1}.</span>
-                            <img 
-                                src={video.thumbnail} 
+                            <img
+                                src={video.thumbnail}
                                 alt={`Thumbnail for ${video.title}`}
                                 className="videoThumbnail"
+                                loading="lazy"
+                                decoding="async"
+                                fetchPriority="low"
                             />
                             <h3 className="videoTitle">{video.title}</h3>
                         </div>

@@ -4,10 +4,18 @@ import { createPortal } from 'react-dom';
 export default function ArtworkInspirationModal() {
   const [isOpen, setIsOpen] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
+  const [imageLoaded, setImageLoaded] = useState(false);
 
   useEffect(() => {
     setIsMounted(true);
   }, []);
+
+  useEffect(() => {
+    if (!isOpen) {
+      return undefined;
+    }
+    setImageLoaded(false);
+  }, [isOpen]);
 
   useEffect(() => {
     if (!isOpen) return undefined;
@@ -68,13 +76,20 @@ export default function ArtworkInspirationModal() {
               x
             </button>
 
-            <img
-              src="/stardust-avatar.png"
-              alt="The Stardust Psyche artwork"
-              className="artwork-image"
-              loading="lazy"
-              decoding="async"
-            />
+            <div className="artwork-image-wrap">
+              {!imageLoaded && <div className="artwork-image-skeleton" aria-hidden="true" />}
+              <img
+                src="/stardust-avatar.png"
+                alt="The Stardust Psyche artwork"
+                className={`artwork-image ${imageLoaded ? 'artwork-image--loaded' : ''}`}
+                width={800}
+                height={1000}
+                loading="lazy"
+                decoding="async"
+                fetchPriority="low"
+                onLoad={() => setImageLoaded(true)}
+              />
+            </div>
 
             <div className="artwork-content">
               <h3 className="artwork-title">The Stardust Psyche</h3>
@@ -156,8 +171,22 @@ export default function ArtworkInspirationModal() {
           border-bottom-color: rgba(217, 85, 242, 0.72) !important;
         }
 
+        :global(html[data-theme='dark']) .eye-icon {
+          border-color: rgba(220, 190, 255, 0.55) !important;
+          background: rgba(168, 85, 247, 0.22) !important;
+        }
+
+        /* Beats .eye-icon svg { color: #5b21b6 } — SVG must not stay purple in dark mode */
         :global(html[data-theme='dark']) .eye-icon svg {
-          color: rgba(225, 190, 255, 0.98);
+          color: rgba(248, 240, 255, 1) !important;
+        }
+
+        :global(html[data-theme='dark']) .eye-icon svg path {
+          stroke: rgba(248, 240, 255, 1) !important;
+        }
+
+        :global(html[data-theme='dark']) .eye-icon svg circle {
+          fill: rgba(248, 240, 255, 1) !important;
         }
 
         :global(html[data-theme='dark']) .bio-credit {
@@ -207,13 +236,53 @@ export default function ArtworkInspirationModal() {
           z-index: 1;
         }
 
-        .artwork-image {
+        .artwork-image-wrap {
+          position: relative;
           width: 100%;
           border-radius: 12px;
-          border: 1px solid rgba(200, 188, 170, 0.45);
+          overflow: hidden;
+          aspect-ratio: 4 / 5;
+          min-height: 200px;
+          background: rgba(245, 242, 236, 0.85);
+        }
+
+        .artwork-image-skeleton {
+          position: absolute;
+          inset: 0;
+          z-index: 1;
+          background: linear-gradient(
+            110deg,
+            rgba(220, 214, 206, 0.35) 0%,
+            rgba(250, 248, 244, 0.75) 45%,
+            rgba(220, 214, 206, 0.35) 90%
+          );
+          background-size: 200% 100%;
+          animation: artworkSkeletonShimmer 1.1s ease-in-out infinite;
+        }
+
+        @keyframes artworkSkeletonShimmer {
+          0% {
+            background-position: 100% 0;
+          }
+          100% {
+            background-position: -100% 0;
+          }
+        }
+
+        .artwork-image {
+          width: 100%;
+          height: 100%;
           display: block;
           object-fit: cover;
+          border-radius: 12px;
+          border: 1px solid rgba(200, 188, 170, 0.45);
           background: rgba(255, 255, 255, 0.7);
+          opacity: 0;
+          transition: opacity 0.35s ease;
+        }
+
+        .artwork-image--loaded {
+          opacity: 1;
         }
 
         .artwork-content {
@@ -278,6 +347,20 @@ export default function ArtworkInspirationModal() {
           color: rgba(255, 255, 255, 0.9);
         }
 
+        :global(html[data-theme='dark']) .artwork-image-wrap {
+          background: rgba(24, 24, 30, 0.92);
+        }
+
+        :global(html[data-theme='dark']) .artwork-image-skeleton {
+          background: linear-gradient(
+            110deg,
+            rgba(45, 45, 56, 0.65) 0%,
+            rgba(72, 68, 88, 0.45) 45%,
+            rgba(45, 45, 56, 0.65) 90%
+          );
+          background-size: 200% 100%;
+        }
+
         :global(html[data-theme='dark']) .artwork-image {
           border-color: rgba(200, 188, 170, 0.22);
           background: rgba(30, 30, 38, 0.62);
@@ -308,6 +391,12 @@ export default function ArtworkInspirationModal() {
             align-items: stretch;
             gap: 1rem;
             padding: 1rem 1rem 1rem;
+          }
+
+          .artwork-image-wrap {
+            min-height: 480px;
+            height: 100%;
+            aspect-ratio: auto;
           }
 
           .artwork-image {
@@ -341,6 +430,12 @@ export default function ArtworkInspirationModal() {
             height: 1.8rem;
             top: 0.5rem;
             right: 0.5rem;
+          }
+
+          .artwork-image-wrap {
+            aspect-ratio: 4 / 5;
+            max-height: 220px;
+            min-height: 0;
           }
 
           .artwork-image {

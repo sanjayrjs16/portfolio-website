@@ -7,6 +7,14 @@ const navItems = [
 ];
 
 const currentPath = Astro.url.pathname;
+
+/** Match case study subpaths (e.g. /works/sunroad) to Works */
+function isNavActive(pathname: string, itemPath: string) {
+  if (itemPath === '/') return pathname === '/' || pathname === '';
+  const base = itemPath.replace(/\/$/, '');
+  return pathname === base || pathname.startsWith(`${base}/`);
+}
+
 const showTitle = currentPath !== '/'; // Only show title when not on home/bio page
 ---
 
@@ -17,33 +25,35 @@ const showTitle = currentPath !== '/'; // Only show title when not on home/bio p
   </a>
 )}
 
-<nav class="navigation">
-  {navItems.map(item => (
-    <a
-      href={item.path}
-      class={`nav-item ${currentPath === item.path ? 'active' : ''}`}
-    >
-      {item.label}
-    </a>
-  ))}
-</nav>
+<div class="site-chrome" transition:persist="site-chrome">
+  <nav class="navigation">
+    {navItems.map((item) => (
+      <a
+        href={item.path}
+        class:list={['nav-item', { active: isNavActive(currentPath, item.path) }]}
+      >
+        {item.label}
+      </a>
+    ))}
+  </nav>
 
-<button id="theme-toggle" class="theme-toggle" type="button" aria-label="Switch to dark mode">
-  <span class="theme-toggle__track" aria-hidden="true">
-    <span class="theme-toggle__icon theme-toggle__icon--sun">
-      <svg viewBox="0 0 24 24" aria-hidden="true">
-        <circle cx="12" cy="12" r="4.2" />
-        <path d="M12 1.8v3.1M12 19.1v3.1M4.85 4.85l2.2 2.2M16.95 16.95l2.2 2.2M1.8 12h3.1M19.1 12h3.1M4.85 19.15l2.2-2.2M16.95 7.05l2.2-2.2" />
-      </svg>
+  <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Switch to dark mode">
+    <span class="theme-toggle__track" aria-hidden="true">
+      <span class="theme-toggle__icon theme-toggle__icon--sun">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="12" cy="12" r="4.2" />
+          <path d="M12 1.8v3.1M12 19.1v3.1M4.85 4.85l2.2 2.2M16.95 16.95l2.2 2.2M1.8 12h3.1M19.1 12h3.1M4.85 19.15l2.2-2.2M16.95 7.05l2.2-2.2" />
+        </svg>
+      </span>
+      <span class="theme-toggle__icon theme-toggle__icon--moon">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M14.2 2.5a8.9 8.9 0 1 0 7.3 13.9 9.7 9.7 0 0 1-7.7-9.4c0-1.6.4-3.1 1.1-4.5a10.2 10.2 0 0 1-.7 0Z" />
+        </svg>
+      </span>
+      <span class="theme-toggle__thumb"></span>
     </span>
-    <span class="theme-toggle__icon theme-toggle__icon--moon">
-      <svg viewBox="0 0 24 24" aria-hidden="true">
-        <path d="M14.2 2.5a8.9 8.9 0 1 0 7.3 13.9 9.7 9.7 0 0 1-7.7-9.4c0-1.6.4-3.1 1.1-4.5a10.2 10.2 0 0 1-.7 0Z" />
-      </svg>
-    </span>
-    <span class="theme-toggle__thumb"></span>
-  </span>
-</button>
+  </button>
+</div>
 
 <script>
   // @ts-nocheck
@@ -72,6 +82,11 @@ const showTitle = currentPath !== '/'; // Only show title when not on home/bio p
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Syncopate:wght@700&display=swap');
 
+  /* Grouping for transition:persist only; fixed children still anchor to viewport */
+  .site-chrome {
+    position: static;
+  }
+
   .theme-toggle {
     position: fixed;
     top: 1.7rem;
@@ -89,8 +104,31 @@ const showTitle = currentPath !== '/'; // Only show title when not on home/bio p
     box-shadow:
       0 0 0 1px rgba(168, 85, 247, 0.06),
       0 6px 22px rgba(20, 12, 40, 0.10);
+    opacity: 1;
+  }
+
+  /* App routes + nav links on bio: chrome stays visible, no entrance animation */
+  :global(html[data-route='app']) .navigation,
+  :global(html[data-route='app']) .theme-toggle,
+  :global(html[data-route='bio']) .navigation {
+    opacity: 1;
+    animation: none;
+  }
+
+  /* Bio home only: theme toggle matches .bio-container — delayed fade */
+  :global(html[data-route='bio']) .theme-toggle {
     opacity: 0;
-    animation: navFadeIn 1s ease-out forwards;
+    animation: bioChromeFade 1s ease-out 2.7s forwards;
+  }
+
+  /* Opacity-only so mobile nav keep translateX(-50%) for centering */
+  @keyframes bioChromeFade {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
   }
 
   .theme-toggle:hover {
@@ -190,25 +228,30 @@ const showTitle = currentPath !== '/'; // Only show title when not on home/bio p
     text-transform: uppercase;
     padding: 0.32rem 0.78rem;
     border-radius: 999px;
-    transition: all 0.3s ease;
+    transition:
+      background 0.28s ease,
+      border-color 0.28s ease,
+      color 0.28s ease,
+      box-shadow 0.28s ease,
+      transform 0.2s ease;
     background: rgba(255, 255, 255, 0.55);
     border: 1px solid rgba(200, 188, 170, 0.32);
     backdrop-filter: blur(5px);
     white-space: nowrap;
-    animation: navFadeIn 1s ease-out forwards;
   }
 
   .nav-item:hover {
-    color: rgba(28, 25, 23, 0.95);
-    background: rgba(255, 255, 255, 0.8);
-    border-color: rgba(168, 85, 247, 0.3);
-    transform: translateY(-2px);
+    color: rgba(28, 25, 23, 0.92);
+    background: rgba(255, 255, 255, 0.68);
+    border-color: rgba(168, 85, 247, 0.22);
+    transform: translateY(-1px);
   }
 
   .nav-item.active {
     background: rgba(139, 92, 246, 0.14);
     color: rgba(76, 29, 149, 0.95);
     border-color: rgba(126, 58, 237, 0.34);
+    box-shadow: 0 0 0 1px rgba(126, 58, 237, 0.12);
   }
 
   :global(html[data-theme='dark'] .navigation) {
@@ -221,18 +264,21 @@ const showTitle = currentPath !== '/'; // Only show title when not on home/bio p
     border-color: rgba(200, 188, 170, 0.18);
     color: rgba(255, 255, 255, 0.86);
     backdrop-filter: blur(10px);
+    box-shadow: none;
   }
 
   :global(html[data-theme='dark'] .nav-item:hover) {
-    color: rgba(255, 255, 255, 0.95);
-    background: rgba(40, 40, 50, 0.86);
-    border-color: rgba(168, 85, 247, 0.35);
+    color: rgba(255, 255, 255, 0.9);
+    background: rgba(38, 38, 48, 0.82);
+    border-color: rgba(168, 85, 247, 0.28);
+    transform: translateY(-1px);
   }
 
   :global(html[data-theme='dark'] .nav-item.active) {
     background: rgba(139, 92, 246, 0.18);
     color: rgba(237, 211, 255, 0.96);
     border-color: rgba(168, 85, 247, 0.35);
+    box-shadow: 0 0 0 1px rgba(168, 85, 247, 0.12);
   }
 
   :global(html[data-theme='dark'] .theme-toggle) {
@@ -275,8 +321,7 @@ const showTitle = currentPath !== '/'; // Only show title when not on home/bio p
     gap: 0.1rem;
     z-index: 100;
     line-height: 0.9;
-    opacity: 0;
-    animation: navFadeIn 1s ease-out forwards;
+    opacity: 1;
     z-index: 200;
     padding: 0.2rem;
     background: rgba(8, 8, 12, 0.7);
@@ -310,18 +355,6 @@ const showTitle = currentPath !== '/'; // Only show title when not on home/bio p
       background-position: 200% center;
     }
   }
-
-  @keyframes navFadeIn {
-  from { 
-    opacity: 0;
-    transform: translateY(-10px); 
-  }
-  to { 
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
 
   @media (max-width: 768px) {
     .navigation {

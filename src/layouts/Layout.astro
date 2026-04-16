@@ -1,4 +1,5 @@
 ---
+import { ViewTransitions } from 'astro:transitions';
 import Navigation from '../components/Navigation/Navigation.astro';
 // import NotificationProvider from '../context/NotificationContext';
 // import NotificationButtonsContainer from '../components/Notification/NotificationButtonsContainer';
@@ -12,10 +13,13 @@ interface Props {
 }
 
 const { title, description, image = '/stardust-avatar.png' } = Astro.props;
+
+const pathname = Astro.url.pathname;
+const routeSurface = pathname === '/' || pathname === '' ? 'bio' : 'app';
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en" data-route={routeSurface}>
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width" />
@@ -44,6 +48,7 @@ const { title, description, image = '/stardust-avatar.png' } = Astro.props;
 		<meta name="twitter:image" content={new URL(image, Astro.url)} />
 
 		<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500&display=swap" rel="stylesheet">
+		<ViewTransitions />
 	</head>
 	<body>
 		<Navigation />
@@ -55,8 +60,52 @@ const { title, description, image = '/stardust-avatar.png' } = Astro.props;
 		<script>
 			// Reset scroll position on page load
 			window.history.scrollRestoration = 'manual';
-				window.scrollTo(0, 0);
-			</script>
+			window.scrollTo(0, 0);
+		</script>
+		<script>
+			const THEME_KEY = 'theme';
+
+			/** View Transitions can reset html attrs; re-apply saved theme after each navigation */
+			function syncThemeFromStorage() {
+				const root = document.documentElement;
+				const saved = window.localStorage.getItem(THEME_KEY);
+				const theme = saved === 'dark' || saved === 'light' ? saved : 'light';
+				root.dataset.theme = theme;
+				const toggleBtn = document.getElementById('theme-toggle');
+				toggleBtn?.setAttribute(
+					'aria-label',
+					theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'
+				);
+			}
+
+			function syncRouteSurface() {
+				const path = window.location.pathname;
+				const surface = path === '/' || path === '' ? 'bio' : 'app';
+				document.documentElement.dataset.route = surface;
+			}
+
+			function syncNavActive() {
+				const path = window.location.pathname;
+				document.querySelectorAll('.navigation .nav-item').forEach((el) => {
+					const href = el.getAttribute('href') || '';
+					let active = false;
+					if (href === '/' || href === '') {
+						active = path === '/' || path === '';
+					} else {
+						const base = href.replace(/\/$/, '');
+						active = path === base || path.startsWith(`${base}/`);
+					}
+					el.classList.toggle('active', active);
+				});
+			}
+
+			function onPageLoad() {
+				syncThemeFromStorage();
+				syncRouteSurface();
+				syncNavActive();
+			}
+			document.addEventListener('astro:page-load', onPageLoad);
+		</script>
 	</body>
 </html>
 
