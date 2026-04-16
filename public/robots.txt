@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://sanjayrajesh.in/sitemap.xml
+Host: sanjayrajesh.in

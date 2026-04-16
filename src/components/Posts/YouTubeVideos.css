@@ -223,6 +223,11 @@ html[data-theme='dark'] .modalContent {
         animation: none;
     }
 
+    .youtubeSection {
+        opacity: 1;
+        transform: none;
+    }
+
     .modalContent {
         width: 95%;
     }
