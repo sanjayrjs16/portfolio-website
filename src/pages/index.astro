@@ -19,8 +19,8 @@ import ArtworkInspirationModal from '../components/Bio/ArtworkInspirationModal';
 const currentPath = Astro.url.pathname;
 
 // SEO metadata
-const title = "Sanjay Rajesh - Web Developer";
-const description = "Frontend focused web engineer building performant, scalable, accessible, and secure web apps with an immersive digital experiences through code & creativity.";
+const title = "Sanjay Rajesh | Frontend Focused Product Engineer";
+const description = "Frontend focused product engineer building fast, scalable, secure products from 0 to real users, across enterprise platforms and AI-enabled systems.";
 ---
 
 <Layout title={title} description={description}>
@@ -36,7 +36,7 @@ const description = "Frontend focused web engineer building performant, scalable
 				/>
 				<div class="fallback-content">
 					<h1>SANJAY RAJESH</h1>
-					<p>Frontend focused web engineer building performant, scalable, accessible, and secure web apps with an immersive digital experiences through code & creativity.</p>
+					<p>Frontend focused product engineer building fast, scalable, secure products from 0 to real users, across enterprise platforms and AI-enabled systems.</p>
 				</div>
 			</div>
 		</noscript>
@@ -49,10 +49,8 @@ const description = "Frontend focused web engineer building performant, scalable
 					<div class="bio-container">
 						<div class="bio-block">
 							<p class="fun-text bio-intro">
-								Hola, I'm Sanjay 👋<br/> 
-								<span>AI enabled Senior Product Engineer shipping performant, scalable & secure web apps <br/>Currently building <a href="https://www.sunroad.io" target="_blank" rel="noopener noreferrer" class="link">Sun Road Co.</a></span>
-See all of <a href="/works/" rel="noopener noreferrer" class="link">my works.</a> <br/>
-YouTube Channel: <a href="https://www.youtube.com/@letthedevscook/featured" target="_blank" rel="noopener noreferrer" class="link">Let The Devs Cook.</a> 
+								Hola! I'm Sanjay, a Product Engineer 👋  <br/> 
+								<span>I've worked across heavy enterprise systems to lean 0→1 scalable products leveraging AI.<br/>atm building <a href="https://www.sunroad.io" target="_blank" rel="noopener noreferrer" class="link">Sun Road Co.</a> (520+ users), helping creatives showcase their works & get discovered.<br/>I break down real-world engineering on YouTube: <a href="https://www.youtube.com/@letthedevscook/featured" target="_blank" rel="noopener noreferrer" class="link">Let The Devs Cook.</a></span>
 							</p>
 							
 							<!-- <p class="quote-text">"The Art challenges the technology & the technology inspires the art"</p>
@@ -319,11 +317,15 @@ YouTube Channel: <a href="https://www.youtube.com/@letthedevscook/featured" targ
 		}
 
 		.hero-content-right {
-			top: 5.1rem;
-			left: 50%;
-        transform: translateX(-50%);
-			/* bottom: 18.5%; */
-			max-width: 98vw;
+			top: 4.5rem;
+			left: 0;
+			transform: none;
+			width: 100%;
+			max-width: 100%;
+			display: flex;
+			justify-content: center;
+			padding-inline: 0.75rem;
+			box-sizing: border-box;
 		}
 	}
 

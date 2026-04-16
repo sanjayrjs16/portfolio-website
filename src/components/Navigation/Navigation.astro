@@ -2,7 +2,7 @@
 const navItems = [
   { path: '/works/', label: 'Works' },
   { path: '/', label: 'Bio' },
-  { path: '/posts/', label: 'Posts' },
+  { path: '/posts/', label: 'Content' },
   // { path: '/contact', label: 'Contact' }
 ];
 
@@ -28,8 +28,21 @@ const showTitle = currentPath !== '/'; // Only show title when not on home/bio p
   ))}
 </nav>
 
-<button id="theme-toggle" class="theme-toggle" type="button" aria-label="Toggle theme">
-  <span class="theme-toggle__label" aria-hidden="true">Light</span>
+<button id="theme-toggle" class="theme-toggle" type="button" aria-label="Switch to dark mode">
+  <span class="theme-toggle__track" aria-hidden="true">
+    <span class="theme-toggle__icon theme-toggle__icon--sun">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <circle cx="12" cy="12" r="4.2" />
+        <path d="M12 1.8v3.1M12 19.1v3.1M4.85 4.85l2.2 2.2M16.95 16.95l2.2 2.2M1.8 12h3.1M19.1 12h3.1M4.85 19.15l2.2-2.2M16.95 7.05l2.2-2.2" />
+      </svg>
+    </span>
+    <span class="theme-toggle__icon theme-toggle__icon--moon">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M14.2 2.5a8.9 8.9 0 1 0 7.3 13.9 9.7 9.7 0 0 1-7.7-9.4c0-1.6.4-3.1 1.1-4.5a10.2 10.2 0 0 1-.7 0Z" />
+      </svg>
+    </span>
+    <span class="theme-toggle__thumb"></span>
+  </span>
 </button>
 
 <script>
@@ -37,14 +50,12 @@ const showTitle = currentPath !== '/'; // Only show title when not on home/bio p
   const THEME_KEY = 'theme';
   const root = document.documentElement;
   const toggleBtn = document.getElementById('theme-toggle');
-  const labelEl = toggleBtn?.querySelector('.theme-toggle__label');
-
   /**
    * @param {'light'|'dark'} theme
    */
   function applyTheme(theme) {
     root.dataset.theme = theme;
-    if (labelEl) labelEl.textContent = theme === 'dark' ? 'Dark' : 'Light';
+    toggleBtn?.setAttribute('aria-label', theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
   }
 
   const saved = typeof window !== 'undefined' ? window.localStorage.getItem(THEME_KEY) : null;
@@ -71,15 +82,10 @@ const showTitle = currentPath !== '/'; // Only show title when not on home/bio p
     background: rgba(255, 255, 255, 0.55);
     backdrop-filter: blur(14px);
     border-radius: 999px;
-    padding: 0.4rem 0.65rem;
+    padding: 0.2rem;
     color: rgba(28, 25, 23, 0.86);
-    font-family: 'Space Grotesk', sans-serif;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    font-size: 0.72rem;
     cursor: pointer;
-    transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+    transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
     box-shadow:
       0 0 0 1px rgba(168, 85, 247, 0.06),
       0 6px 22px rgba(20, 12, 40, 0.10);
@@ -91,6 +97,68 @@ const showTitle = currentPath !== '/'; // Only show title when not on home/bio p
     transform: translateY(-2px);
     background: rgba(255, 255, 255, 0.78);
     border-color: rgba(168, 85, 247, 0.25);
+  }
+
+  .theme-toggle__track {
+    --toggle-w: 3.15rem;
+    --toggle-h: 1.58rem;
+    --thumb-size: 1.22rem;
+    --thumb-inset: 0.16rem;
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    width: var(--toggle-w);
+    height: var(--toggle-h);
+    border-radius: 999px;
+    background: linear-gradient(160deg, rgba(255, 255, 255, 0.7), rgba(233, 228, 220, 0.64));
+    border: 1px solid rgba(190, 178, 160, 0.4);
+    overflow: hidden;
+  }
+
+  .theme-toggle__icon {
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    line-height: 0;
+  }
+
+  .theme-toggle__icon svg {
+    width: 0.82rem;
+    height: 0.82rem;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 1.9;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    transition: color 0.25s ease, opacity 0.25s ease;
+  }
+
+  .theme-toggle__icon--sun svg {
+    color: rgba(202, 138, 4, 0.95);
+  }
+
+  .theme-toggle__icon--moon svg {
+    color: rgba(76, 29, 149, 0.78);
+    fill: rgba(76, 29, 149, 0.78);
+    stroke: none;
+  }
+
+  .theme-toggle__thumb {
+    position: absolute;
+    top: calc((var(--toggle-h) - var(--thumb-size)) / 2);
+    left: var(--thumb-inset);
+    width: var(--thumb-size);
+    height: var(--thumb-size);
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, #fff7d6 0%, #facc15 58%, #d97706 100%);
+    box-shadow:
+      0 0 0 1px rgba(202, 138, 4, 0.24),
+      0 6px 14px rgba(20, 12, 40, 0.2);
+    transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1), background 0.28s ease, box-shadow 0.28s ease;
   }
 
   .navigation {
@@ -171,6 +239,30 @@ const showTitle = currentPath !== '/'; // Only show title when not on home/bio p
     background: rgba(30, 30, 38, 0.78);
     border-color: rgba(168, 85, 247, 0.25);
     color: rgba(255, 255, 255, 0.86);
+  }
+
+  :global(html[data-theme='dark'] .theme-toggle__track) {
+    background: linear-gradient(160deg, rgba(16, 16, 24, 0.82), rgba(32, 30, 42, 0.8));
+    border-color: rgba(168, 85, 247, 0.22);
+  }
+
+  :global(html[data-theme='dark'] .theme-toggle__icon--sun svg) {
+    color: rgba(245, 208, 94, 0.58);
+    opacity: 0.6;
+  }
+
+  :global(html[data-theme='dark'] .theme-toggle__icon--moon svg) {
+    color: rgba(226, 232, 255, 0.96);
+    fill: rgba(226, 232, 255, 0.96);
+    opacity: 1;
+  }
+
+  :global(html[data-theme='dark'] .theme-toggle__thumb) {
+    transform: translateX(calc(var(--toggle-w) - var(--thumb-size) - (var(--thumb-inset) * 2)));
+    background: radial-gradient(circle at 35% 30%, #eef2ff 0%, #c4b5fd 60%, #7c3aed 100%);
+    box-shadow:
+      0 0 0 1px rgba(168, 85, 247, 0.35),
+      0 6px 16px rgba(0, 0, 0, 0.35);
   }
 
   .brand-title {
@@ -264,8 +356,18 @@ const showTitle = currentPath !== '/'; // Only show title when not on home/bio p
     .theme-toggle {
       top: 0.8rem;
       right: 0.65rem;
-      padding: 0.32rem 0.55rem;
-      font-size: 0.64rem;
+      padding: 0.18rem;
+    }
+
+    .theme-toggle__track {
+      --toggle-w: 2.85rem;
+      --toggle-h: 1.42rem;
+      --thumb-size: 1.06rem;
+    }
+
+    .theme-toggle__thumb {
+      width: var(--thumb-size);
+      height: var(--thumb-size);
     }
   }
 </style> 

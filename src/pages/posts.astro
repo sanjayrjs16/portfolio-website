@@ -20,9 +20,12 @@ const blogPosts = [
         platform: "Hashnode"
     }
 ];
+
+const title = 'Posts | Sanjay Rajesh';
+const description = 'Blogs and videos by Sanjay Rajesh on frontend engineering, product development, performance, and real-world software lessons.';
 ---
 
-<StarryLayout title="Posts" description="A collection of my posts and videos">
+<StarryLayout title={title} description={description}>
     <div class="posts-container">
         <section class="posts-card" aria-labelledby="blog-posts-heading">
             <div class="posts-card__head">

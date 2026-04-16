@@ -225,6 +225,12 @@ const summaryParts = project.summary.split(/\n\n+/).map((s) => s.trim()).filter(
         margin-top: 0.05rem;
     }
 
+    /* Hide skills row for featured cards as requested */
+    .featured-card[data-slug='goat-life'] .featured-card__stack,
+    .featured-card[data-slug='sunroad'] .featured-card__stack {
+        display: none;
+    }
+
     /* Dark mode: only invert the media (image) surface */
     :global(html[data-theme='dark'] .featured-card__media) {
         background: linear-gradient(165deg, rgba(18, 18, 24, 0.92), rgba(30, 30, 38, 0.88));
@@ -488,6 +494,49 @@ const summaryParts = project.summary.split(/\n\n+/).map((s) => s.trim()).filter(
         .card-open-icon {
             top: 0.5rem;
             right: 0.5rem;
+        }
+
+        /* Mobile: center-aligned layout with justified copy for cleaner reading */
+        .featured-card__body {
+            align-items: center;
+            text-align: center;
+        }
+
+        .featured-card__meta,
+        .featured-card__links,
+        .featured-card__stack {
+            justify-content: center;
+        }
+
+        .featured-card__summary {
+            text-align: center;
+            text-align-last: center;
+        }
+
+        /* Match compact mobile typography used by stack/supabase cards */
+        .featured-card__title {
+            font-size: 0.95rem;
+            line-height: 1.22;
+        }
+
+        .featured-card__role {
+            font-size: 0.64rem;
+            letter-spacing: 0.06em;
+        }
+
+        .featured-card__summary {
+            font-size: 0.8rem;
+            line-height: 1.45;
+            letter-spacing: 0;
+        }
+
+        .featured-card__cta {
+            font-size: 0.72rem;
+            letter-spacing: 0.08em;
+        }
+
+        .work-link--light {
+            font-size: 0.78rem;
         }
     }
 </style>
