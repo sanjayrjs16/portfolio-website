@@ -1054,11 +1054,30 @@ const recognition: RecognitionItem[] = [
             box-shadow: 0 1px 10px rgba(20, 12, 40, 0.08);
         }
 
+        /* Dark mode mobile perf: override heavy !important dark shadows/blur */
+        :global(html[data-theme='dark'] .works-panel),
+        :global(html[data-theme='dark'] .glass-surface),
+        :global(html[data-theme='dark'] .featured-card),
+        :global(html[data-theme='dark'] .stack-card),
+        :global(html[data-theme='dark'] .yt-channel-card),
+        :global(html[data-theme='dark'] .sb-card) {
+            backdrop-filter: none !important;
+            -webkit-backdrop-filter: none !important;
+            box-shadow: 0 1px 10px rgba(0, 0, 0, 0.22) !important;
+        }
+
         .works-subnav__link {
             backdrop-filter: none;
             -webkit-backdrop-filter: none;
             box-shadow: none;
             transition: none;
+        }
+
+        :global(html[data-theme='dark'] .works-subnav__link) {
+            backdrop-filter: none !important;
+            -webkit-backdrop-filter: none !important;
+            box-shadow: none !important;
+            transition: none !important;
         }
 
         .works-panel {

@@ -94,11 +94,7 @@ export default function ArtworkInspirationModal() {
                 that the universe is in us.
                 <cite>Neil deGrasse Tyson</cite>
               </blockquote>
-              <p>
-                The portfolio takes visual cues from this piece, especially the contrast between
-                darkness, light, and neon energy. It is a reminder to look up often, look within often,
-                and create from a place that feels truly your own.
-              </p>
+              
             </div>
           </article>
         </div>,
@@ -260,6 +256,49 @@ export default function ArtworkInspirationModal() {
           letter-spacing: 0.06em;
           color: rgba(76, 29, 149, 0.88);
           font-weight: 700;
+        }
+
+        /* Dark mode: modal surface + copy */
+        :global(html[data-theme='dark']) .artwork-modal-overlay {
+          background: rgba(4, 4, 10, 0.72);
+        }
+
+        :global(html[data-theme='dark']) .artwork-modal-card {
+          background: linear-gradient(165deg, rgba(30, 30, 38, 0.92) 0%, rgba(20, 20, 26, 0.9) 100%);
+          border-color: rgba(168, 85, 247, 0.26);
+          box-shadow:
+            0 0 0 1px rgba(168, 85, 247, 0.12),
+            0 10px 30px rgba(0, 0, 0, 0.4),
+            inset 0 1px 0 rgba(255, 255, 255, 0.05);
+        }
+
+        :global(html[data-theme='dark']) .artwork-close {
+          border-color: rgba(168, 85, 247, 0.22);
+          background: rgba(30, 30, 38, 0.9);
+          color: rgba(255, 255, 255, 0.9);
+        }
+
+        :global(html[data-theme='dark']) .artwork-image {
+          border-color: rgba(200, 188, 170, 0.22);
+          background: rgba(30, 30, 38, 0.62);
+        }
+
+        :global(html[data-theme='dark']) .artwork-content {
+          color: rgba(255, 255, 255, 0.82);
+        }
+
+        :global(html[data-theme='dark']) .artwork-title {
+          color: rgba(255, 255, 255, 0.96);
+        }
+
+        :global(html[data-theme='dark']) .artwork-quote {
+          border-color: rgba(168, 85, 247, 0.28);
+          background: rgba(139, 92, 246, 0.12);
+          color: rgba(255, 255, 255, 0.86);
+        }
+
+        :global(html[data-theme='dark']) .artwork-quote cite {
+          color: rgba(225, 190, 255, 0.98);
         }
 
         @media (min-width: 900px) {

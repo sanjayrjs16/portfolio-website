@@ -214,6 +214,15 @@ html[data-theme='dark'] .modalContent {
         padding: 0.4rem;
     }
 
+    html[data-theme='dark'] .videos-card {
+        box-shadow: 0 1px 10px rgba(0, 0, 0, 0.22) !important;
+    }
+
+    .youtubeSection,
+    .videoCard {
+        animation: none;
+    }
+
     .modalContent {
         width: 95%;
     }
