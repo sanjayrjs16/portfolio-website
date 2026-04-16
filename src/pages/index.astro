@@ -49,7 +49,7 @@ const description = "Frontend focused product engineer building fast, scalable, 
 					<div class="bio-container">
 						<div class="bio-block">
 							<p class="fun-text bio-intro">
-								Hola! I'm a Product Engineer whose worked across <br/> 
+								Hola! I'm a Product Engineer whose worked across 
 								<span> heavy enterprise systems to lean 0→1 scalable products leveraging AI.<br/>atm building <a href="https://www.sunroad.io" target="_blank" rel="noopener noreferrer" class="link">Sun Road Co.</a> (520+ users), helping creatives showcase their works & get discovered.<br/>I make real-world engineering content on YouTube: <a href="https://www.youtube.com/@letthedevscook/featured" target="_blank" rel="noopener noreferrer" class="link">Let The Devs Cook.</a></span>
 							</p>
 							
@@ -311,7 +311,7 @@ const description = "Frontend focused product engineer building fast, scalable, 
 
 	@media (max-width: 768px) {
 		.hero-content-left {
-			top: 72%;
+			top: 80%;
 			left: 60%;
 			transform: translate(-60%, -55%);
 		}
@@ -528,7 +528,7 @@ const description = "Frontend focused product engineer building fast, scalable, 
 
 	.quote-text {
 		font-family: 'Space Grotesk', sans-serif;
-		font-size: clamp(0.1rem, 1vw, 1.2rem);
+		font-size: clamp(0.72rem, 0.65rem + 0.35vw, 0.95rem);
 		color: rgba(255, 255, 255, 0.9);
 		margin: 0;
 		text-wrap: wrap;
@@ -536,7 +536,7 @@ const description = "Frontend focused product engineer building fast, scalable, 
 	}
 	.attribution-text {
 		font-family: 'Space Grotesk', sans-serif;
-		font-size: clamp(0.8rem, 1.5vw, 1.2rem);
+		font-size: clamp(0.68rem, 0.6rem + 0.32vw, 0.88rem);
 		color: rgba(255, 255, 255, 0.7);
 		margin: 0.5rem 0;
 		font-style: italic;
@@ -544,7 +544,6 @@ const description = "Frontend focused product engineer building fast, scalable, 
 
 	.fun-text {
 		font-family: 'Space Grotesk', sans-serif;
-		font-size: clamp(0.8rem, 1.5vw, 1rem);
 		color: rgba(255, 255, 255, 0.8);
 		margin: 1rem 0 0 0;
 	}
@@ -557,8 +556,8 @@ const description = "Frontend focused product engineer building fast, scalable, 
 
 	.bio-intro {
 		margin: 0;
-		line-height: 1.6;
-		font-size: clamp(0.9rem, 1.15vw, 1.02rem);
+		line-height: 1.55;
+		font-size: clamp(0.76rem, 0.68rem + 0.42vw, 1.04rem);
 		color: rgba(28, 25, 23, 0.92);
 	}
 
@@ -581,7 +580,7 @@ const description = "Frontend focused product engineer building fast, scalable, 
 
 	.bio-credit {
 		font-family: 'Space Grotesk', sans-serif;
-		font-size: clamp(0.6rem, 1vw, 0.75rem);
+		font-size: clamp(0.56rem, 0.5rem + 0.28vw, 0.78rem);
 		color: rgba(55, 48, 40, 0.72);
 		margin: 0.4rem 0 0 auto;
 		align-self: flex-end;
@@ -609,33 +608,28 @@ const description = "Frontend focused product engineer building fast, scalable, 
 		}
 
 		.bio-intro {
-			font-size: 0.82rem;
-			line-height: 1.4;
+			line-height: 1.42;
 			margin: 0 0 0.1rem 0;
 		}
 
 		.bio-block .bio-intro .link,
 		.bio-intro .link {
-			font-size: 0.78rem;
 			line-height: 1.35;
 			white-space: normal;
 		}
 
 		.bio-block .quote-text {
-			font-size: 0.75rem;
 			line-height: 1.1;
 			padding-top: 0.4rem;
 			margin: 0;
 		}
 
 		.bio-block .attribution-text {
-			font-size: 0.72rem;
 			margin: 0.1rem 0 0 0;
 			line-height: 1.3;
 		}
 
 		.bio-credit {
-			font-size: 0.62rem;
 			margin-top: 0.4rem;
 			line-height: 1.3;
 		}
@@ -651,28 +645,15 @@ const description = "Frontend focused product engineer building fast, scalable, 
 		}
 
 		.bio-intro {
-			font-size: 0.78rem;
 			line-height: 1.4;
 		}
 
-		.bio-block .bio-intro .link,
-		.bio-intro .link {
-			font-size: 0.74rem;
-			white-space: normal;
-		}
-
 		.bio-block .quote-text {
-			font-size: 0.62rem;
 			line-height: 1;
 			padding-top: 0.35rem;
 		}
 
-		.bio-block .attribution-text {
-			font-size: 0.7rem;
-		}
-
 		.bio-credit {
-			font-size: 0.6rem;
 			margin-top: 0.35rem;
 		}
 	}
@@ -692,7 +673,7 @@ const description = "Frontend focused product engineer building fast, scalable, 
 		white-space: nowrap;
 		border-bottom: 1px solid rgba(91, 33, 182, 0.55);
 		margin-right: 0.35rem;
-		font-size: clamp(0.8vw, 1vw, 1.5vw);
+		font-size: clamp(0.7rem, 0.62rem + 0.34vw, 0.96rem);
 	}
 
 	:global(html[data-theme='dark'] .link) {
@@ -879,30 +860,51 @@ const description = "Frontend focused product engineer building fast, scalable, 
 </svg>
 
 <script>
-	// Add this to handle fallback visibility
-	function handleCanvasMount() {
-		const canvas = document.querySelector('canvas');
-		const fallback = document.querySelector('.background-fallback');
-		
-		if (canvas && fallback) {
-			// Add visible class to canvas
-			canvas.classList.add('visible');
-			
-			// Add fade-out class to fallback
-			fallback.classList.add('fade-out');
-			
-			// Remove fallback after transition
-			fallback.addEventListener('transitionend', () => {
-				fallback.remove();
-			}, { once: true });
-		}
-	}
+	// @ts-nocheck
+	(function dismissLoadingOverlay() {
+		const FADE_MS = 280;
+		const REMOVE_AFTER_MS = FADE_MS + 90;
+		const POLL_MS = 50;
+		const MAX_WAIT_MS = 14000;
 
-	// Check periodically until canvas is mounted
-	const checkInterval = setInterval(() => {
-		if (document.querySelector('canvas')) {
-			handleCanvasMount();
-			clearInterval(checkInterval);
+		let finished = false;
+
+		function removeFallback(fallback) {
+			if (fallback?.isConnected) fallback.remove();
 		}
-	}, 100);
+
+		function run() {
+			if (finished) return;
+			finished = true;
+
+			const fallback = document.querySelector('.background-fallback');
+			const canvas = document.querySelector('canvas');
+			if (!fallback) return;
+
+			if (canvas) canvas.classList.add('visible');
+			fallback.classList.add('fade-out');
+			// Primary: timed removal (always runs; transitionend is unreliable with nested transitions)
+			window.setTimeout(() => removeFallback(fallback), REMOVE_AFTER_MS);
+		}
+
+		const started = Date.now();
+		const poll = window.setInterval(() => {
+			if (document.querySelector('canvas')) {
+				window.clearInterval(poll);
+				window.clearTimeout(maxTimer);
+				run();
+				return;
+			}
+			if (Date.now() - started > MAX_WAIT_MS) {
+				window.clearInterval(poll);
+				window.clearTimeout(maxTimer);
+				run();
+			}
+		}, POLL_MS);
+
+		const maxTimer = window.setTimeout(() => {
+			window.clearInterval(poll);
+			run();
+		}, MAX_WAIT_MS);
+	})();
 </script>

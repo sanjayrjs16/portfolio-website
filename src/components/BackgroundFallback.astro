@@ -3,7 +3,7 @@
     <div class="ripple"></div>
     <div class="ripple"></div>
     <div class="ripple"></div>
-    <img src="/stardust-avatar.png" alt="Background image" class="loader-image" />
+    <img src="/avatar-2.png" alt="" class="loader-image" width="200" height="200" decoding="async" />
     <div class="loading-text">Loading<span class="dots">...</span></div>
   </div>
 </div>
@@ -20,7 +20,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    transition: all 0.6s ease-in-out;
+    transition: opacity 0.28s ease-out, transform 0.28s ease-out;
     pointer-events: none;
   }
 
@@ -36,7 +36,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    transition: transform 0.6s ease-in-out, opacity 0.6s ease-in-out;
+    transition: transform 0.28s ease-out, opacity 0.28s ease-out;
   }
 
   .background-fallback.fade-out .loader-container {
