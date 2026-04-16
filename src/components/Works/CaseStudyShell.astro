@@ -59,24 +59,27 @@ const { title, description, breadcrumbCurrent } = Astro.props;
         min-width: 0;
         width: 100%;
         margin-bottom: 0.15rem;
-        padding: 0.65rem 0.85rem;
-        border-radius: 12px;
-        background: rgba(8, 6, 18, 0.55);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        backdrop-filter: blur(14px);
-        -webkit-backdrop-filter: blur(14px);
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+        padding: 0.72rem 0.85rem;
+        border-radius: 14px;
+        background: linear-gradient(165deg, rgba(252, 250, 246, 0.94) 0%, rgba(238, 234, 228, 0.9) 100%);
+        border: 1px solid rgba(200, 188, 170, 0.45);
+        backdrop-filter: blur(18px) saturate(1.15);
+        -webkit-backdrop-filter: blur(18px) saturate(1.15);
+        box-shadow:
+            0 0 0 1px rgba(168, 85, 247, 0.08),
+            0 4px 24px rgba(20, 12, 40, 0.12),
+            inset 0 1px 0 rgba(255, 255, 255, 0.65);
         position: relative;
         z-index: 1;
     }
 
     /* Light-panel link color; on starfield this must match breadcrumb (dark purple is invisible) */
     .case-light__back {
-        color: rgba(216, 201, 254, 0.95);
+        color: #6d28d9;
         text-decoration: none;
         font-weight: 600;
         font-size: 0.84rem;
-        border-bottom: 1px solid rgba(250, 204, 21, 0.45);
+        border-bottom: 1px solid rgba(202, 138, 4, 0.55);
         padding-bottom: 1px;
         max-width: 100%;
         overflow-wrap: anywhere;
@@ -84,8 +87,8 @@ const { title, description, breadcrumbCurrent } = Astro.props;
     }
 
     .case-light__back:hover {
-        color: rgba(250, 204, 21, 0.98);
-        border-bottom-color: rgba(250, 204, 21, 0.75);
+        color: #5b21b6;
+        border-bottom-color: rgba(202, 138, 4, 0.85);
     }
 
     .breadcrumb {
@@ -108,24 +111,24 @@ const { title, description, breadcrumbCurrent } = Astro.props;
         letter-spacing: 0.02em;
         line-height: 1.35;
         /* Readable on starfield */
-        color: rgba(255, 255, 255, 0.45);
+        color: rgba(90, 80, 72, 0.62);
     }
 
     .breadcrumb__link {
-        color: rgba(216, 201, 254, 0.92);
+        color: #6d28d9;
         text-decoration: none;
-        border-bottom: 1px solid rgba(250, 204, 21, 0.35);
+        border-bottom: 1px solid rgba(202, 138, 4, 0.45);
         padding-bottom: 1px;
         transition: color 0.2s ease, border-color 0.2s ease;
     }
 
     .breadcrumb__link:hover {
-        color: rgba(250, 204, 21, 0.95);
-        border-bottom-color: rgba(250, 204, 21, 0.55);
+        color: #5b21b6;
+        border-bottom-color: rgba(202, 138, 4, 0.75);
     }
 
     .breadcrumb__sep {
-        color: rgba(255, 255, 255, 0.32);
+        color: rgba(120, 110, 95, 0.4);
         user-select: none;
         font-weight: 400;
         font-size: 0.65em;
@@ -133,7 +136,7 @@ const { title, description, breadcrumbCurrent } = Astro.props;
     }
 
     .breadcrumb__current {
-        color: rgba(255, 255, 255, 0.78);
+        color: rgba(40, 36, 33, 0.86);
         max-width: 100%;
         overflow-wrap: anywhere;
         font-weight: 500;
@@ -162,10 +165,11 @@ const { title, description, breadcrumbCurrent } = Astro.props;
 
     :global(.case-light .panel-title) {
         margin: 0;
-        font-family: 'Audiowide', sans-serif;
-        font-size: clamp(0.88rem, 2.2vw, 1.02rem);
-        letter-spacing: 0.03em;
-        text-transform: uppercase;
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: clamp(1.02rem, 2.4vw, 1.2rem);
+        letter-spacing: -0.02em;
+        text-transform: none;
+        font-weight: 700;
         color: #1c1917;
     }
 

@@ -1,9 +1,9 @@
 ---
 import CaseStudyShell from '../../components/Works/CaseStudyShell.astro';
 
-const title = 'The Goat Life — Case Study | Sanjay Rajesh';
+const title = 'The Goat Life Case Study | Sanjay Rajesh';
 const description =
-    'Official website for Aadujeevitham / The Goat Life: engineering, launch, and press. Web engineer — Astro, TypeScript, Decap CMS, Framer Motion.';
+    'Official website for Aadujeevitham / The Goat Life: engineering, launch, and press. Web engineer with Astro, TypeScript, Decap CMS, and Framer Motion.';
 
 const year = '2023–2024';
 const liveUrl = 'https://thegoatlifefilm.com';
@@ -27,7 +27,7 @@ const pressLinks: { label: string; outlet: string; url: string }[] = [
     },
     {
         outlet: 'Wikipedia',
-        label: 'The Goat Life — marketing & official website',
+        label: 'The Goat Life marketing and official website',
         url: 'https://en.wikipedia.org/wiki/The_Goat_Life#Marketing'
     },
     {
@@ -50,10 +50,17 @@ const pressLinks: { label: string; outlet: string; url: string }[] = [
 const stack = ['Astro', 'TypeScript', 'Decap CMS', 'Framer Motion'];
 
 const workedOn = [
-    'End-to-end web engineering for the official film site — structure, interactions, performance, and launch readiness alongside the campaign team.',
+    'Handled end-to-end web engineering for the official film site, including structure, interactions, performance, and launch readiness with the campaign team.',
     'A day/night experience driven by the visitor’s local time, with motion and layout tuned for a cinematic first impression on desktop and mobile.',
     'Content workflow with Decap CMS so marketing could iterate copy and assets without blocking engineering for every small change.',
     'Shipping a fast, accessible baseline: semantic markup, careful image and animation choices, and a calm visual language that matched the film’s scale.'
+];
+
+const summary = [
+    'Director Blessy wanted a canonical website that showcases the cast and crew’s work. I came up with a time-based lighting concept to embrace the desert as a character in the film, pitched it to the team, and shipped it.',
+    'The site saw 88k+ visits in the first week after launch and ramped to ~145k following the film release.',
+    'Marketing could update content independently using Decap CMS, without blocking engineering.',
+    'Built with Astro for a fast-loading, performance-first static site.'
 ];
 ---
 
@@ -63,22 +70,22 @@ const workedOn = [
             <div class="intro-launch__copy">
                 <p class="hero__eyebrow">Case study</p>
                 <h1 id="goat-life-heading" class="hero__title">The Goat Life</h1>
-                <p class="hero__subtitle">Aadujeevitham — official movie website</p>
+                <p class="hero__subtitle">Official movie website of Aadujeevitham (The Goat Life) 2024 movie, launched by A. R. Rahman and director Blessy.</p>
                 <div class="hero__meta">
                     <span class="meta-chip">Web Engineer</span>
                     <span class="meta-chip meta-chip--muted">{year}</span>
                 </div>
                 <p class="panel-text intro-launch__lede">
-                    Official campaign surface for one of Malayalam cinema’s most anticipated releases — engineered for clarity, atmosphere, and speed. The short
-                    captures the rollout alongside the physical launch and talent presence.
+                    As Blessy described it, the site exists to showcase the cast and crew’s effort behind <em>Aadujeevitham</em>, with lighting that shifts based on
+                    the visitor’s local time. It reached <strong>88k+ visits in week one</strong> and ramped to <strong>~145k</strong> following the film release.
                 </p>
-                <a class="work-link" href={liveUrl} target="_blank" rel="noopener noreferrer">Visit live site</a>
+                <a class="work-link" href={liveUrl} target="_blank" rel="noopener noreferrer">thegoatlifefilm.com</a>
             </div>
             <div class="intro-launch__media">
                 <p class="intro-launch__video-label">Launch video</p>
                 <div class="intro-launch__video-frame">
                     <iframe
-                        title="The Goat Life — launch video (YouTube Shorts)"
+                        title="The Goat Life launch video (YouTube Shorts)"
                         src={`https://www.youtube.com/embed/${launchVideoId}`}
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                         allowfullscreen
@@ -88,44 +95,9 @@ const workedOn = [
         </div>
     </section>
 
-    <div class="split">
-        <section class="light-panel" aria-labelledby="overview-heading">
-            <h2 id="overview-heading" class="panel-title">Project overview</h2>
-            <ul class="facts">
-                <li><strong>Film</strong> — Aadujeevitham / <em>The Goat Life</em> (epic survival drama; major theatrical and festival presence).</li>
-                <li><strong>Surface</strong> — Single canonical marketing site: story, cast, trailers, and campaign beats in one cohesive experience.</li>
-                <li><strong>Launch</strong> — Rolled out as part of a coordinated global push, with coverage across national and regional outlets.</li>
-            </ul>
-        </section>
-        <section class="light-panel" aria-labelledby="stack-heading">
-            <h2 id="stack-heading" class="panel-title">Stack & tools</h2>
-            <p class="panel-text">
-                Built with a static-first Astro core, typed TypeScript where it mattered, Decap CMS for editorial control, and Framer Motion for UI motion.
-            </p>
-            <ul class="stack-list">
-                {stack.map((item) => (
-                    <li>{item}</li>
-                ))}
-            </ul>
-        </section>
-    </div>
-
-    <section class="light-panel" aria-labelledby="work-heading">
-        <h2 id="work-heading" class="panel-title">What I worked on</h2>
-        <p class="panel-text emphasis">
-            I owned <strong>all website-related engineering</strong> for this project: from architecture and implementation through polish, CMS wiring, and
-            handoff for launch.
-        </p>
-        <ul class="work-list">
-            {workedOn.map((item) => (
-                <li>{item}</li>
-            ))}
-        </ul>
-    </section>
-
     <section class="light-panel" aria-labelledby="press-heading">
-        <h2 id="press-heading" class="panel-title">Media & press</h2>
-        <p class="panel-text section-intro">Selected coverage referencing the official site and campaign — useful for launch context and credibility.</p>
+        <h2 id="press-heading" class="panel-title">Media & press release</h2>
+        <p class="panel-text section-intro">Selected coverage that references the official site and campaign, useful for launch context and credibility.</p>
         <ul class="press-list">
             {pressLinks.map((item) => (
                 <li class="press-item">
@@ -138,12 +110,38 @@ const workedOn = [
         </ul>
     </section>
 
+    <section class="light-panel" aria-labelledby="summary-heading">
+        <h2 id="summary-heading" class="panel-title">Summary</h2>
+        <ul class="facts">
+            {summary.map((line) => (
+                <li>{line}</li>
+            ))}
+        </ul>
+    </section>
+
     <section class="light-panel gallery-block" aria-labelledby="gallery-heading">
-        <h2 id="gallery-heading" class="panel-title">Gallery</h2>
-        <p class="panel-text muted">Reserved for additional stills, motion captures, and launch assets — easy to extend as the case study grows.</p>
-        <div class="gallery-placeholder" role="img" aria-label="Placeholder for future gallery images">
-            <span>More visuals soon</span>
+        <h2 id="gallery-heading" class="panel-title">Behind the scenes</h2>
+        <p class="panel-text muted">A short behind-the-scenes clip from the campaign rollout and launch moment.</p>
+        <div class="gallery-video-frame">
+            <iframe
+                title="Aadujeevitham website behind the scenes (YouTube)"
+                src="https://www.youtube.com/embed/TLU1BqgJOBg?start=339"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen
+                loading="lazy"></iframe>
         </div>
+    </section>
+
+    <section class="light-panel" aria-labelledby="stack-heading">
+        <h2 id="stack-heading" class="panel-title">Stack & tools</h2>
+        <p class="panel-text">
+            Built with a static-first Astro core, typed TypeScript where it mattered, Decap CMS for editorial control, and Framer Motion for UI motion.
+        </p>
+        <ul class="stack-list">
+            {stack.map((item) => (
+                <li>{item}</li>
+            ))}
+        </ul>
     </section>
 </CaseStudyShell>
 
@@ -210,6 +208,26 @@ const workedOn = [
         border: 0;
     }
 
+    .gallery-video-frame {
+        margin-top: 0.65rem;
+        position: relative;
+        width: 100%;
+        border-radius: 12px;
+        overflow: hidden;
+        border: 1px solid rgba(124, 58, 237, 0.22);
+        box-shadow: 0 0 0 1px rgba(250, 204, 21, 0.12), 0 12px 36px rgba(20, 12, 40, 0.08);
+        aspect-ratio: 16 / 9;
+        background: #0f0f12;
+    }
+
+    .gallery-video-frame iframe {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        border: 0;
+    }
+
     .hero__eyebrow {
         margin: 0;
         font-size: 0.68rem;
@@ -220,11 +238,12 @@ const workedOn = [
 
     .hero__title {
         margin: 0;
-        font-family: 'Audiowide', sans-serif;
-        font-size: clamp(1.45rem, 5vw, 2.25rem);
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: clamp(1.3rem, 4.8vw, 1.85rem);
         line-height: 1.1;
+        letter-spacing: -0.02em;
         color: #1c1917;
-        text-shadow: 0 0 24px rgba(168, 85, 247, 0.12);
+        text-shadow: none;
     }
 
     .hero__subtitle {

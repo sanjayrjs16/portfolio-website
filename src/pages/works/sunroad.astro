@@ -1,16 +1,17 @@
 ---
 import CaseStudyShell from '../../components/Works/CaseStudyShell.astro';
 
-const title = 'Sun Road Co. — Case Study | Sanjay Rajesh';
+const title = 'Sun Road Co. Case Study | Sanjay Rajesh';
 const description =
     'Lead fullstack product engineer on the founding team: 0→1 Next.js + Supabase platform, discovery, billing, and secure backend systems.';
 
 const overview =
-    'Sun Road is a search platform for locals to find creatives and for creatives to showcase work. I joined as founding fullstack engineer and owned the path from a legacy cPanel-era stack to a shipped product on the modern web.';
+    'Sun Road helps locals discover creatives and helps creatives showcase their work. As the founding fullstack engineer, I owned the move from a legacy cPanel stack to a shipped modern product.';
+const shortVideoId = '8NOm29ae0dg';
 
 const workedOn = [
-    'Solo 0→1 build: Next.js App Router frontend, Supabase-backed APIs, and a secure PostgreSQL layer with RLS, RPC-style access patterns, and triggers where they belonged.',
-    'Product systems end-to-end: geo-aware discovery, Stripe billing, Edge Functions, transactional email, and the observability habits (ISR, on-demand revalidation, SWR, rate limiting, PostHog) that keep the experience fast and dependable.'
+    'Built the 0→1 product path with Next.js App Router, Supabase APIs, and a secure PostgreSQL layer using RLS, RPC patterns, and practical trigger logic.',
+    'Shipped core systems like geo-aware discovery, Stripe billing, Edge Functions, transactional email, and production observability with ISR, revalidation, SWR, rate limiting, and PostHog.'
 ];
 
 const stack = [
@@ -25,27 +26,88 @@ const stack = [
     'TypeScript'
 ];
 
-const links = [
-    { label: 'Live product', url: 'https://sunroad.co' },
-    { label: 'Works overview', url: '/works' }
+const socialLinks = [
+    {
+        label: 'LinkedIn',
+        url: 'https://www.linkedin.com/in/sanjay-rajesh/',
+        iconPath:
+            'M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z'
+    },
+    {
+        label: 'X',
+        url: 'https://x.com/sanjayrjs',
+        iconPath: 'M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z'
+    },
+    {
+        label: 'Instagram',
+        url: 'https://instagram.com/sanjay.rjs',
+        iconPath:
+            'M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z'
+    },
+    {
+        label: 'YouTube',
+        url: 'https://www.youtube.com/@letthedevscook/featured',
+        iconPath:
+            'M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z'
+    }
 ];
+
+const summary = ['520+ organic signups in the first quarter post launch', ...workedOn];
 ---
 
 <CaseStudyShell title={title} description={description} breadcrumbCurrent="Sun Road Co.">
-    <header class="light-panel light-panel--accent hero">
-        <p class="eyebrow">Case study</p>
-        <h1 class="hero-title">Sun Road Co.</h1>
-        <p class="hero-role">Lead Fullstack Product Engineer · Founding team</p>
-        <p class="panel-text lede">{overview}</p>
-    </header>
+    <section class="light-panel light-panel--accent intro-launch" aria-labelledby="sunroad-heading">
+        <div class="intro-launch__grid">
+            <div class="intro-launch__copy">
+                <p class="eyebrow">Case study</p>
+                <h1 id="sunroad-heading" class="hero-title">Sun Road Co.</h1>
+                <p class="hero-role">Lead Fullstack Product Engineer and Founding Team</p>
+                <p class="panel-text lede">{overview}</p>
+                <div class="sunroad-links">
+                    <a class="work-link" href="https://sunroad.io" target="_blank" rel="noopener noreferrer">sunroad.io</a>
+                    <p class="sunroad-social-title">Sunroad socials</p>
+                    <div class="social-icon-row" aria-label="Sun Road social links">
+                        {socialLinks.map((link) => (
+                            <a class="social-icon-link" href={link.url} target="_blank" rel="noopener noreferrer" aria-label={link.label} title={link.label}>
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                                    <path d={link.iconPath}></path>
+                                </svg>
+                            </a>
+                        ))}
+                    </div>
+                </div>
+            </div>
+            <div class="intro-launch__media">
+                <p class="intro-launch__video-label">What is Sun Road?</p>
+                <div class="intro-launch__video-frame">
+                    <iframe
+                        title="Sun Road intro video (YouTube Shorts)"
+                        src={`https://www.youtube.com/embed/${shortVideoId}`}
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allowfullscreen
+                        loading="eager"></iframe>
+                </div>
+            </div>
+        </div>
+    </section>
 
-    <section class="light-panel" aria-labelledby="work-heading">
-        <h2 id="work-heading" class="panel-title">What I worked on</h2>
-        <ul class="bullet-list">
-            {workedOn.map((line) => (
-                <li>{line}</li>
-            ))}
-        </ul>
+    <section class="light-panel sunroad-showcase" aria-labelledby="sunroad-showcase-heading">
+        <div class="sunroad-showcase__media">
+            <img
+                src="/sunroad-building-art.png"
+                alt="Sun Road Co. brand artwork with local artisan storefront illustration"
+                loading="lazy"
+                decoding="async"
+            />
+        </div>
+        <div class="sunroad-showcase__content">
+            <h2 id="sunroad-showcase-heading" class="panel-title">Summary</h2>
+            <ul class="bullet-list">
+                {summary.map((line) => (
+                    <li>{line}</li>
+                ))}
+            </ul>
+        </div>
     </section>
 
     <section class="light-panel" aria-labelledby="stack-heading">
@@ -56,33 +118,62 @@ const links = [
             ))}
         </ul>
     </section>
-
-    <section class="light-panel" aria-labelledby="links-heading">
-        <h2 id="links-heading" class="panel-title">Links</h2>
-        <div class="link-row">
-            {
-                links.map((l) =>
-                    l.url.startsWith('http') ? (
-                        <a class="work-link" href={l.url} target="_blank" rel="noopener noreferrer">
-                            {l.label}
-                        </a>
-                    ) : (
-                        <a class="work-link" href={l.url}>
-                            {l.label}
-                        </a>
-                    )
-                )
-            }
-        </div>
-    </section>
 </CaseStudyShell>
 
 <style>
-    .hero {
+    .intro-launch__grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        gap: clamp(0.85rem, 2.5vw, 1.35rem);
+        align-items: center;
+        min-width: 0;
+    }
+
+    .intro-launch__copy {
         display: flex;
         flex-direction: column;
-        gap: 0.6rem;
+        gap: 0.5rem;
         align-items: flex-start;
+        min-width: 0;
+    }
+
+    .intro-launch__media {
+        min-width: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 0.35rem;
+        align-items: flex-end;
+    }
+
+    .intro-launch__video-label {
+        margin: 0;
+        font-size: 0.62rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: rgba(91, 33, 182, 0.88);
+    }
+
+    .intro-launch__video-frame {
+        position: relative;
+        width: 100%;
+        max-width: min(100%, 19.5rem);
+        margin-inline: 0;
+        border-radius: 12px;
+        overflow: hidden;
+        border: 1px solid rgba(124, 58, 237, 0.22);
+        box-shadow: 0 0 0 1px rgba(250, 204, 21, 0.12), 0 12px 36px rgba(20, 12, 40, 0.08);
+        aspect-ratio: 9 / 16;
+        max-height: min(68vh, 500px);
+        background: #0f0f12;
+    }
+
+    .intro-launch__video-frame iframe {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        border: 0;
     }
 
     .eyebrow {
@@ -95,8 +186,10 @@ const links = [
 
     .hero-title {
         margin: 0;
-        font-family: 'Audiowide', sans-serif;
-        font-size: clamp(1.2rem, 4vw, 1.85rem);
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: clamp(1.3rem, 4.8vw, 1.85rem);
+        line-height: 1.1;
+        letter-spacing: -0.02em;
         color: #1c1917;
     }
 
@@ -144,10 +237,127 @@ const links = [
         color: rgba(76, 29, 149, 0.9);
     }
 
-    .link-row {
-        margin-top: 0.5rem;
+    .sunroad-links {
+        margin-top: 0.3rem;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+
+    .social-icon-row {
         display: flex;
         flex-wrap: wrap;
-        gap: 0.5rem 1rem;
+        gap: 0.4rem;
+    }
+
+    .sunroad-social-title {
+        width: 100%;
+        margin: 0;
+        font-size: 0.62rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: rgba(91, 33, 182, 0.88);
+    }
+
+    .social-icon-link {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 1.68rem;
+        height: 1.68rem;
+        border-radius: 999px;
+        background: rgba(250, 250, 248, 0.92);
+        color: rgba(28, 25, 23, 0.92);
+        border: 1px solid rgba(124, 58, 237, 0.2);
+        transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .social-icon-link:hover {
+        transform: translateY(-2px);
+        border-color: rgba(124, 58, 237, 0.4);
+    }
+
+    .social-icon-link svg {
+        width: 0.86rem;
+        height: 0.86rem;
+    }
+
+    .sunroad-showcase {
+        display: grid;
+        grid-template-columns: minmax(0, 0.92fr) minmax(0, 1fr);
+        gap: 0.95rem;
+        align-items: center;
+    }
+
+    .sunroad-showcase__media {
+        align-self: stretch;
+    }
+
+    .sunroad-showcase__media img {
+        width: 100%;
+        height: 100%;
+        max-height: 320px;
+        object-fit: contain;
+        display: block;
+        border-radius: 12px;
+        border: 1px solid rgba(200, 188, 170, 0.45);
+        background: rgba(255, 255, 255, 0.62);
+        padding: 0.45rem;
+    }
+
+    .sunroad-showcase__content {
+        min-width: 0;
+    }
+
+    .metric-list {
+        margin: 0.55rem 0 0;
+        padding-left: 1.05rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        font-size: 0.88rem;
+        line-height: 1.52;
+        color: rgba(40, 36, 33, 0.88);
+    }
+
+    .tag-list {
+        margin: 0.5rem 0 0;
+        padding: 0;
+        list-style: none;
+        flex-wrap: wrap;
+        display: flex;
+        gap: 0.4rem;
+    }
+
+    @media (max-width: 768px) {
+        .intro-launch__grid {
+            grid-template-columns: 1fr;
+            gap: 1rem;
+            align-items: stretch;
+        }
+
+        .intro-launch__media {
+            align-items: stretch;
+        }
+
+        .intro-launch__video-label {
+            align-self: flex-start;
+        }
+
+        .intro-launch__video-frame {
+            max-width: 100%;
+            max-height: min(64vh, 480px);
+            margin-inline: auto;
+        }
+
+        .sunroad-showcase {
+            grid-template-columns: 1fr;
+        }
+
+        .sunroad-showcase__media img {
+            max-height: 270px;
+        }
     }
 </style>
