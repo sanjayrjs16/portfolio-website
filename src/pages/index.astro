@@ -334,14 +334,23 @@ const description = "Frontend focused product engineer building fast, scalable, 
 			box-shadow: 0 0 8px rgba(193, 124, 233, 0.16);
 		}
 
-		/* Mobile perf mode: keep desktop untouched, reduce hero animation cost */
-		.hero-title,
-		.social-icons,
-		.bio-container {
-			animation: none !important;
-			opacity: 1 !important;
+		/* Mobile: keep one-time load fade, remove looping effects */
+		.hero-title {
+			opacity: 0;
+			animation: fadeIn 1.5s ease-out 1.8s forwards !important;
 		}
 
+		.social-icons {
+			opacity: 0;
+			animation: fadeIn 1.7s ease-out 3.5s forwards !important;
+		}
+
+		.bio-container {
+			opacity: 0;
+			animation: fadeIn 1s ease-out 2.7s forwards !important;
+		}
+
+		/* Disable continuous text motion/glow loops on mobile */
 		.title-line,
 		.title-line::after,
 		.hero-subtitle {
