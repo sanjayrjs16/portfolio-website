@@ -63,6 +63,7 @@ const routeSurface = pathname === '/' || pathname === '' ? 'bio' : 'app';
 			window.scrollTo(0, 0);
 		</script>
 		<script>
+			// @ts-nocheck
 			const THEME_KEY = 'theme';
 
 			/** View Transitions can reset html attrs; re-apply saved theme after each navigation */
@@ -104,7 +105,116 @@ const routeSurface = pathname === '/' || pathname === '' ? 'bio' : 'app';
 				syncRouteSurface();
 				syncNavActive();
 			}
-			document.addEventListener('astro:page-load', onPageLoad);
+
+			// Single global manager for loading overlay dismissal.
+			// Prevents race conditions from multiple per-page scripts during rapid route changes.
+			if (!window.__bgFallbackManager) {
+				const FADE_MS = 280;
+				const REMOVE_AFTER_MS = FADE_MS + 90;
+				const POLL_MS = 60;
+				const MAX_WAIT_MS = 12000;
+				const FORCE_CLEANUP_MS = 2500;
+
+				let pollId = null;
+				let pollStartedAt = 0;
+				let maxWaitTimer = null;
+				let forceCleanupTimer = null;
+
+				const clearPoll = () => {
+					if (pollId) {
+						window.clearInterval(pollId);
+						pollId = null;
+					}
+					if (maxWaitTimer) {
+						window.clearTimeout(maxWaitTimer);
+						maxWaitTimer = null;
+					}
+				};
+
+				const getOverlays = () => Array.from(document.querySelectorAll('.background-fallback'));
+
+				const removeOverlay = (overlay) => {
+					if (overlay?.isConnected) overlay.remove();
+				};
+
+				const fadeAndRemove = (overlays) => {
+					overlays.forEach((overlay) => {
+						overlay.classList.add('fade-out');
+						window.setTimeout(() => removeOverlay(overlay), REMOVE_AFTER_MS);
+					});
+				};
+
+				const dismissFallback = ({ force = false } = {}) => {
+					const overlays = getOverlays();
+					if (overlays.length === 0) {
+						clearPoll();
+						return;
+					}
+
+					const isMobileViewport = window.matchMedia('(max-width: 768px)').matches;
+					const hasCanvas = !!document.querySelector('canvas');
+
+					if (isMobileViewport || hasCanvas || force) {
+						fadeAndRemove(overlays);
+						clearPoll();
+						return;
+					}
+
+					if (pollId) return;
+					pollStartedAt = Date.now();
+					pollId = window.setInterval(() => {
+						const ready = !!document.querySelector('canvas');
+						const timedOut = Date.now() - pollStartedAt > MAX_WAIT_MS;
+						if (ready || timedOut) {
+							clearPoll();
+							dismissFallback({ force: timedOut });
+						}
+					}, POLL_MS);
+					maxWaitTimer = window.setTimeout(() => {
+						clearPoll();
+						dismissFallback({ force: true });
+					}, MAX_WAIT_MS);
+				};
+
+				const scheduleForceCleanup = () => {
+					if (forceCleanupTimer) window.clearTimeout(forceCleanupTimer);
+					forceCleanupTimer = window.setTimeout(() => {
+						dismissFallback({ force: true });
+					}, FORCE_CLEANUP_MS);
+				};
+
+				const onRouteOrLoad = () => {
+					onPageLoad();
+					dismissFallback();
+					// Sure-shot cleanup: remove any stale fallback if it somehow survives route churn.
+					scheduleForceCleanup();
+				};
+
+				document.addEventListener('astro:page-load', onRouteOrLoad);
+				document.addEventListener('astro:after-swap', onRouteOrLoad);
+				window.addEventListener('load', onRouteOrLoad, { once: true });
+
+				const observer = new MutationObserver(() => {
+					dismissFallback();
+				});
+				if (document.body) {
+					observer.observe(document.body, { childList: true, subtree: true });
+				}
+
+				window.__bgFallbackManager = {
+					dismissFallback,
+					dispose() {
+						clearPoll();
+						if (forceCleanupTimer) window.clearTimeout(forceCleanupTimer);
+						observer.disconnect();
+						document.removeEventListener('astro:page-load', onRouteOrLoad);
+						document.removeEventListener('astro:after-swap', onRouteOrLoad);
+					}
+				};
+
+				// Initial pass
+				onRouteOrLoad();
+			}
 		</script>
 	</body>
 </html>
