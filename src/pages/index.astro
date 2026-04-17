@@ -334,6 +334,20 @@ const description = "Frontend focused product engineer building fast, scalable, 
 			box-shadow: 0 0 8px rgba(193, 124, 233, 0.16);
 		}
 
+		/* Mobile perf mode: keep desktop untouched, reduce hero animation cost */
+		.hero-title,
+		.social-icons,
+		.bio-container {
+			animation: none !important;
+			opacity: 1 !important;
+		}
+
+		.title-line,
+		.title-line::after,
+		.hero-subtitle {
+			animation: none !important;
+		}
+
 		.bio-container {
 			backdrop-filter: none;
 			-webkit-backdrop-filter: none;
@@ -439,6 +453,8 @@ const description = "Frontend focused product engineer building fast, scalable, 
 			height: 2.2rem;
 			backdrop-filter: none;
 			-webkit-backdrop-filter: none;
+			animation: none !important;
+			opacity: 1 !important;
 			text-shadow: none;
 			filter: none;
 			box-shadow: 0 0 4px rgba(193, 124, 233, 0.14);
