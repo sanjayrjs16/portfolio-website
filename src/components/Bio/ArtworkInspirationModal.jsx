@@ -95,7 +95,7 @@ export default function ArtworkInspirationModal() {
               <h3 className="artwork-title">The Stardust Psyche</h3>
               <p>
                 This artwork came from a 2020 phase of looking deeper at where we come from and what
-                keeps us moving. The idea is simple and powerful: we are not separate from the cosmos,
+                keeps us moving. The idea is we are not separate from the cosmos,
                 we are expressions of it.
               </p>
               <blockquote className="artwork-quote">

@@ -20,8 +20,8 @@ const showTitle = currentPath !== '/'; // Only show title when not on home/bio p
 
 {showTitle && (
   <a href="/" class="brand-title">
-    <span class="title-line" data-text="SANJAY">SANJAY</span>
-    <span class="title-line" data-text="RAJESH">RAJESH</span>
+    <span class="title-line" data-text="SANJAY">S.R</span>
+    {/* <span class="title-line" data-text="RAJESH">R</span> */}
   </a>
 )}
 
@@ -400,6 +400,19 @@ const showTitle = currentPath !== '/'; // Only show title when not on home/bio p
     .theme-toggle__thumb {
       width: var(--thumb-size);
       height: var(--thumb-size);
+    }
+  }
+
+  @media (max-width: 330px) {
+    .navigation {
+      left: 48%;
+      gap: 0.3rem;
+      padding: 0.56rem 0.42rem;
+    }
+
+    .nav-item {
+      padding: 0.26rem 0.52rem;
+      font-size: clamp(0.56rem, 0.5rem + 0.5vw, 0.68rem);
     }
   }
 </style> 
