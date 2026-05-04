@@ -1,16 +1,16 @@
 ---
 import CaseStudyShell from '../../components/Works/CaseStudyShell.astro';
 
-const title = 'Picturama DeFi — Case Study | Sanjay Rajesh';
+const title = 'Picturama DeFi Case Study | Sanjay Rajesh';
 const description =
-    'Chainlink hackathon build — audience-backed indie film financing with IPFS, on-chain flows, and Filecoin recognition.';
+    'Chainlink hackathon build: a working demo for audience-backed indie film financing, with IPFS assets and on-chain flows you could actually follow.';
 
 const overview =
-    'Picturama explored how decentralized rails could help finance independent cinema — a focused hackathon story with a real protocol narrative, not a slide deck.';
+    'Picturama was our entry for a Chainlink hackathon. The goal was simple: show a believable path from idea to on-chain mechanics without leaning on buzzwords. We had a weekend, so we focused on a tight story and a demo judges could click through.';
 
 const workedOn = [
-    'Frontend and integration work on a Next.js surface that connected wallet flows, IPFS assets, and Chainlink patterns into something judges could actually follow.',
-    'Collaborated on Solidity-side boundaries and demo scripting so the team could show a credible end-to-end path in a short judging window.'
+    'I shipped the Next.js UI so wallet steps, IPFS content, and the Chainlink pieces read as one flow during judging.',
+    'I worked with the team on where the Solidity stopped and the demo began, and helped script the walkthrough so we could finish cleanly on time.'
 ];
 
 const stack = ['Next.js', 'Solidity', 'IPFS', 'Chainlink', 'Filecoin', 'Web3'];
@@ -23,12 +23,14 @@ const links = [
 ---
 
 <CaseStudyShell title={title} description={description} breadcrumbCurrent="Picturama DeFi">
-    <header class="light-panel light-panel--accent hero">
-        <p class="eyebrow">Case study</p>
-        <h1 class="hero-title">Picturama DeFi</h1>
-        <p class="hero-role">Hackathon · Chainlink</p>
-        <p class="panel-text lede">{overview}</p>
-    </header>
+    <section class="light-panel light-panel--accent picturama-hero" aria-labelledby="picturama-heading">
+        <div class="picturama-hero__copy">
+            <p class="eyebrow">Case study</p>
+            <h1 id="picturama-heading" class="hero-title">Picturama DeFi</h1>
+            <p class="hero-role">Hackathon · Chainlink</p>
+            <p class="panel-text lede">{overview}</p>
+        </div>
+    </section>
 
     <section class="light-panel" aria-labelledby="work-heading">
         <h2 id="work-heading" class="panel-title">What I worked on</h2>
@@ -61,11 +63,13 @@ const links = [
 </CaseStudyShell>
 
 <style>
-    .hero {
+    /* Match Sun Road / other case studies: Space Grotesk hero, same scale */
+    .picturama-hero__copy {
         display: flex;
         flex-direction: column;
-        gap: 0.6rem;
+        gap: 0.5rem;
         align-items: flex-start;
+        min-width: 0;
     }
 
     .eyebrow {
@@ -78,8 +82,10 @@ const links = [
 
     .hero-title {
         margin: 0;
-        font-family: 'Audiowide', sans-serif;
-        font-size: clamp(1.15rem, 4vw, 1.75rem);
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: clamp(1.3rem, 4.8vw, 1.85rem);
+        line-height: 1.1;
+        letter-spacing: -0.02em;
         color: #1c1917;
     }
 
